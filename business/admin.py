@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models.business.business_models import Business
 from .models.business_application.business_application_model import BusinessApplication
 
+# Register your models here.
 class BusinessAdmin(admin.ModelAdmin):
   list_display = ('name', 'region', 'province', 'city', 'email', 'mobile_number')
   search_fields = ('name', 'owner_first_name', 'owner_last_name')
