@@ -3,11 +3,12 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from accounts.models import Account, AccountProvider, AccountProviderUser
+
+from accounts.models.accounts import Account
 
 
 class UserCreationForm(forms.ModelForm):
-    """ A form for creating new users. Includes all the required
+    """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     username = forms.CharField(label='Username', max_length=50)
     email = forms.EmailField()
@@ -18,18 +19,18 @@ class UserCreationForm(forms.ModelForm):
         model = Account
         fields = ('username', 'email', 'password')
 
-    def clean_password(self):
+    def clean_password2(self):
         # Check that the two password entries match
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Password don't match")
+            raise forms.ValidationError("Passwords don't match")
         return password2
 
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password1'])
+        user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user
@@ -65,15 +66,15 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ['email', 'username', 'user_type', 'created']
-    list_filter = ['username', 'email', 'user_type']
-    search_fields = ['username', 'email', 'user_type']
+    list_display = ['created', 'username', 'email', 'user_type', 'created']
+    list_filter = ['user_type']
+    search_fields = ['username', 'email']
     ordering = ('-created', 'username',)
     filter_horizontal = ()
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Permissions', {'fields': ('is_admin', 'user_type', 'is_active')}),
+        ('Permissions', {'fields': ('is_admin', 'user_type')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
@@ -90,15 +91,3 @@ admin.site.register(Account, UserAdmin)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)
-
-
-class AccountProviderAdmin(admin.ModelAdmin):
-    list_display = ('name', 'domain', 'api_key')
-
-
-class AccountProviderUserAdmin(admin.ModelAdmin):
-    list_display = ('account_provider', 'account', 'is_active')
-
-
-admin.site.register(AccountProvider, AccountProviderAdmin)
-admin.site.register(AccountProviderUser, AccountProviderUserAdmin)

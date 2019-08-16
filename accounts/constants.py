@@ -1,16 +1,21 @@
-SUPERADMIN = 984
-ADMIN = 548
-INSPECTOR =374
+USERNAME_REGEX = "^[a-zA-Z0-9.-]*$"
+
+SUPERADMIN = 'SU'
+ADMIN = 'ADM'
+USER = 'USR'
+HR_STAFF = 'HRS'
+EMPLOYEE = 'EMPLOYEE'
 
 USER_TYPE_CHOICES = (
-    (SUPERADMIN, 'Super User'),
+    (SUPERADMIN, 'Super Admin'),
     (ADMIN, 'Admin'),
-    (INSPECTOR, 'Inspector')
+    (USER, 'User'),
 )
 
 USERNAME_REGEX = "^[a-zA-Z0-9.-]*$"
 
-USER_CREATION_TYPE_CHOICES = (
-    (ADMIN, 'Admin'),
-    (INSPECTOR, 'Inspector'),
-)
+USER_DASHBOARD_ROOTS = {
+    SUPERADMIN: 'kfaf455ol5y2z4r53u44orsoc9rrvhw1cwn3jxee',
+    ADMIN: 'dashboard/admin',
+    USER: '',
+}
