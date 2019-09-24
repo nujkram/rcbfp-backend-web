@@ -23,5 +23,7 @@ INSTALLED_APPS = [
   'datesdim',
   'accounts',
   'profiles',
+  'buildings',
   'business',
+  'checklists'
 ]
