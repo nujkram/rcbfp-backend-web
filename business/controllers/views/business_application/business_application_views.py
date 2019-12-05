@@ -1,8 +1,8 @@
 """
 rcbfp Module
 ---
-business - Business Master Model 0.0.1
-This is the Master model for Business
+business - BusinessApplication Master Model 0.0.1
+This is the Master model for BusinessApplication
 
 ---
 Author: Mark Gersaniva
@@ -18,13 +18,14 @@ from django.urls import reverse
 from django.views import View
 
 # Master
-from business.models.business.business_models import Business as Master
+from business.models.business_application.business_application_model import BusinessApplication as Master
 
 # Master Form
-from business.controllers.views.business.forms.business_forms import BusinessForm as MasterForm
+from business.controllers.views.business_application.forms.business_application_forms import \
+    BusinessApplicationForm as MasterForm
 
 
-class BusinessListView(
+class BusinessApplicationListView(
     LoginRequiredMixin,
     View
 ):
@@ -32,18 +33,7 @@ class BusinessListView(
         pass
 
 
-class BusinessCreateView(
-    LoginRequiredMixin,
-    View
-):
-    def get(self, request, *args, **kwargs):
-        pass
-
-    def post(self, request, *args, **kwargs):
-        pass
-
-
-class BusinessUpdateView(
+class BusinessApplicationCreateView(
     LoginRequiredMixin,
     View
 ):
@@ -54,7 +44,7 @@ class BusinessUpdateView(
         pass
 
 
-class BusinessDeleteView(
+class BusinessApplicationUpdateView(
     LoginRequiredMixin,
     View
 ):
@@ -65,7 +55,18 @@ class BusinessDeleteView(
         pass
 
 
-class BusinessDetailView(
+class BusinessApplicationDeleteView(
+    LoginRequiredMixin,
+    View
+):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class BusinessApplicationDetailView(
     LoginRequiredMixin,
     View
 ):

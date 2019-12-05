@@ -1,8 +1,8 @@
 """
 rcbfp Module
 ---
-business - Business Master Model 0.0.1
-This is the Master model for Business
+business - BusinessEvaluation Master Model 0.0.1
+This is the Master model for BusinessEvaluation
 
 ---
 Author: Mark Gersaniva
@@ -18,13 +18,13 @@ from django.urls import reverse
 from django.views import View
 
 # Master
-from business.models.business.business_models import Business as Master
+from business.models.business_evaluation.business_evaluation_model import BusinessEvaluation as Master
 
 # Master Form
-from business.controllers.views.business.forms.business_forms import BusinessForm as MasterForm
+from business.controllers.views.business_evaluation.forms.business_evaluation_forms import BusinessEvaluationForm as MasterForm
 
 
-class BusinessListView(
+class BusinessEvaluationListView(
     LoginRequiredMixin,
     View
 ):
@@ -32,18 +32,7 @@ class BusinessListView(
         pass
 
 
-class BusinessCreateView(
-    LoginRequiredMixin,
-    View
-):
-    def get(self, request, *args, **kwargs):
-        pass
-
-    def post(self, request, *args, **kwargs):
-        pass
-
-
-class BusinessUpdateView(
+class BusinessEvaluationCreateView(
     LoginRequiredMixin,
     View
 ):
@@ -54,7 +43,7 @@ class BusinessUpdateView(
         pass
 
 
-class BusinessDeleteView(
+class BusinessEvaluationUpdateView(
     LoginRequiredMixin,
     View
 ):
@@ -65,7 +54,18 @@ class BusinessDeleteView(
         pass
 
 
-class BusinessDetailView(
+class BusinessEvaluationDeleteView(
+    LoginRequiredMixin,
+    View
+):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class BusinessEvaluationDetailView(
     LoginRequiredMixin,
     View
 ):

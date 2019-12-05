@@ -66,7 +66,7 @@ class BusinessInspection(models.Model):
   building_alteration = models.BooleanField(default=False)
 
   # === State ===
-  approved = models.BooleanField(default=True)
+  approved = models.BooleanField(default=False)
   meta = JSONField()
 
   # === Relationship Fields ===

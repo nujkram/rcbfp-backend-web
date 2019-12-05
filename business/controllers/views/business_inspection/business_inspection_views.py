@@ -1,8 +1,8 @@
 """
 rcbfp Module
 ---
-business - Business Master Model 0.0.1
-This is the Master model for Business
+business - BusinessInspection Master Model 0.0.1
+This is the Master model for BusinessInspection
 
 ---
 Author: Mark Gersaniva
@@ -18,13 +18,13 @@ from django.urls import reverse
 from django.views import View
 
 # Master
-from business.models.business.business_models import Business as Master
+from business.models.business_inspection.business_inspection_model import BusinessInspection as Master
 
 # Master Form
-from business.controllers.views.business.forms.business_forms import BusinessForm as MasterForm
+from business.controllers.views.business_inspection.forms.business_inspection_forms import BusinessInspectionForm as MasterForm
 
 
-class BusinessListView(
+class BusinessInspectionListView(
     LoginRequiredMixin,
     View
 ):
@@ -32,18 +32,7 @@ class BusinessListView(
         pass
 
 
-class BusinessCreateView(
-    LoginRequiredMixin,
-    View
-):
-    def get(self, request, *args, **kwargs):
-        pass
-
-    def post(self, request, *args, **kwargs):
-        pass
-
-
-class BusinessUpdateView(
+class BusinessInspectionCreateView(
     LoginRequiredMixin,
     View
 ):
@@ -54,7 +43,7 @@ class BusinessUpdateView(
         pass
 
 
-class BusinessDeleteView(
+class BusinessInspectionUpdateView(
     LoginRequiredMixin,
     View
 ):
@@ -65,7 +54,18 @@ class BusinessDeleteView(
         pass
 
 
-class BusinessDetailView(
+class BusinessInspectionDeleteView(
+    LoginRequiredMixin,
+    View
+):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class BusinessInspectionDetailView(
     LoginRequiredMixin,
     View
 ):

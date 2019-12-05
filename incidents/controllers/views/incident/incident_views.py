@@ -1,8 +1,8 @@
 """
 rcbfp Module
 ---
-business - Business Master Model 0.0.1
-This is the Master model for Business
+incidents - Incident Master Model 0.0.1
+This is the Master model for Incident
 
 ---
 Author: Mark Gersaniva
@@ -18,13 +18,13 @@ from django.urls import reverse
 from django.views import View
 
 # Master
-from business.models.business.business_models import Business as Master
+from incidents.models.incident.incident_models import Incident as Master
 
 # Master Form
-from business.controllers.views.business.forms.business_forms import BusinessForm as MasterForm
+from incidents.controllers.views.incident.forms.incident_forms import IncidentForm as MasterForm
 
 
-class BusinessListView(
+class IncidentListView(
     LoginRequiredMixin,
     View
 ):
@@ -32,18 +32,7 @@ class BusinessListView(
         pass
 
 
-class BusinessCreateView(
-    LoginRequiredMixin,
-    View
-):
-    def get(self, request, *args, **kwargs):
-        pass
-
-    def post(self, request, *args, **kwargs):
-        pass
-
-
-class BusinessUpdateView(
+class IncidentCreateView(
     LoginRequiredMixin,
     View
 ):
@@ -54,7 +43,7 @@ class BusinessUpdateView(
         pass
 
 
-class BusinessDeleteView(
+class IncidentUpdateView(
     LoginRequiredMixin,
     View
 ):
@@ -65,7 +54,18 @@ class BusinessDeleteView(
         pass
 
 
-class BusinessDetailView(
+class IncidentDeleteView(
+    LoginRequiredMixin,
+    View
+):
+    def get(self, request, *args, **kwargs):
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pass
+
+
+class IncidentDetailView(
     LoginRequiredMixin,
     View
 ):
