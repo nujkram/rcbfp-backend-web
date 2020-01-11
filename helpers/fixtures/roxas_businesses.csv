@@ -1,30 +1,31 @@
-AMA Computer Learning Center,"J & A Tan Bldg, Fuentes Drive Roxas City",J & A Tan Building
-Amado Lim Enterprises Inc.,"Roxas Avenue, Roxas City, Capiz",Amado Lim Building
-Avon Philippines,Fuentes Drive Roxas City,Henrich Building
-Bank of the Philippine Islands,Gaisano Arcade Commercial Complex,Gaisano Arcade Commercial Complex
-Bench,Robinsons Mall Roxas,Robinsons Mall
-COCOLIFE,Hernandez Building,Hernandez Building
-College Assurance Plan,CAP Building,CAP Building
-Department of Agrarian Reform,Amado Lim Building,Amado Lim Building
-Development Bank of the Philippines,"1st Flr. Capiz Provincial Business Center, Fuentes Drive, Roxas City ",Capiz Provincial Business Center
-DXN Philippines,"Legaspi Ilawood Street, Roxas City, Capiz",Celino Building
-"Fortune Life Insurance Company, Incorporated","3/F Room 301 Daliva Building, Mckinley Street, Roxas City",Daliva Building
-Handyman Do It Best Home Center,"2nd Level Gaisano Mall, Arnoldo Boulevard, Roxas City",Gaisano Grand Mall
-Himlayang Pilipino Inc,"San Roque Extension, Roxas City, Capiz",Elemar Business Center
-Injap Supermart,"Burgos Street, Roxas City, Capiz",Injap Building
-Insular Life,"Roxas Avenue, corner Bayot Drive, Roxas City, Capiz",Bocala Building
-JRS Express,"G/F Fuentes Bldg., Fuentes Drive, Roxas City",Fuentes Building
-Landbank,"Acevedo Bldg., P. Gomez Street, Roxas City",Acevedo Building
-LBC - Hari ng Padala,"#2 Bernas Building, Roxas Avenue, Roxas City",Bernas Building
-"Mail and More Business Services, Inc.","Door #1 Arches Building, Arnaldo Boulevard, Roxas City, Capiz",Arches Building
-"MAPECON PHILS., INC.","2nd Floor- Alcazar Bldg., Roxas Ave., Ext., (Km 1), Roxas City",Alcazar Building
-Pacifica Agrivet Supplies Inc.,"Door #8 Yap Building, Plaridel Street, Roxas City",Yap Building
-Paramount Life & General Insurance Corporation,"3rd Floor, F.C. Daliva Building, McKinley Street, Roxas City",Daliva Building
-Penshoppe,"G/F Robinsons Mall, Pueblo de Panay, Roxas City",Robinsons Mall
-Philam Life,"2/F FCD Building, Mckinley Street, Roxas City",FCD Building
-Philippine Coconut Authority,"2nd Floor, N & E Tan Building, Roxas Avenue, Roxas City",N & E Tan Building
-Servio Small Business,"Spring Valley Genesis Building, Pueblo de Panay, Roxas City, Capiz",Spring Valley Genesis Building
-St. Claire Animal Clinic,"J & A Tan Bldg, Fuentes Drive Roxas City",J & A Tan Building
-"Suzuki 3S Shop - Solid Motorcycle Distributors, Inc.","#1031 Victoria Building, Roxas Avenue, Roxas City",Victoria Building
-The Balloon Guys Party Center,"Door 9, San Roque Extention, Roxas City",Elemar Business Center
-Unitop International Group Incorporated,"Christine Building, Roxas Avenue, Roxas City",Christine Building
+name,address,building,latitude,longitude
+AMA Computer Learning Center,J & A Tan Bldg,J & A Tan Building,11.577073,122.755241
+Amado Lim Enterprises Inc.,"Roxas Avenue, Roxas City, Capiz",Amado Lim Building,11.577173,122.75278
+Avon Philippines,Fuentes Drive Roxas City,Henrich Building,11.580374,122.756555
+Bank of the Philippine Islands,Gaisano Arcade Commercial Complex,Gaisano Arcade Commercial Complex,11.588997,122.752383
+Bench,Robinsons Mall Roxas,Robinsons Mall,11.568752,122.751588
+COCOLIFE,Hernandez Building,Hernandez Building,11.578648,122.753067
+College Assurance Plan,CAP Building,CAP Building,11.577762,122.75404
+Department of Agrarian Reform,Amado Lim Building,Amado Lim Building,11.577173,122.75278
+Development Bank of the Philippines,"1st Flr. Capiz Provincial Business Center, Fuentes Drive, Roxas City ",Capiz Provincial Business Center,11.577478,122.75678
+DXN Philippines,"Legaspi Ilawood Street, Roxas City, Capiz",Celino Building,11.582507,122.757879
+"Fortune Life Insurance Company, Incorporated","3/F Room 301 Daliva Building, Mckinley Street, Roxas City",Daliva Building,11.582295,122.754329
+Handyman Do It Best Home Center,"2nd Level Gaisano Mall, Arnoldo Boulevard, Roxas City",Gaisano - Roxas,11.589631,122.751485
+Himlayang Pilipino Inc,"San Roque Extension, Roxas City, Capiz",Elemar Building,11.583125,122.756499
+Injap Supermart,"Burgos Street, Roxas City, Capiz",Injap Building,11.584791,122.753358
+Insular Life,"Roxas Avenue, corner Bayot Drive, Roxas City, Capiz",Bocala Building,11.580461,122.752902
+JRS Express,"G/F Fuentes Bldg., Fuentes Drive, Roxas City",Fuentes Building,11.577486,122.755095
+Landbank,"Acevedo Bldg., P. Gomez Street, Roxas City",Acevedo Building,11.583388,122.751808
+LBC - Hari ng Padala,"#2 Bernas Building, Roxas Avenue, Roxas City",Bernas Building,11.576851,122.753051
+"Mail and More Business Services, Inc.","Door #1 Arches Building, Arnaldo Boulevard, Roxas City, Capiz",Arches Building,11.591833,122.751592
+"MAPECON PHILS., INC.","2nd Floor- Alcazar Bldg., Roxas Ave., Ext., (Km 1), Roxas City",Alcazar Building,11.574649,122.753894
+Pacifica Agrivet Supplies Inc.,"Door #8 Yap Building, Plaridel Street, Roxas City",Yap Building,11.578338,122.753695
+Paramount Life & General Insurance Corporation,"3rd Floor, F.C. Daliva Building, McKinley Street, Roxas City",Daliva Building,11.581664,122.757418
+Penshoppe,"G/F Robinsons Mall, Pueblo de Panay, Roxas City",Robinsons Mall Roxas,11.568752,122.751588
+Philam Life,"2/F FCD Building, Mckinley Street, Roxas City",FCD Building,11.581628,122.757573
+Philippine Coconut Authority,"2nd Floor, N & E Tan Building, Roxas Avenue, Roxas City",N & E Tan Building,11.578879,122.752816
+Servio Small Business,"Spring Valley Genesis Building, Pueblo de Panay, Roxas City, Capiz",Spring Valley Genesis Building,11.563586,122.748218
+St. Claire Animal Clinic,Fuentes Drive Roxas City,J & A Tan Building,11.577073,122.755241
+"Suzuki 3S Shop - Solid Motorcycle Distributors, Inc.","#1031 Victoria Building, Roxas Avenue, Roxas City",Victoria Building,11.581764,122.752934
+The Balloon Guys Party Center,"Door 9, San Roque Extention, Roxas City",Elemar Business Center,11.583125,122.756499
+Unitop International Group Incorporated,"Christine Building, Roxas Avenue, Roxas City",Christine Building,11.580377,122.753443

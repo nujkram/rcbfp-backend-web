@@ -13,44 +13,45 @@ province = Province.objects.get(pk=22)
 city = City.objects.get(pk=381)
 
 
-def businesses(businesses):
-    for business in businesses:
+def businesses(buildings):
+    for building in buildings:
         try:
-            building = Building.objects.get(name=business[2])
+            building_exists = Building.objects.get(name=building)
 
             fixture = AutoFixture(
                 Business,
                 field_values={
-                    'name': business[0],
-                    'address': business[1],
-                    'building': building,
+                    'name': buildings[building]['business'],
+                    'address': buildings[building]['address'],
+                    'building': building_exists,
                     'region': region,
                     'province': province,
-                    'city': city
+                    'city': city,
                 }
             )
 
             fixture.create(1)
         except Building.DoesNotExist:
-            building = AutoFixture(
+            new_building = AutoFixture(
                 Building,
                 field_values={
-                    'name': business[2],
-                    'address': business[1],
+                    'name': building,
+                    'address': buildings[building]['address'],
                     'region': region,
                     'province': province,
-                    'city': city
+                    'city': city,
+                    'latitude': buildings[building]['latitude'],
+                    'longitude': buildings[building]['longitude']
                 }
             )
 
-            building.create(1)
+            new_building.create(1)
 
-            building = Building.objects.get(name=business[2])
             fixture = AutoFixture(
                 Business,
                 field_values={
-                    'name': business[0],
-                    'address': business[1],
+                    'name': buildings[building]['business'],
+                    'address': buildings[building]['address'],
                     'building': building,
                     'region': region,
                     'province': province,
@@ -69,10 +70,12 @@ def buildings(buildings):
             Building,
             field_values={
                 'name': building,
-                'address': buildings[building],
+                'address': buildings[building]['address'],
                 'region': region,
                 'province': province,
-                'city': city
+                'city': city,
+                'latitude': buildings[building]['latitude'],
+                'longitude': buildings[building]['longitude']
             }
         )
 
@@ -99,11 +102,11 @@ def checklists(businesses, year):
     return print('Checklists created')
 
 
-def incidents(count, year):
+def incidents(incident_count, year):
     date_choices = DateDim.objects.get_days_between(start=f'{year}-01-01', end=f'{year}-12-31')
     business = Business.objects.all()
 
-    for i in range(0, count):
+    for i in range(0, incident_count):
         victim = random.choice(business)
         fixture = AutoFixture(
             Incident,
