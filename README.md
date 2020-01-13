@@ -4,8 +4,10 @@
 - Python 3.6
 - Gunicorn
 
-## Load locations json
-## Preload DateDim from 2015 - 2020
+
+## Locations and DateDim
+-- Load locations json
+-- Preload DateDim from 2015 - 2020
 
 ## Get Data
 1. Open shell
