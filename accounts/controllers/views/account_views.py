@@ -18,7 +18,7 @@ class AccountLoginView(View):
     form = LoginForm
 
     context = {
-      "page_title": f"Login",
+      "page_title": f"RCBFP: Login",
       "form": form,
       "location": "login"
     }
