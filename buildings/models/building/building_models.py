@@ -115,7 +115,7 @@ class Building(models.Model):
                              blank=True)
 
     # Manager
-    objects = BuildingManager
+    objects = BuildingManager()
 
     class Meta:
         ordering = ('name',)

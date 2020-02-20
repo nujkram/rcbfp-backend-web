@@ -73,7 +73,7 @@ class BusinessApplication(models.Model):
   date_approved = models.ForeignKey('datesdim.DateDim', blank=True, null=True, on_delete=models.CASCADE, related_name='datetime_approved')
 
   # Manager
-  objects = BusinessApplicationManager
+  objects = BusinessApplicationManager()
 
   class Meta:
     ordering = ('-created',)

@@ -477,7 +477,7 @@ class Checklist(models.Model):
     )
 
     # Manager
-    objects = ChecklistManager
+    objects = ChecklistManager()
 
     class Meta:
         ordering = ('building',)

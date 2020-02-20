@@ -147,7 +147,7 @@ class Incident(models.Model):
     )
 
     # Manager
-    objects = IncidentManager
+    objects = IncidentManager()
 
     class Meta:
         ordering = ('first_name',)

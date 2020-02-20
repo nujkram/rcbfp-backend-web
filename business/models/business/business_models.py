@@ -83,7 +83,7 @@ class Business(models.Model):
                              related_name='province_business')
 
     # Manager
-    objects = BusinessManager
+    objects = BusinessManager()
 
     class Meta:
         ordering = ('-created',)

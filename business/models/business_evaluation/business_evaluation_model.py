@@ -77,7 +77,7 @@ class BusinessEvaluation(models.Model):
   date_evaluated = models.ForeignKey('datesdim.DateDim', blank=True, null=True, on_delete=models.CASCADE, related_name='datetime_evaluated')
 
   # Manager
-  objects = BusinessEvaluationManager
+  objects = BusinessEvaluationManager()
 
   class Meta:
     ordering = ('-created',)

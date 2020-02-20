@@ -74,7 +74,7 @@ class BusinessInspection(models.Model):
   date_inspected = models.ForeignKey('datesdim.DateDim', blank=True, null=True, on_delete=models.CASCADE, related_name='datetime_inspection')
 
   # Manager
-  objects = BusinessInspectionManager
+  objects = BusinessInspectionManager()
 
   class Meta:
     ordering = ('-created',)
