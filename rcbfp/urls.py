@@ -16,9 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from accounts.controllers.views.account_views import AccountLoginView
+from accounts.constants import ADMIN_URL
+
 urlpatterns = [
-  path('RJtCasyY/', admin.site.urls),
-  path('locations/', include('locations.urls')),
-  path('account/', include('accounts.urls')),
-  path('profile/', include('profiles.urls')),
+    path('', AccountLoginView.as_view(), name='root'),
+    path(ADMIN_URL, admin.site.urls),
+    path('locations/', include('locations.urls')),
+    path('account/', include('accounts.urls')),
+    path('profile/', include('profiles.urls')),
+    path('admin/', include('admin_dashboards.urls')),
 ]
