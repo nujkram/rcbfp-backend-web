@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-text card-header-danger">
+                <div class="card-title">
+                    <h6 class="card-text">{{ page_title }}</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Deleting {{ obj }} is a destructive operation and cannot be undone. Are you
+                    sure?</p>
+
+                <button class="btn btn-danger" type="submit">
+                    Yes I am, delete {{ obj }}
+                </button>
+                <a class="btn btn-light"
+                   href="{% url 'admin_dashboard_incident_list' %}">
+                    No, I changed my mind
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

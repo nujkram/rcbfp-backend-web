@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h4 class="card-title">{{ page_title }}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {{ form|crispy }}
+                        <p>
+                            <button type="submit" class="btn btn-success">
+                                Submit
+                            </button>
+                        </p>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

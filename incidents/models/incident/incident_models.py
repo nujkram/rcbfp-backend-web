@@ -80,6 +80,7 @@ class Incident(models.Model):
     incident_type = models.CharField(choices=INCIDENT_TYPE_CHOICES, max_length=50, blank=False, null=False)
 
     # === State ===
+    active = models.BooleanField(default=True)
     meta = JSONField()
 
     # === Relationship Fields ===

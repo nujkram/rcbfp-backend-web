@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header card-header-text card-header-primary">
+                <div class="card-text">
+                    <h4 class="card-title">{{ page_title }}</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table datatable">
+                        <thead>
+                        <tr>
+                            <th class="text-left">ID</th>
+                            <th>Object</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in objects %}
+                        <tr>
+                            <td class="text-left">{{ item.id }}</td>
+                            <td>
+                                <a href="{% url 'admin_dashboard_business_detail' item.id %}">
+                                    {{ item }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'admin_dashboard_business_update' item.id %}"
+                                   class="text-warning">
+                                    Update
+                                </a>
+                                |
+                                <a href="{% url 'admin_dashboard_business_delete' item.id %}"
+                                   class="text-danger">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-success btn-sm"
+                       href="{% url 'admin_dashboard_business_create' %}">
+                        Create
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}
