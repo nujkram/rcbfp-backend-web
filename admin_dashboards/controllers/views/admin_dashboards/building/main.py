@@ -197,7 +197,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
         form = MasterForm(instance=obj)
 
         context = {
-            "page_title": "Update Building: {obj}",
+            "page_title": f"Update Building: {obj}",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "update",
@@ -205,7 +205,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "form": form
         }
 
-        return render(request, "admin_dashboard/form.html", context)
+        return render(request, "building/form.html", context)
 
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
@@ -229,7 +229,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             )
         else:
             context = {
-                "page_title": "Update Building: {obj}",
+                "page_title": f"Update Building: {obj}",
                 "menu_section": "admin_dashboards",
                 "menu_subsection": "admin_dashboards",
                 "menu_action": "update",
@@ -264,7 +264,7 @@ class AdminDashboardBuildingDeleteView(LoginRequiredMixin, IsAdminViewMixin, Vie
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
         context = {
-            "page_title": "Delete Building: {obj}",
+            "page_title": f"Delete Building: {obj}",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "delete",
