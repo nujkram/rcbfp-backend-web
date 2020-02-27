@@ -47,12 +47,14 @@ def businesses(buildings):
 
             new_building.create(1)
 
+            b = Building.objects.get(name=building)
+
             fixture = AutoFixture(
                 Business,
                 field_values={
                     'name': buildings[building]['business'],
                     'address': buildings[building]['address'],
-                    'building': building,
+                    'building': b,
                     'region': region,
                     'province': province,
                     'city': city
