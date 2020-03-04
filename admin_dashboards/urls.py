@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
 from admin_dashboards.controllers.views.admin_dashboards.home import main as home_views
 
@@ -7,7 +8,7 @@ urlpatterns = [
         '',
         home_views.AdminDashboardHomeView.as_view(),
         name='admin_dashboard_home_view'
-    )
+    ),
 ]
 
 # Building
@@ -136,4 +137,14 @@ urlpatterns += {
         business_application_views.AdminDashboardBusinessApplicationDeleteView.as_view(),
         name='admin_dashboard_business_application_delete'
     )
+}
+
+from admin_dashboards.controllers.views.admin_dashboards.map import main as map_views
+
+urlpatterns += {
+    path(
+        'map/buildings',
+        map_views.AdminDashboardMapBuildingView.as_view(),
+        name='admin_dashboard_map_building_view'
+    ),
 }
