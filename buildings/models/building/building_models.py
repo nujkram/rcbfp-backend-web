@@ -16,6 +16,7 @@ from django_extensions.db import fields as extension_fields
 from django.db.models.signals import post_save, pre_save
 
 # Model manager
+from buildings.constants import BUILDING_STATUS_CHOICES
 from buildings.models.building.managers.building_managers import BuildingManager
 
 
@@ -86,6 +87,7 @@ class Building(models.Model):
     longitude = models.CharField(max_length=24, blank=True, null=True)
     
     # === State ===
+    status = models.PositiveSmallIntegerField(choices=BUILDING_STATUS_CHOICES, blank=False, null=False, default=1)
     active = models.BooleanField(default=True)
     meta = JSONField()
 
