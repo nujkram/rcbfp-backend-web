@@ -13,57 +13,62 @@ province = Province.objects.get(pk=22)
 city = City.objects.get(pk=381)
 
 
-def businesses(buildings):
-    for building in buildings:
-        try:
-            building_exists = Building.objects.get(name=building)
+def businesses(data):
+    for key, item in data.items():
+        __building = item['building']
+        __business = item['business']
+        __address = item['address']
+        __latitude = item['latitude']
+        __longitude = item['longitude']
 
+        building = Building.objects.filter(name=__building)
+        business = Business.objects.filter(name=__business)
+        if building:
+            if business:
+                continue
             fixture = AutoFixture(
                 Business,
                 field_values={
-                    'name': buildings[building]['business'],
-                    'address': buildings[building]['address'],
-                    'building': building_exists,
+                    'name': __business,
+                    'address': __address,
                     'region': region,
                     'province': province,
                     'city': city,
+                    'building': building[0]
                 }
             )
 
             fixture.create(1)
-        except Building.DoesNotExist:
-            new_building = AutoFixture(
+        else:
+            fixture = AutoFixture(
                 Building,
                 field_values={
-                    'name': building,
-                    'address': buildings[building]['address'],
+                    'name': __building,
+                    'address': __address,
                     'region': region,
                     'province': province,
                     'city': city,
-                    'latitude': buildings[building]['latitude'],
-                    'longitude': buildings[building]['longitude']
-                }
-            )
-
-            new_building.create(1)
-
-            b = Building.objects.get(name=building)
-
-            fixture = AutoFixture(
-                Business,
-                field_values={
-                    'name': buildings[building]['business'],
-                    'address': buildings[building]['address'],
-                    'building': b,
-                    'region': region,
-                    'province': province,
-                    'city': city
+                    'latitude': __latitude,
+                    'longitude': __longitude
                 }
             )
 
             fixture.create(1)
+            building = Building.objects.last()
 
-    return print('Businesses created')
+            business = AutoFixture(
+                Business,
+                field_values={
+                    'name': __business,
+                    'address': __address,
+                    'region': region,
+                    'province': province,
+                    'city': city,
+                    'building': building
+                }
+            )
+
+            business.create(1)
 
 
 def buildings(buildings):
