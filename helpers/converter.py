@@ -13,6 +13,7 @@ def import_building_data():
             name, address, building, latitude, longitude = rows
             data[building] = {
                 'business': name,
+                'building': building,
                 'address': address,
                 'latitude': latitude,
                 'longitude': longitude,
