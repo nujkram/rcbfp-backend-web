@@ -32,10 +32,27 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="{% url 'admin_dashboard_map_building_view' %}">
+                <a class="nav-link" role="botton" data-toggle="collapse" href="#navMaps" aria-expanded="false"
+                   aria-controls="navMaps">
                     <i class="material-icons">map</i>
-                    <p>Maps</p>
+                    <p>Maps <b class="caret"></b></p>
                 </a>
+                <div class="collapse" id="navMaps">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_map_building_view' %}">
+                                <i class="material-icons">map</i>
+                                <p>Buildings</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_map_incident_view' %}">
+                                <i class="material-icons">map</i>
+                                <p>Incidents</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'admin_dashboard_incident_list' %}">

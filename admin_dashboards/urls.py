@@ -139,6 +139,8 @@ urlpatterns += {
     )
 }
 
+# Maps
+
 from admin_dashboards.controllers.views.admin_dashboards.map import main as map_views
 
 urlpatterns += {
@@ -146,5 +148,10 @@ urlpatterns += {
         'map/buildings',
         map_views.AdminDashboardMapBuildingView.as_view(),
         name='admin_dashboard_map_building_view'
+    ),
+    path(
+        'map/incidents',
+        map_views.AdminDashboardMapIncidentView.as_view(),
+        name='admin_dashboard_map_incident_view'
     ),
 }

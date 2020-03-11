@@ -23,8 +23,14 @@ urlpatterns += {
         map_views.AdminDashboardMapBuildingView.as_view(),
         name='admin_dashboard_map_building_view'
     ),
+    path(
+        'map/incidents',
+        map_views.AdminDashboardMapIncidentView.as_view(),
+        name='admin_dashboard_map_incident_view'
+    ),
 }
 """
+
 
 class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
@@ -40,6 +46,7 @@ class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
     Filters:
         None
     """
+
     def get(self, request, *args, **kwargs):
         obj = Master.objects.actives()
 
@@ -51,4 +58,33 @@ class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
             "objects": obj,
         }
 
-        return render(request, "map/main.html", context)
+        return render(request, "map/buildings.html", context)
+
+
+class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    View for Map Incident.
+
+    Allowed HTTP verbs:
+        - GET
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        None
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = Master.objects.actives()
+
+        context = {
+            "page_title": f"Building Map",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "detail",
+            "objects": obj,
+        }
+
+        return render(request, "map/incidents.html", context)
