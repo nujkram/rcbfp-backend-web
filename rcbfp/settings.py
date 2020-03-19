@@ -12,4 +12,4 @@ elif path.isfile('/home/vagrant/rcbfp-backend-web/envars/test-server'):
   include('settings_collection/test-server.py')
 else:
   print('connecting to production settings...')
-  include('settings_collection/productino.py')
+  include('settings_collection/production.py')
