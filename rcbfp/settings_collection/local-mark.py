@@ -149,10 +149,10 @@ STATICFILES_DIRS = [
   os.path.join(BASE_DIR, "static")
 ]
 
-STATIC_URL = 'http://192.168.33.66/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/html/static/'
 
-MEDIA_URL = 'http://192.168.33.66/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/www/html/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
