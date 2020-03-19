@@ -20,6 +20,7 @@ constantly
 coverage
 daphne
 decorator
+django-autofixture
 django-cors-headers
 django-crispy-forms
 django-debug-toolbar
@@ -45,7 +46,9 @@ numpy
 pandas
 parso
 pexpect
+phonenumbers
 pickleshare
+Pillow
 pluggy
 promise
 prompt-toolkit
