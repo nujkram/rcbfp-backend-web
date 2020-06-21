@@ -67,6 +67,10 @@ class Building(models.Model):
 
     # === Properties ===
     address = models.CharField(max_length=120, blank=True, null=True)
+    latitude = models.CharField(max_length=24, blank=True, null=True)
+    longitude = models.CharField(max_length=24, blank=True, null=True)
+
+    # features
     date_of_construction = models.DateField(null=True, blank=True)
     floor_number = models.PositiveSmallIntegerField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True, help_text="In meters")
@@ -84,8 +88,6 @@ class Building(models.Model):
     main_door = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
     trusses = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
     roof = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
-    latitude = models.CharField(max_length=24, blank=True, null=True)
-    longitude = models.CharField(max_length=24, blank=True, null=True)
 
     # === State ===
     status = models.PositiveSmallIntegerField(choices=BUILDING_STATUS_CHOICES, blank=False, null=False, default=1)
@@ -119,6 +121,26 @@ class Building(models.Model):
 
     # Manager
     objects = BuildingManager()
+
+    analytics_features = [
+        'date_of_construction',
+        'floor_number',
+        'height',
+        'floor_area',
+        'total_floor_area',
+        'beams',
+        'columns',
+        'flooring',
+        'exterior_walls',
+        'corridor_walls',
+        'room_partitions',
+        'main_stair',
+        'window',
+        'ceiling',
+        'main_door',
+        'trusses',
+        'roof',
+    ]
 
     class Meta:
         ordering = ('name',)

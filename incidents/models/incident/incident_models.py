@@ -157,6 +157,16 @@ class Incident(models.Model):
     # Manager
     objects = IncidentManager()
 
+    analytics_features = [
+        'property_damage',
+        'casualties',
+        'major_injuries',
+        'minor_injuries',
+        'intensity',
+        'severity',
+        'duration',
+    ]
+
     class Meta:
         ordering = ('first_name',)
         verbose_name = "Incident"

@@ -76,6 +76,10 @@ class Checklist(models.Model):
     # === Identifiers ===
 
     # === Properties ===
+    first_name = models.CharField(max_length=24, blank=True, null=True)
+    middle_name = models.CharField(max_length=24, blank=True, null=True)
+    last_name = models.CharField(max_length=24, blank=True, null=True)
+    policy_no = models.CharField(max_length=24, blank=True, null=True)
     building_permit = models.BooleanField(default=False)
     occupancy_permit = models.BooleanField(default=False)
     fsic_control_no = models.CharField(max_length=18, blank=True, null=True)
@@ -83,13 +87,11 @@ class Checklist(models.Model):
     fire_drill_certificate = models.BooleanField(default=False)
     violation_control_no = models.CharField(max_length=24, blank=True, null=True)
     electrical_inspection_no = models.CharField(max_length=24, blank=True, null=True)
+
+    # features
     sectional_occupancy = models.PositiveSmallIntegerField(blank=True, null=True)
     occupant_load = models.PositiveSmallIntegerField(blank=True, null=True)
     egress_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    first_name = models.CharField(max_length=24, blank=True, null=True)
-    middle_name = models.CharField(max_length=24, blank=True, null=True)
-    last_name = models.CharField(max_length=24, blank=True, null=True)
-    policy_no = models.CharField(max_length=24, blank=True, null=True)
     any_renovation = models.BooleanField(default=False)
     renovation_specification = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
@@ -115,7 +117,7 @@ class Checklist(models.Model):
     self_closure_operational = models.BooleanField(default=False)
     mezzanine_with_proper_exits = models.BooleanField(default=False)
     corridors_of_sufficient_size = models.BooleanField(default=False)
-    main_stair_width = models.FloatField(blank=True, null=True)
+    main_stair_width = models.PositiveSmallIntegerField(blank=True, null=True)
     construction = models.CharField(max_length=254, blank=True, null=True)  # not_sure
     main_stair_railings = models.BooleanField(default=False)
     main_stair_railings_built = models.CharField(max_length=254, blank=True, null=True)
@@ -128,7 +130,7 @@ class Checklist(models.Model):
     main_stair_pressurized_stairway = models.BooleanField(default=False)
     main_stair_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
     fire_escape_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_escape_width = models.FloatField(blank=True, null=True)
+    fire_escape_width = models.PositiveSmallIntegerField(blank=True, null=True)
     fire_escape_construction = models.CharField(max_length=254, blank=True, null=True)
     fire_escape_railings = models.BooleanField(default=False)
     fire_escape_built = models.CharField(max_length=254, blank=True, null=True)
@@ -140,19 +142,19 @@ class Checklist(models.Model):
     fire_escape_opening = models.BooleanField(default=False)
     fire_escape_opening_protected = models.BooleanField(default=False)
     fire_door_provided = models.BooleanField(default=False)
-    fire_door_width = models.FloatField(blank=True, null=True)
+    fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True)
     fire_door_construction = models.CharField(max_length=254, blank=True, null=True)
     fire_door_door_proper_rating = models.BooleanField(default=False)
     fire_door_door_provided_with_vision_panel = models.BooleanField(default=False)
     fire_door_door_vision_panel_built = models.CharField(max_length=254, blank=True, null=True)
     fire_door_pressurized_stairway = models.BooleanField(default=False)
     fire_door_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
-    horizontal_exit_width = models.FloatField(blank=True, null=True)
+    horizontal_exit_width = models.PositiveSmallIntegerField(blank=True, null=True)
     horizontal_exit_construction = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_vision_panel = models.BooleanField(default=False)
     horizontal_exit_door_swing_in_direction_of_egress = models.BooleanField(default=False)
     horizontal_exit_with_self_closing_device = models.BooleanField(default=False)
-    horizontal_exit_corridor_width = models.FloatField(blank=True, null=True)
+    horizontal_exit_corridor_width = models.PositiveSmallIntegerField(blank=True, null=True)
     horizontal_exit_corridor_construction = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_corridor_walls_extended = models.BooleanField(default=False)
     horizontal_exit_properly_illuminated = models.BooleanField(default=False)
@@ -162,14 +164,14 @@ class Checklist(models.Model):
     horizontal_exit_properly_located = models.BooleanField(default=False)
     ramps_provided = models.BooleanField(default=False)
     ramps_type = models.CharField(choices=LOCATION_CHOICES, blank=True, null=True, max_length=64)
-    ramps_width = models.FloatField(blank=True, null=True)
+    ramps_width = models.PositiveSmallIntegerField(blank=True, null=True)
     ramps_class = models.CharField(max_length=254, blank=True, null=True)
     ramps_railing_provided = models.BooleanField(default=False)
-    ramps_height = models.FloatField(blank=True, null=True)
+    ramps_height = models.PositiveSmallIntegerField(blank=True, null=True)
     ramps_enclosure = models.BooleanField(default=False)
     ramps_construction = models.CharField(max_length=254, blank=True, null=True)
     ramps_fire_doors = models.BooleanField(default=False)
-    ramps_fire_doors_width = models.FloatField(blank=True, null=True)
+    ramps_fire_doors_width = models.PositiveSmallIntegerField(blank=True, null=True)
     ramps_fire_doors_construction = models.CharField(max_length=254, blank=True, null=True)
     ramps_with_self_closing_device = models.BooleanField(default=False)
     ramps_door_with_proper_rating = models.BooleanField(default=False)
@@ -183,7 +185,7 @@ class Checklist(models.Model):
     safe_refuge_enclosure = models.BooleanField(default=False)
     safe_refuge_construction = models.CharField(max_length=254, blank=True, null=True)
     safe_refuge_fire_door = models.BooleanField(default=False)
-    safe_refuge_fire_door_width = models.FloatField(blank=True, null=True)
+    safe_refuge_fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True)
     safe_refuge_fire_door_construction = models.CharField(max_length=254, blank=True, null=True)
     safe_refuge_with_self_closing_device = models.BooleanField(default=False)
     safe_refuge_door_proper_rating = models.BooleanField(default=False)
@@ -202,7 +204,7 @@ class Checklist(models.Model):
     exit_signs_location = models.CharField(max_length=254, blank=True, null=True)
     exit_signs_source = models.CharField(choices=CURRENT_CHOICES, blank=True, null=True, max_length=64)
     exit_signs_visible = models.BooleanField(default=False)
-    exit_signs_min_letter_size = models.FloatField(blank=True, null=True)
+    exit_signs_min_letter_size = models.PositiveSmallIntegerField(blank=True, null=True)
     exit_route_posted_on_lobby = models.BooleanField(default=False)
     exit_route_posted_on_rooms = models.BooleanField(default=False)
     directional_exit_signs = models.BooleanField(default=False)
@@ -221,24 +223,24 @@ class Checklist(models.Model):
     garbage_chute_protected = models.BooleanField(default=False)
     between_floor_protected = models.BooleanField(default=False)
     standpipe_type = models.CharField(choices=STANDPIPE_CHOICES, blank=True, null=True, max_length=64)
-    standpipe_tank_capacity = models.FloatField(blank=True, null=True)
+    standpipe_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     standpipe_location = models.CharField(max_length=254, blank=True, null=True)
     siamese_intake_provided = models.BooleanField(default=False)
     siamese_intake_location = models.CharField(max_length=254, blank=True, null=True)
-    siamese_intake_size = models.FloatField(blank=True, null=True)
+    siamese_intake_size = models.PositiveSmallIntegerField(blank=True, null=True)
     siamese_intake_count = models.PositiveSmallIntegerField(blank=True, null=True)
     siamese_intake_accessible = models.BooleanField(default=False)
     fire_hose_cabinet = models.BooleanField(default=False)
     fire_hose_cabinet_accessories = models.BooleanField(default=False)
     fire_hose_cabinet_location = models.CharField(max_length=254, blank=True, null=True)
     fire_hose_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_hose_size = models.FloatField(blank=True, null=True)
-    fire_hose_length = models.FloatField(blank=True, null=True)
+    fire_hose_size = models.PositiveSmallIntegerField(blank=True, null=True)
+    fire_hose_length = models.PositiveSmallIntegerField(blank=True, null=True)
     fire_hose_nozzle = models.CharField(max_length=254, blank=True, null=True)  # not_user
     fire_lane = models.BooleanField(default=False)
     fire_hydrant_location = models.CharField(max_length=254, blank=True, null=True)
     portable_fire_extinguisher_type = models.CharField(max_length=254, blank=True, null=True)  # not_sure
-    portable_fire_extinguisher_capacity = models.FloatField(blank=True, null=True)
+    portable_fire_extinguisher_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     portable_fire_extinguisher_count = models.PositiveSmallIntegerField(blank=True, null=True)
     portable_fire_extinguisher_with_ps_mark = models.BooleanField(default=False)
     portable_fire_extinguisher_with_iso_mark = models.BooleanField(default=False)
@@ -247,12 +249,12 @@ class Checklist(models.Model):
     portable_fire_extinguisher_accessible = models.BooleanField(default=False)
     portable_fire_extinguisher_other_type = models.CharField(max_length=254, blank=True, null=True)  # not_sure
     sprinkler_system_agent_used = models.BooleanField(default=False)
-    jockey_pump_capacity = models.FloatField(blank=True, null=True)
-    fire_pump_capacity = models.FloatField(blank=True, null=True)
-    gpm_tank_capacity = models.FloatField(blank=True, null=True)
+    jockey_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    fire_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    gpm_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     maintaining_line_pressure = models.BooleanField(default=False)  # not_sure
     farthest_sprinkler_head_pressure = models.CharField(max_length=254, blank=True, null=True)
-    riser_size = models.FloatField(blank=True, null=True)
+    riser_size = models.PositiveSmallIntegerField(blank=True, null=True)
     type_of_heads_installed = models.CharField(max_length=254, blank=True, null=True)
     heads_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
     heads_total_count = models.PositiveSmallIntegerField(default=10)
@@ -265,7 +267,7 @@ class Checklist(models.Model):
     boiler_provided = models.BooleanField(default=False)
     boiler_unit_count = models.PositiveSmallIntegerField(blank=True, null=True)
     boiler_fuel = models.CharField(choices=FUEL_CHOICES, blank=True, null=True, max_length=64)
-    boiler_capacity = models.FloatField(blank=True, null=True)
+    boiler_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     boiler_container = models.CharField(choices=CONTAINER_LOCATION_CHOICES, blank=True, null=True, max_length=64)
     boiler_location = models.CharField(max_length=254, blank=True, null=True)
     lpg_installation_with_permit = models.BooleanField(default=False)
@@ -273,13 +275,13 @@ class Checklist(models.Model):
     generator_set = models.BooleanField(default=False)
     generator_set_type = models.CharField(choices=GENERATOR_TYPE_CHOICES, blank=True, null=True, max_length=64)
     generator_fuel = models.CharField(choices=GENERATOR_FUEL_CHOICES, blank=True, null=True, max_length=64)
-    generator_capacity = models.FloatField(blank=True, null=True)
+    generator_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     generator_location = models.CharField(max_length=254, blank=True, null=True)
     generator_bound_on_wall = models.BooleanField(default=False)
     generator_container = models.CharField(choices=CONTAINER_LOCATION_CHOICES, blank=True, null=True, max_length=64)
     generator_dispensing_system = models.CharField(choices=GENERATOR_DISPENSING_CHOICES, blank=True, null=True,
                                                    max_length=64)
-    generator_output_capacity = models.FloatField(blank=True, null=True)
+    generator_output_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     generator_mechanical_permit = models.BooleanField(default=False)
     generator_fuel_storage_permit = models.BooleanField(default=False)
     generator_others = models.CharField(max_length=254, blank=True, null=True)
@@ -305,7 +307,7 @@ class Checklist(models.Model):
     separation_fire_rated = models.BooleanField(default=False)
     type_of_protection = models.CharField(max_length=254, blank=True, null=True)
     separation_fire_rated_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    separation_fire_rated_capacity = models.FloatField(blank=True, null=True)
+    separation_fire_rated_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
     separation_fire_rated_accessible = models.BooleanField(default=False)
     separation_fire_rated_fuel = models.BooleanField(default=False)
     separation_fire_rated_location = models.CharField(max_length=254, blank=True, null=True)
@@ -478,6 +480,242 @@ class Checklist(models.Model):
 
     # Manager
     objects = ChecklistManager()
+
+    analytics_features = [
+        'sectional_occupancy',
+        'occupant_load',
+        'egress_capacity',
+        'any_renovation',
+        'renovation_specification',
+        'horizontal_exit_capacity',
+        'exit_stair_capacity',
+        'no_of_exits',
+        'is_exits_remote',
+        'exit_location',
+        'any_enclosure',
+        'is_exit_accessible',
+        'is_fire_doors_provided',
+        'self_closing_mechanism',
+        'panic_hardware',
+        'readily_accessible',
+        'travel_distance_within_limit',
+        'adequate_illumination',
+        'panic_hardware_operational',
+        'doors_open_easily',
+        'bldg_with_mezzanine',
+        'is_obstructed',
+        'dead_ends_within_limits',
+        'proper_rating_illumination',
+        'door_swing_in_the_direction_of_exit',
+        'self_closure_operational',
+        'mezzanine_with_proper_exits',
+        'corridors_of_sufficient_size',
+        'main_stair_width',
+        'construction',
+        'main_stair_railings',
+        'main_stair_railings_built',
+        'main_stair_any_enclosure_provided',
+        'enclosure_built',
+        'any_openings',
+        'main_stair_door_proper_rating',
+        'main_stair_door_provided_with_vision_panel',
+        'main_stair_door_vision_panel_built',
+        'main_stair_pressurized_stairway',
+        'main_stair_type_of_pressurized_stairway',
+        'fire_escape_count',
+        'fire_escape_width',
+        'fire_escape_construction',
+        'fire_escape_railings',
+        'fire_escape_built',
+        'fire_escape_location',
+        'fire_escape_obstruction',
+        'discharge_of_exits',
+        'fire_escape_any_enclosure_provided',
+        'fire_escape_enclosure',
+        'fire_escape_opening',
+        'fire_escape_opening_protected',
+        'fire_door_provided',
+        'fire_door_width',
+        'fire_door_construction',
+        'fire_door_door_proper_rating',
+        'fire_door_door_provided_with_vision_panel',
+        'fire_door_door_vision_panel_built',
+        'fire_door_pressurized_stairway',
+        'fire_door_type_of_pressurized_stairway',
+        'horizontal_exit_width',
+        'horizontal_exit_construction',
+        'horizontal_exit_vision_panel',
+        'horizontal_exit_door_swing_in_direction_of_egress',
+        'horizontal_exit_with_self_closing_device',
+        'horizontal_exit_corridor_width',
+        'horizontal_exit_corridor_construction',
+        'horizontal_exit_corridor_walls_extended',
+        'horizontal_exit_properly_illuminated',
+        'horizontal_exit_readily_visible',
+        'horizontal_exit_properly_marked',
+        'horizontal_exit_with_illuminated_directional_sign',
+        'horizontal_exit_properly_located',
+        'ramps_provided',
+        'ramps_type',
+        'ramps_width',
+        'ramps_class',
+        'ramps_railing_provided',
+        'ramps_height',
+        'ramps_enclosure',
+        'ramps_construction',
+        'ramps_fire_doors',
+        'ramps_fire_doors_width',
+        'ramps_fire_doors_construction',
+        'ramps_with_self_closing_device',
+        'ramps_door_with_proper_rating',
+        'ramps_door_with_vision_panel',
+        'ramps_door_vision_panel_built',
+        'ramps_door_swing_in_direction_of_egress',
+        'ramps_obstruction',
+        'ramps_discharge_of_exit',
+        'safe_refuge_provided',
+        'safe_refuge_type',
+        'safe_refuge_enclosure',
+        'safe_refuge_construction',
+        'safe_refuge_fire_door',
+        'safe_refuge_fire_door_width',
+        'safe_refuge_fire_door_construction',
+        'safe_refuge_with_self_closing_device',
+        'safe_refuge_door_proper_rating',
+        'safe_refuge_with_vision_panel',
+        'safe_refuge_vision_panel_built',
+        'safe_refuge_swing_in_direction_of_egress',
+        'emergency_light',
+        'emergency_light_source',
+        'emergency_light_per_floor_count',
+        'emergency_light_hallway_count',
+        'emergency_light_stairway_count',
+        'emergency_light_operational',
+        'emergency_light_exit_path_properly_illuminated',
+        'emergency_light_tested_monthly',
+        'exit_signs_illuminated',
+        'exit_signs_location',
+        'exit_signs_source',
+        'exit_signs_visible',
+        'exit_signs_min_letter_size',
+        'exit_route_posted_on_lobby',
+        'exit_route_posted_on_rooms',
+        'directional_exit_signs',
+        'directional_exit_signs_location',
+        'no_smoking_sign',
+        'dead_end_sign',
+        'elevator_sign',
+        'keep_door_closed_sign',
+        'others',
+        'vertical_openings_properly_protected',
+        'vertical_openings_atrium',
+        'fire_doors_good_condition',
+        'elevator_opening_protected',
+        'pipe_chase_opening_protected',
+        'aircon_ducts_with_dumper',
+        'garbage_chute_protected',
+        'between_floor_protected',
+        'standpipe_type',
+        'standpipe_tank_capacity',
+        'standpipe_location',
+        'siamese_intake_provided',
+        'siamese_intake_location',
+        'siamese_intake_size',
+        'siamese_intake_count',
+        'siamese_intake_accessible',
+        'fire_hose_cabinet',
+        'fire_hose_cabinet_accessories',
+        'fire_hose_cabinet_location',
+        'fire_hose_per_floor_count',
+        'fire_hose_size',
+        'fire_hose_length',
+        'fire_hose_nozzle',
+        'fire_lane',
+        'fire_hydrant_location',
+        'portable_fire_extinguisher_type',
+        'portable_fire_extinguisher_capacity',
+        'portable_fire_extinguisher_count',
+        'portable_fire_extinguisher_with_ps_mark',
+        'portable_fire_extinguisher_with_iso_mark',
+        'portable_fire_extinguisher_maintained',
+        'portable_fire_extinguisher_conspicuously_located',
+        'portable_fire_extinguisher_accessible',
+        'portable_fire_extinguisher_other_type',
+        'sprinkler_system_agent_used',
+        'jockey_pump_capacity',
+        'fire_pump_capacity',
+        'gpm_tank_capacity',
+        'maintaining_line_pressure',
+        'farthest_sprinkler_head_pressure',
+        'riser_size',
+        'type_of_heads_installed',
+        'heads_per_floor_count',
+        'heads_total_count',
+        'spacing_of_heads',
+        'location_of_fire_dept_connection',
+        'plan_submitted',
+        'firewall_required',
+        'firewall_provided',
+        'firewall_opening',
+        'boiler_provided',
+        'boiler_unit_count',
+        'boiler_fuel',
+        'boiler_capacity',
+        'boiler_container',
+        'boiler_location',
+        'lpg_installation_with_permit',
+        'fuel_with_storage_permit',
+        'generator_set',
+        'generator_set_type',
+        'generator_fuel',
+        'generator_capacity',
+        'generator_location',
+        'generator_bound_on_wall',
+        'generator_container',
+        'generator_dispensing_system',
+        'generator_output_capacity',
+        'generator_mechanical_permit',
+        'generator_fuel_storage_permit',
+        'generator_others',
+        'generator_automatic_transfer_switch',
+        'generator_time_interval',
+        'refuse_handling',
+        'refuse_handling_enclosure',
+        'refuse_handling_fire_resistive',
+        'refuse_handling_fire_protection',
+        'refuse_handling_fire_protection_type',
+        'refuse_handling_disposal',
+        'refuse_handling_collection_method',
+        'electrical_hazard',
+        'electrical_hazard_location',
+        'mechanical_hazard',
+        'mechanical_hazard_location',
+        'elevator_count',
+        'fireman_elevator',
+        'fireman_elevator_key',
+        'other_service_system',
+        'hazardous_area',
+        'hazardous_area_other',
+        'separation_fire_rated',
+        'type_of_protection',
+        'separation_fire_rated_count',
+        'separation_fire_rated_capacity',
+        'separation_fire_rated_accessible',
+        'separation_fire_rated_fuel',
+        'separation_fire_rated_location',
+        'separation_fire_rated_permit',
+        'chimney_built',
+        'chimney_spark_arrestor',
+        'chimney_smoke_hood',
+        'hazardous_material',
+        'hazardous_material_stored',
+        'fire_brigade_organization',
+        'fire_safety_seminar',
+        'employee_trained_in_emergency_procedures',
+        'evacuation_drill_first',
+        'evacuation_drill_second',
+        'defects',
+    ]
 
     class Meta:
         ordering = ('building',)
