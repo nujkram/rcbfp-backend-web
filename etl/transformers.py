@@ -42,10 +42,10 @@ class ChecklistTransformer:
     @staticmethod
     def analyze_feature(feature: object):
         if isinstance(feature, str):
-            return None
+            return 0
 
         if isinstance(feature, datetime.time):
-            return None
+            return 0
 
         if isinstance(feature, datetime.date):
             return feature.month
@@ -53,6 +53,8 @@ class ChecklistTransformer:
         if isinstance(feature, bool):
             return int(feature)
 
+        if not feature:
+            return 0
         return feature
 
     def process_independents(self, obj: object, analytics_features: Dict):
