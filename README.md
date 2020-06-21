@@ -16,7 +16,7 @@
 
 ## Generate Buildings and Businesses
 1. from helpers import converter, batch_create
-2. batch_create.businesses(buildings)
+2. batch_create.preload_businesses(buildings)
 
 ## Generate Checklist for each Businesses by Year
 1. from helpers import converter, batch_create
@@ -25,4 +25,4 @@
 
 ## Generate Incident Report
 1. from helpers import batch_create
-2. batch_create.incidents([number of incident(s)], [year])
+2. batch_create.incidents()

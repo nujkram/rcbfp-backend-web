@@ -78,6 +78,13 @@ class Incident(models.Model):
     address = models.CharField(max_length=1024)
     image = models.ImageField(upload_to=photo_upload_path, max_length=512, blank=True, null=True)
     incident_type = models.CharField(choices=INCIDENT_TYPE_CHOICES, max_length=50, blank=False, null=False)
+    property_damage = models.FloatField(help_text="Value of property damage in tens of thousands of pesos", default=1, blank=True, null=True)
+    casualties = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
+    major_injuries = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
+    minor_injuries = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
+    intensity = models.PositiveSmallIntegerField(default=1, help_text="Scale of 1 to 10")
+    severity = models.PositiveSmallIntegerField(default=1, help_text="Scale of 1 to 10")
+    duration = models.PositiveSmallIntegerField(default=1, help_text="Duration in minutes")
 
     # === State ===
     active = models.BooleanField(default=True)
@@ -149,6 +156,16 @@ class Incident(models.Model):
 
     # Manager
     objects = IncidentManager()
+
+    analytics_features = [
+        'property_damage',
+        'casualties',
+        'major_injuries',
+        'minor_injuries',
+        'intensity',
+        'severity',
+        'duration',
+    ]
 
     class Meta:
         ordering = ('first_name',)
