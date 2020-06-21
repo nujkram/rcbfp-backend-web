@@ -145,6 +145,34 @@ class Building(models.Model):
     ################################################################################
     # === Model-specific methods ===
     ################################################################################
+    def avg_fire_rating(self):
+        fields = (
+            'beams',
+            'columns',
+            'flooring',
+            'exterior_walls',
+            'corridor_walls',
+            'room_partitions',
+            'main_stair',
+            'window',
+            'ceiling',
+            'main_door',
+            'trusses',
+            'roof'
+        )
+        total = 0
+        for f in fields:
+            rating = getattr(self, f)
+            total += rating
+
+        return total / len(fields)
+
+    def age_risk(self, day):
+        age = (day - self.date_of_construction).days
+        chance = 0
+        if age > 365:
+            chance = (age / 365) * .005
+        return chance
 
 
 ################################################################################

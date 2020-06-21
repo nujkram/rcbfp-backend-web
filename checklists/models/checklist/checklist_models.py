@@ -255,7 +255,7 @@ class Checklist(models.Model):
     riser_size = models.FloatField(blank=True, null=True)
     type_of_heads_installed = models.CharField(max_length=254, blank=True, null=True)
     heads_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    heads_total_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    heads_total_count = models.PositiveSmallIntegerField(default=10)
     spacing_of_heads = models.CharField(max_length=254, blank=True, null=True)
     location_of_fire_dept_connection = models.CharField(max_length=254, blank=True, null=True)
     plan_submitted = models.BooleanField(default=False)
@@ -270,7 +270,7 @@ class Checklist(models.Model):
     boiler_location = models.CharField(max_length=254, blank=True, null=True)
     lpg_installation_with_permit = models.BooleanField(default=False)
     fuel_with_storage_permit = models.BooleanField(default=False)
-    generator_set = models.CharField(max_length=254, blank=True, null=True)
+    generator_set = models.BooleanField(default=False)
     generator_set_type = models.CharField(choices=GENERATOR_TYPE_CHOICES, blank=True, null=True, max_length=64)
     generator_fuel = models.CharField(choices=GENERATOR_FUEL_CHOICES, blank=True, null=True, max_length=64)
     generator_capacity = models.FloatField(blank=True, null=True)
@@ -320,7 +320,7 @@ class Checklist(models.Model):
     employee_trained_in_emergency_procedures = models.BooleanField(default=False)
     evacuation_drill_first = models.BooleanField(default=False)
     evacuation_drill_second = models.BooleanField(default=False)
-    defects = models.CharField(max_length=254, blank=True, null=True)
+    defects = models.PositiveSmallIntegerField(default=0)
     defects_photo = models.FileField(verbose_name='Defects supporting image', upload_to=defect_upload_path,
                                      max_length=254,
                                      blank=True, null=True)
@@ -515,6 +515,58 @@ class Checklist(models.Model):
                     score += getattr(self, field.name)
 
         return score
+
+    def risk(self):
+        chance_of_fire = 0.001
+
+        if self.boiler_provided:
+            chance_of_fire += 0.05
+
+        if self.boiler_container == 'Above Ground':
+            chance_of_fire += 0.01
+
+        if self.lpg_installation_with_permit:
+            chance_of_fire += 0.02
+
+        if self.fuel_with_storage_permit:
+            chance_of_fire += 0.02
+        else:
+            chance_of_fire += 0.1
+
+        if self.generator_set:
+            chance_of_fire += 0.02
+
+        if self.generator_fuel == 'Gasoline':
+            chance_of_fire += 0.03
+
+        if self.generator_fuel and not self.generator_fuel_storage_permit:
+            chance_of_fire += 0.01
+
+        if self.refuse_handling and (not self.refuse_handling_fire_protection or self.refuse_handling_fire_resistive):
+            chance_of_fire += 0.02
+
+        if self.electrical_hazard:
+            chance_of_fire += 0.05
+
+        if self.mechanical_hazard:
+            chance_of_fire += 0.02
+
+        if self.hazardous_material:
+            chance_of_fire += 0.05
+
+        if self.hazardous_material_stored:
+            chance_of_fire += 0.01
+
+        if self.hazardous_area == "Kitchen":
+            chance_of_fire += 0.03
+
+        if 0 < self.defects <= 100:
+            chance_of_fire += self.defects * 0.001
+
+        if self.defects > 100:
+            chance_of_fire += .12
+
+        return chance_of_fire
 
 
 ################################################################################
