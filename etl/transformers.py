@@ -19,23 +19,36 @@ class ChecklistTransformer:
     numeric_only: bool = True
     force_int: bool = True
 
+    building_features: Dict = None
+    checklist_features: Dict = None
+
     @property
     def X(self) -> List:
         return self._X()
 
-    def __init__(self, checklist: Checklist):
+    def __init__(self, checklist: Checklist, building_features: Dict = None, checklist_features: Dict = None):
         self.checklist = checklist
         self.building = checklist.building
         self.business = checklist.business
 
+        if building_features:
+            self.building_features = building_features
+        else:
+            self.building_features = self.building.analytics_features
+
+        if checklist_features:
+            self.checklist_features = checklist_features
+        else:
+            self.checklist_features = self.checklist.analytics_features
+
         self.independent = {
             **process_independents(
                 obj=self.building,
-                analytics_features=self.building.analytics_features,
+                analytics_features=self.building_features,
                 numeric_only=self.numeric_only, force_int=self.force_int),
             **process_independents(
                 obj=self.checklist,
-                analytics_features=self.checklist.analytics_features,
+                analytics_features=self.checklist_features,
                 numeric_only=self.numeric_only, force_int=self.force_int)
         }
 

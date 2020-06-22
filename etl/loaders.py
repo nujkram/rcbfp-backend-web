@@ -6,6 +6,7 @@ import pydotplus
 from django.conf import settings
 from django.utils import timezone
 import numpy as np
+import statsmodels.api as sm
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import export_text
 
@@ -16,6 +17,9 @@ from sklearn import tree
 
 
 def checklist_regr(*args, **kwargs):
+    """
+    https://www.statsmodels.org/stable/generated/statsmodels.regression.linear_model.RegressionResults.html
+    """
     dvar = kwargs.get('dvar', 'count')
 
     checklists = []
@@ -44,25 +48,28 @@ def checklist_regr(*args, **kwargs):
     data_feature_names = checklists[0].X_labels()
 
     split = int(floor(len(X) * .7))
-    train_X = X[:split]
-    train_Y = Y[:split]
-    test_X = X[split + 1:]
-    test_Y = Y[split + 1:]
+    train_X = np.array(X[:split])
+    train_Y = np.array(Y[:split])
+    test_X = np.array(X[split + 1:])
+    test_Y = np.array(Y[split + 1:])
 
-    classifier = LinearRegression()
-    model = classifier.fit(train_X, train_Y)
+    train_X = sm.add_constant(train_X)
 
-    prediction_y = model.predict(test_X)
+    model = sm.OLS(train_Y, train_X)
+
+    result = model.fit()
+
+    predicted_Y = result.predict(test_X)
 
     return {
-        'model': model,
-        'score': model.score(train_X, train_Y),
-        'intercept': model.intercept_,
-        'slope': model.coef_,
-        'prediction_slope': model.intercept_ + np.sum(model.coef_ * train_X, axis=1),
-        'prediction': prediction_y,
-        'test_X': test_X,
-        'test_Y': test_Y
+        'summary_html': result.summary().as_html(),
+        'summary': result.summary().as_text(),
+        'r2': result.rsquared,
+        'r2_adj': result.rsquared_adj,
+        'regression_coefficients': result.params,
+        'result': result,
+        'test_Y': test_Y,
+        'predicted_Y': predicted_Y
     }
 
 
@@ -121,7 +128,7 @@ def checklist_dtree(*args, **kwargs):
             dest = graph.get_node(str(edges[edge][i]))[0]
             dest.set_fillcolor(colors[i])
 
-    graph.write(f"{path}/{fname}")
+    graph.write_png(f"{path}/{fname}")
 
     return (
         f"{settings.MEDIA_URL}models/trees/{fname}",
