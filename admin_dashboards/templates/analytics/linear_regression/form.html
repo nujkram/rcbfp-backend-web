@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h4 class="card-title">{{ page_title }}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <fieldset>
+                            <legend>Independent Variables</legend>
+                            <div class="form-group">
+                                <label for="building_features">
+                                    Building Features (separate by spaces)
+                                </label>
+                                <textarea name="building_features" id="building_features" class="form-control" rows="4">
+{% for feature in building_features %}{{ feature }} {% endfor %}
+                            </textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="checklist_features">
+                                    Checklist Features (separate by spaces)
+                                </label>
+                                <textarea name="checklist_features" id="checklist_features" class="form-control"
+                                          rows="4">
+{% for feature in checklist_features %}{{ feature }} {% endfor %}
+                            </textarea>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Dependent Variable</legend>
+                            <div class="form-group">
+                                <label for="iv">Class</label>
+                                <select class="form-control" id="iv" name="iv">
+                                    {% for dv in dependent_variables %}
+                                        <option value="{{ dv }}">{{ dv }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <p>
+                            <button type="submit" class="btn btn-success">
+                                Submit
+                            </button>
+                        </p>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

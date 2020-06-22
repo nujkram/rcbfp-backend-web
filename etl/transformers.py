@@ -19,14 +19,14 @@ class ChecklistTransformer:
     numeric_only: bool = True
     force_int: bool = True
 
-    building_features: Dict = None
-    checklist_features: Dict = None
+    building_features: List = None
+    checklist_features: List = None
 
     @property
     def X(self) -> List:
         return self._X()
 
-    def __init__(self, checklist: Checklist, building_features: Dict = None, checklist_features: Dict = None):
+    def __init__(self, checklist: Checklist, building_features: List = None, checklist_features: List = None):
         self.checklist = checklist
         self.building = checklist.building
         self.business = checklist.business

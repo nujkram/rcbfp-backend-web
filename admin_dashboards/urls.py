@@ -155,3 +155,21 @@ urlpatterns += {
         name='admin_dashboard_map_incident_view'
     ),
 }
+
+# Analytics
+
+from .controllers.views.admin_dashboards.analytics.linear_regression import main as linear_regression_views
+from .controllers.views.admin_dashboards.analytics.dtree import main as dtree_views
+
+urlpatterns += {
+    path(
+        'analytics/linear_regression/run',
+        linear_regression_views.AdminDashboardAnalyticsLinearRegressionFormView.as_view(),
+        name='admin_dashboard_analytics_linear_regression_run_view'
+    ),
+    path(
+        'analytics/decision_tree/run',
+        dtree_views.AdminDashboardAnalyticsDecisionTreeFormView.as_view(),
+        name='admin_dashboard_analytics_decision_tree_run_view'
+    ),
+}

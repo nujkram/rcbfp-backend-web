@@ -21,11 +21,17 @@ def checklist_regr(*args, **kwargs):
     https://www.statsmodels.org/stable/generated/statsmodels.regression.linear_model.RegressionResults.html
     """
     dvar = kwargs.get('dvar', 'count')
+    building_features = kwargs.get('building_features', None)
+    checklist_features = kwargs.get('checklist_features', None)
 
     checklists = []
 
     for cl in Checklist.objects.all():
-        transformed = transformers.ChecklistTransformer(cl)
+        transformed = transformers.ChecklistTransformer(
+            checklist=cl,
+            building_features=building_features,
+            checklist_features=checklist_features
+        )
 
         # include avg_fire_rating
         transformed.independent['avg_fire_rating'] = transformed.building.avg_fire_rating()
@@ -59,7 +65,7 @@ def checklist_regr(*args, **kwargs):
 
     result = model.fit()
 
-    predicted_Y = result.predict(test_X)
+    # predicted_Y = result.predict(test_X)
 
     return {
         'summary_html': result.summary().as_html(),
@@ -69,17 +75,23 @@ def checklist_regr(*args, **kwargs):
         'regression_coefficients': result.params,
         'result': result,
         'test_Y': test_Y,
-        'predicted_Y': predicted_Y
+        # 'predicted_Y': predicted_Y
     }
 
 
 def checklist_dtree(*args, **kwargs):
-    dvar = kwargs.get('dvar', 'count')
+    dvar = kwargs.get('dvar', 'has_incident')
+    building_features = kwargs.get('building_features', None)
+    checklist_features = kwargs.get('checklist_features', None)
 
     checklists = []
 
     for cl in Checklist.objects.all():
-        transformed = transformers.ChecklistTransformer(cl)
+        transformed = transformers.ChecklistTransformer(
+            checklist=cl,
+            building_features=building_features,
+            checklist_features=checklist_features
+        )
 
         # include avg_fire_rating
         transformed.independent['avg_fire_rating'] = transformed.building.avg_fire_rating()
@@ -94,7 +106,7 @@ def checklist_dtree(*args, **kwargs):
 
     X = [ct.X for ct in checklists]
 
-    if dvar == 'count':
+    if dvar == 'has_incident':
         Y = [ct.dependent['incident_count'] > 0 for ct in checklists]
     else:
         Y = [ct.dependent[dvar] for ct in checklists]
@@ -130,7 +142,7 @@ def checklist_dtree(*args, **kwargs):
 
     graph.write_png(f"{path}/{fname}")
 
-    return (
-        f"{settings.MEDIA_URL}models/trees/{fname}",
-        export_text(model, feature_names=list(data_feature_names))
-    )
+    return {
+        "image": f"{settings.MEDIA_URL}models/trees/{fname}",
+        "text": export_text(model, feature_names=list(data_feature_names))
+    }
