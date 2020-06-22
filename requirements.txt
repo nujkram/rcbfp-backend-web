@@ -1,8 +1,8 @@
-Django==2.2.13
+Django~=2.2.3
 Cython
 amqp
 aniso8601
-arrow
+arrow~=0.15.5
 asgiref
 async-timeout
 atomicwrites
@@ -20,7 +20,7 @@ constantly
 coverage
 daphne
 decorator
-django-autofixture
+django-autofixture~=0.12.1
 django-cors-headers
 django-crispy-forms
 django-debug-toolbar
@@ -29,9 +29,9 @@ django-filter
 django-mathfilters
 django-phonenumber-field
 django-split-settings
-djangorestframework
+djangorestframework~=3.11.0
 factory-boy
-Faker
+Faker~=4.0.1
 gunicorn
 hyperlink
 idna
@@ -59,7 +59,7 @@ Pycco
 Pygments
 PyHamcrest
 pystache
-pytest
+pytest~=5.3.5
 python-dateutil
 pytz
 singledispatch
@@ -71,8 +71,12 @@ tex
 traitlets
 Twisted
 txaio
-uuid
+uuid~=1.30
 vine
 wcwidth
 Werkzeug
 zope.interface
+
+pydotplus~=2.0.2
+sklearn~=0.0
+scikit-learn~=0.23.1
