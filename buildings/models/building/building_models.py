@@ -88,6 +88,7 @@ class Building(models.Model):
     main_door = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
     trusses = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
     roof = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Fire Rating: 0 to 5")
+    entry_road_width = models.PositiveSmallIntegerField(blank=True, null=True, help_text="Width in meters")
 
     # === State ===
     status = models.PositiveSmallIntegerField(choices=BUILDING_STATUS_CHOICES, blank=False, null=False, default=1)

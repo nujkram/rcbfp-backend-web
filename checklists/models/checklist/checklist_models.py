@@ -534,6 +534,15 @@ class Checklist(models.Model):
 
         return score
 
+    def get_score(self):
+        """
+        factors
+        - kitid nga dalan
+        - checklist
+        """
+        score = self.count_score()
+        # if score < 60%, lagbong
+
     def risk(self):
         chance_of_fire = 0.001
 
