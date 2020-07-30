@@ -8,7 +8,7 @@
   -->
     <div class="logo">
         <a href="{% url 'admin_dashboard_home_view' %}" class="simple-text logo-normal">
-            {{ page_title }}
+            Dashboard
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" role="botton" data-toggle="collapse" href="#navMaps" aria-expanded="false"
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navMaps" aria-expanded="false"
                    aria-controls="navMaps">
                     <i class="material-icons">map</i>
                     <p>Maps <b class="caret"></b></p>
@@ -41,13 +41,13 @@
                     <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_dashboard_map_building_view' %}">
-                                <i class="material-icons">map</i>
+                                <i class="material-icons">store_mall_directory</i>
                                 <p>Buildings</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_dashboard_map_incident_view' %}">
-                                <i class="material-icons">map</i>
+                                <i class="material-icons">warning</i>
                                 <p>Incidents</p>
                             </a>
                         </li>
@@ -59,6 +59,29 @@
                     <i class="material-icons">fireplace</i>
                     <p>Incidents</p>
                 </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navAnalytics" aria-expanded="false"
+                   aria-controls="navMaps">
+                    <i class="material-icons">analytics</i>
+                    <p>Analytics <b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="navAnalytics">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics_decision_tree_run_view' %}">
+                                <i class="material-icons">account_tree</i>
+                                <p>Decision Tree</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics_linear_regression_run_view' %}">
+                                <i class="material-icons">notes</i>
+                                <p>Regression Test</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>
