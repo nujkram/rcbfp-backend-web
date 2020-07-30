@@ -541,7 +541,13 @@ class Checklist(models.Model):
         - checklist
         """
         score = self.count_score()
-        # if score < 60%, lagbong
+
+        return score
+
+    def fire_rating(self):
+        score_percentage = self.get_score() / 129 * 100
+
+        return score_percentage
 
     def risk(self):
         chance_of_fire = 0.001

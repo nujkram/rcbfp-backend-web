@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -8,8 +9,7 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
-from buildings.models.building.building_models import Building as Master
-from admin_dashboards.controllers.views.admin_dashboards.building.forms import BuildingForm as MasterForm
+from buildings.models.building.building_models import Building
 
 """
 URLS
@@ -48,7 +48,7 @@ class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Master.objects.actives()
+        obj = Building.objects.actives()
 
         context = {
             "page_title": f"Building Map",
@@ -77,10 +77,11 @@ class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Master.objects.actives()
+        obj = Building.objects.filter(active=True).values('name', 'latitude', 'longitude').annotate(
+            count=Count('incident_building'))
 
         context = {
-            "page_title": f"Building Map",
+            "page_title": f"Incident Heat Map",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",

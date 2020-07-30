@@ -65,7 +65,7 @@ class AdminDashboardBusinessListView(LoginRequiredMixin, IsAdminViewMixin, View)
 
     def get(self, request, *args, **kwargs):
         obj_list = Master.objects.actives()
-        paginator = Paginator(obj_list, 50)
+        paginator = Paginator(obj_list, 200)
         page = request.GET.get('page')
         objs = paginator.get_page(page)
 

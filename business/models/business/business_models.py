@@ -111,6 +111,13 @@ class Business(models.Model):
     ################################################################################
     # === Model-specific methods ===
     ################################################################################
+    def get_full_name(self):
+        if self.owner_first_name != '' and self.owner_last_name != '':
+            return '{}, {}'.format(
+                self.owner_last_name, self.owner_first_name
+            )
+        else:
+            return 'Unnamed'
 
     ################################################################################
     # === Properties ===

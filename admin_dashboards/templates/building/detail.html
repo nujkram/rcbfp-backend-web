@@ -6,47 +6,151 @@
 {% endblock %}
 
 {% block page_wrapper_contents %}
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header card-header-text card-header-primary">
-                <div class="card-text">
-                    <h6 class="card-title">{{ page_title }}</h6>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">info</i>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
+                                    <p class="text-muted">Address: {{ obj.address }}</p>
+                                    <p class="text-muted">City: {{ obj.city }}</p>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
-                                <p class="text-muted">slug: {{ obj.slug }}</p>
-                                <p class="text-muted">City: {{ obj.city }}</code></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        {% if obj.active %}
+                                            <strong class="text-primary">Active</strong>
+                                        {% else %}
+                                            <strong class="text-secondary">Inactive</strong>
+                                        {% endif %}
+                                    </h5>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">settings</i>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs card-plain">
+                                <div class="card-header card-header-primary">
+                                    <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#location" data-toggle="tab">
+                                                        <i class="material-icons">map</i>
+                                                        Location
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#details" data-toggle="tab">
+                                                        <i class="material-icons">article</i>
+                                                        Details
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#businesses" data-toggle="tab">
+                                                        <i class="material-icons">business</i>
+                                                        Businesses ({{ obj.building_business.all.count }})
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                    {% if obj.is_active %}
-                                    <strong class="text-primary">Active</strong>
-                                    {% else %}
-                                    <strong class="text-secondary">Inactive</strong>
-                                    {% endif %}
-                                </h5>
-                                <p class="text-muted">Date created: {{ obj.created }}</p>
-                                <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                <div class="card-body ">
+                                    <div class="tab-content text-left">
+                                        <div class="tab-pane active" id="location">
+                                            <div id="mapid"></div>
+                                        </div>
+                                        <div class="tab-pane" id="details">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p class="text-muted">Date
+                                                        Constructed: {{ obj.date_of_construction }}</p>
+                                                    <p class="text-muted">Number of
+                                                        floor(s): {{ obj.number_of_floors }}</p>
+                                                    <p class="text-muted">Floor Area: {{ obj.floor_area }}</p>
+                                                    <p class="text-muted">Beams: {{ obj.beams }}</p>
+                                                    <p class="text-muted">Flooring: {{ obj.flooring }}</p>
+                                                    <p class="text-muted">Exterior Walls: {{ obj.exterior_walls }}</p>
+                                                    <p class="text-muted">Window: {{ obj.window }}</p>
+                                                    <p class="text-muted">Main Door: {{ obj.main_door }}</p>
+                                                    <p class="text-muted">Roof: {{ obj.roof }}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p class="text-muted">Room Partitions: {{ obj.room_partitions }}</p>
+                                                    <p class="text-muted">Height: {{ obj.height }}</p>
+                                                    <p class="text-muted">Total Floor
+                                                        Area: {{ obj.total_floor_area }}</p>
+                                                    <p class="text-muted">Columns: {{ obj.columns }}</p>
+                                                    <p class="text-muted">Trusses: {{ obj.trusses }}</p>
+                                                    <p class="text-muted">Corridor Walls: {{ obj.corridor_walls }}</p>
+                                                    <p class="text-muted">Ceiling: {{ obj.ceiling }}</p>
+                                                    <p class="text-muted">Main Stair: {{ obj.main_stair }}</p>
+                                                    <p class="text-muted">Road Entry
+                                                        Width: {{ obj.entry_road_width }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="businesses">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Nature</th>
+                                                        <th>Owner</th>
+                                                        <th>Landline</th>
+                                                        <th>Email</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbdoy>
+                                                        {% for b in obj.building_business.all %}
+                                                            <tr>
+                                                                <td>{{ b.name }}</td>
+                                                                <td>{{ b.nature }}</td>
+                                                                <td>{{ b.get_full_name }}</td>
+                                                                <td>{{ b.landline }}</td>
+                                                                <td>{{ b.email }}</td>
+                                                                <td>
+                                                                    <a href="{% url 'admin_dashboard_business_detail' b.id %}"
+                                                                       class="text-primary">
+                                                                        View
+                                                                    </a></td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbdoy>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,29 +158,30 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title p-0">{{ page_title }}</h6>
-            </div>
-            <div class="card-body">
-                <a class="btn btn-warning m-1"
-                   href="{% url 'admin_dashboard_building_update' obj.id %}">
-                    <i class="material-icons">edit</i>
-                </a>
-                <a class="btn btn-danger"
-                   href="{% url 'admin_dashboard_building_delete' obj.id %}">
-                    <i class="material-icons">delete</i>
-                </a>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title p-0">{{ page_title }}</h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-warning m-1"
+                       href="{% url 'admin_dashboard_building_update' obj.id %}">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a class="btn btn-danger"
+                       href="{% url 'admin_dashboard_building_delete' obj.id %}">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    {% include 'map/building_location.js.html' %}
 {% endblock %}
