@@ -45,9 +45,10 @@ class AdminDashboardAnalyticsDecisionTreeFormView(LoginRequiredMixin, IsAdminVie
             if cf:
                 checklist_features.append(cf)
 
+        checklists = Checklist.objects.all()
         iv = request.POST['iv']
 
-        result = checklist_dtree(dvar=iv, building_features=building_features, checklist_features=checklist_features)
+        result = checklist_dtree(dvar=iv, building_features=building_features, checklist_features=checklist_features, checklists=checklists)
 
         context = {
             "page_title": f"Decision Tree Result",

@@ -14,6 +14,7 @@ from django.apps import apps
 from django.dispatch import receiver
 from django_extensions.db import fields as extension_fields
 from django.db.models.signals import post_save, pre_save
+from sklearn.tree import _tree
 
 # Model manager
 from buildings.constants import BUILDING_STATUS_CHOICES
@@ -196,6 +197,9 @@ class Building(models.Model):
         if age > 365:
             chance = (age / 365) * .005
         return chance
+
+    def tree_to_code(self, tree, feature_name, transformed):
+        pass
 
 
 ################################################################################
