@@ -564,40 +564,40 @@ class Checklist(models.Model):
         if self.fuel_with_storage_permit:
             chance_of_fire += 0.02
         else:
-            chance_of_fire += 0.1
+            chance_of_fire += 0.2
 
         if self.generator_set:
             chance_of_fire += 0.02
 
         if self.generator_fuel == 'Gasoline':
-            chance_of_fire += 0.03
+            chance_of_fire += 0.3
 
         if self.generator_fuel and not self.generator_fuel_storage_permit:
-            chance_of_fire += 0.01
+            chance_of_fire += 0.1
 
         if self.refuse_handling and (not self.refuse_handling_fire_protection or self.refuse_handling_fire_resistive):
             chance_of_fire += 0.02
 
         if self.electrical_hazard:
-            chance_of_fire += 0.05
+            chance_of_fire += 0.2
 
         if self.mechanical_hazard:
-            chance_of_fire += 0.02
+            chance_of_fire += 0.1
 
         if self.hazardous_material:
-            chance_of_fire += 0.05
+            chance_of_fire += 0.15
 
         if self.hazardous_material_stored:
             chance_of_fire += 0.01
 
         if self.hazardous_area == "Kitchen":
-            chance_of_fire += 0.03
+            chance_of_fire += 0.1
 
         if 0 < self.defects <= 100:
-            chance_of_fire += self.defects * 0.001
+            chance_of_fire += self.defects * 0.01
 
         if self.defects > 100:
-            chance_of_fire += .12
+            chance_of_fire += .22
 
         return chance_of_fire
 
