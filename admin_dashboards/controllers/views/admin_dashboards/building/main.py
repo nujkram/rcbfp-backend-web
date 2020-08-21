@@ -66,7 +66,7 @@ class AdminDashboardBuildingListView(LoginRequiredMixin, IsAdminViewMixin, View)
 
     def get(self, request, *args, **kwargs):
         obj_list = Master.objects.actives()
-        paginator = Paginator(obj_list, 50)
+        paginator = Paginator(obj_list, 500)
         page = request.GET.get('page')
         objs = paginator.get_page(page)
 
@@ -101,9 +101,12 @@ class AdminDashboardBuildingCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         form = MasterForm
+        default_region = Region.objects.get(pk=6)  # Region VI
+        default_province = Province.objects.get(pk=22)  # Capiz
+        default_city = City.objects.get(pk=381) # Roxas City
         regions = Region.objects.all()
         provinces = Province.objects.all()
-        cities = City.objects.all()
+        cities = City.objects.filter(province=default_province)
 
         if 'building_formdata' in request.session:
             building_formdata = request.session['building_formdata']
@@ -144,9 +147,12 @@ class AdminDashboardBuildingCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "menu_action": "create",
             "building_formdata": building_formdata,
             "form": form,
-            'regions': regions,
-            'provinces': provinces,
-            'cities': cities,
+            "regions": regions,
+            "provinces": provinces,
+            "cities": cities,
+            "default_region": default_region,
+            "default_province": default_province,
+            "default_city": default_city,
         }
 
         return render(request, "building/form.html", context)
@@ -239,8 +245,10 @@ class AdminDashboardBuildingCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
             if building:
                 messages.success(request, 'Building created!', extra_tags='success')
+                return HttpResponseRedirect(reverse('admin_dashboard_building_detail', kwargs={'pk': building.pk}))
             else:
                 messages.error(request, building_message, extra_tags='danger')
+                request.session['building_formdata'] = building_formdata
         else:
             messages.error(request, form.errors, extra_tags='danger')
             request.session['building_formdata'] = building_formdata

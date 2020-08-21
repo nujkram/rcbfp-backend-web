@@ -191,7 +191,7 @@
                                         <option value="">Select Region</option>
                                         {% for region in regions %}
                                             <option value="{{ region.pk }}"
-                                                    {% if application_formdata.region == region.pk %}selected{% endif %}>{{ region.name }}</option>
+                                                    {% if application_formdata.region == region.pk or default_region == region %}selected{% endif %}>{{ region.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -200,6 +200,10 @@
                                 <div class="form-group">
                                     <select id="id_province" name="province" class="form-control" required>
                                         <option value="">Select Province</option>
+                                         {% for province in provinces %}
+                                            <option value="{{ province.pk }}"
+                                                    {% if application_formdata.province == province.pk or default_province == province %}selected{% endif %}>{{ province.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -207,6 +211,10 @@
                                 <div class="form-group">
                                     <select id="id_city" name="city" class="form-control" required>
                                         <option value="">Select City</option>
+                                        {% for city in cities %}
+                                            <option value="{{ city.pk }}"
+                                                    {% if application_formdata.city == city.pk or default_city == city %}selected{% endif %}>{{ city.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -217,7 +225,10 @@
             </div>
         </div>
     </div>
-{% endblock %} {% block footer_js %} {% endblock %} {% block scripts %}
+{% endblock %}
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     {% include 'map/building.js.html' %}
     <script type="text/javascript">
