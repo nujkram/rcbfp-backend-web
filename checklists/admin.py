@@ -7,6 +7,6 @@ class ChecklistAdmin(admin.ModelAdmin):
     list_display = ('building', 'business', 'active', )
     search_fields = ('building', 'business',)
     list_filter = ('active',)
-
+    ordering = ('-created',)
 
 admin.site.register(Checklist, ChecklistAdmin)
