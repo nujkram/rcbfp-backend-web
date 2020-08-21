@@ -10,7 +10,7 @@ from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
 from buildings.models.building.building_models import Building as Master
 from admin_dashboards.controllers.views.admin_dashboards.building.forms import BuildingForm as MasterForm
-
+from locations.models import Region, Province, City
 
 """
 URLS
@@ -46,6 +46,7 @@ urlpatterns += {
     )
 }
 """
+
 
 class AdminDashboardBuildingListView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
@@ -100,12 +101,52 @@ class AdminDashboardBuildingCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         form = MasterForm
+        regions = Region.objects.all()
+        provinces = Province.objects.all()
+        cities = City.objects.all()
+
+        if 'building_formdata' in request.session:
+            building_formdata = request.session['building_formdata']
+            del request.session['building_formdata']
+        else:
+            building_formdata = {
+                'name': '',
+                'address': '',
+                'latitude': '',
+                'longitude': '',
+                'date_of_construction': '',
+                'floor_number': '',
+                'height': '',
+                'floor_area': '',
+                'total_floor_area': '',
+                'beams': '',
+                'columns': '',
+                'flooring': '',
+                'exterior_walls': '',
+                'corridor_walls': '',
+                'room_partitions': '',
+                'main_stair': '',
+                'window': '',
+                'ceiling': '',
+                'main_door': '',
+                'trusses': '',
+                'roof': '',
+                'entry_road_width': '',
+                'region': '',
+                'province': '',
+                'city': '',
+            }
+
         context = {
             "page_title": "Create new Building",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "create",
-            "form": form
+            "building_formdata": building_formdata,
+            "form": form,
+            'regions': regions,
+            'provinces': provinces,
+            'cities': cities,
         }
 
         return render(request, "building/form.html", context)
@@ -113,39 +154,98 @@ class AdminDashboardBuildingCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
     def post(self, request, *args, **kwargs):
         form = MasterForm(data=request.POST)
 
+        building_formdata = {
+            'name': request.POST.get('name', ''),
+            'address': request.POST.get('address', ''),
+            'latitude': request.POST.get('latitude', ''),
+            'longitude': request.POST.get('longitude', ''),
+            'date_of_construction': request.POST.get('date_of_construction', ''),
+            'floor_number': request.POST.get('floor_number', ''),
+            'height': request.POST.get('height', ''),
+            'floor_area': request.POST.get('floor_area', ''),
+            'total_floor_area': request.POST.get('total_floor_area', ''),
+            'beams': request.POST.get('beams', ''),
+            'columns': request.POST.get('columns', ''),
+            'flooring': request.POST.get('flooring', ''),
+            'exterior_walls': request.POST.get('exterior_walls', ''),
+            'corridor_walls': request.POST.get('corridor_walls', ''),
+            'room_partitions': request.POST.get('room_partitions', ''),
+            'main_stair': request.POST.get('main_stair', ''),
+            'window': request.POST.get('window', ''),
+            'ceiling': request.POST.get('ceiling', ''),
+            'main_door': request.POST.get('main_door', ''),
+            'trusses': request.POST.get('trusses', ''),
+            'roof': request.POST.get('roof', ''),
+            'entry_road_width': request.POST.get('entry_road_width', ''),
+            'region': request.POST.get('region', ''),
+            'province': request.POST.get('province', ''),
+            'city': request.POST.get('city', ''),
+        }
+
         if form.is_valid():
-            data = form.save(commit=False)
-            data.created_by = request.user
-            data.save()
-            messages.success(
-                request,
-                f'{data} saved!',
-                extra_tags='success'
+            name = form.cleaned_data['name']
+            address = form.cleaned_data['address']
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+            date_of_construction = form.cleaned_data['date_of_construction']
+            floor_number = form.cleaned_data['floor_number']
+            height = form.cleaned_data['height']
+            floor_area = form.cleaned_data['floor_area']
+            total_floor_area = form.cleaned_data['total_floor_area']
+            beams = form.cleaned_data['beams']
+            columns = form.cleaned_data['columns']
+            flooring = form.cleaned_data['flooring']
+            exterior_walls = form.cleaned_data['exterior_walls']
+            corridor_walls = form.cleaned_data['corridor_walls']
+            room_partitions = form.cleaned_data['room_partitions']
+            main_stair = form.cleaned_data['main_stair']
+            window = form.cleaned_data['window']
+            ceiling = form.cleaned_data['ceiling']
+            main_door = form.cleaned_data['main_door']
+            trusses = form.cleaned_data['trusses']
+            roof = form.cleaned_data['roof']
+            entry_road_width = form.cleaned_data['entry_road_width']
+            region = form.cleaned_data['region']
+            province = form.cleaned_data['province']
+            city = form.cleaned_data['city']
+
+            building, building_message = Master.objects.create(
+                name=name,
+                address=address,
+                latitude=latitude,
+                longitude=longitude,
+                date_of_construction=date_of_construction,
+                floor_number=floor_number,
+                height=height,
+                floor_area=floor_area,
+                total_floor_area=total_floor_area,
+                beams=beams,
+                columns=columns,
+                flooring=flooring,
+                exterior_walls=exterior_walls,
+                corridor_walls=corridor_walls,
+                room_partitions=room_partitions,
+                main_stair=main_stair,
+                window=window,
+                ceiling=ceiling,
+                main_door=main_door,
+                trusses=trusses,
+                roof=roof,
+                entry_road_width=entry_road_width,
+                region=region,
+                province=province,
+                city=city
             )
 
-            return HttpResponseRedirect(
-                reverse(
-                    'admin_dashboard_building_detail',
-                    kwargs={
-                        'pk': data.pk
-                    }
-                )
-            )
+            if building:
+                messages.success(request, 'Building created!', extra_tags='success')
+            else:
+                messages.error(request, building_message, extra_tags='danger')
         else:
-            context = {
-                "page_title": "Create new Building",
-                "menu_section": "admin_dashboards",
-                "menu_subsection": "admin_dashboards",
-                "menu_action": "create",
-                "form": form
-            }
+            messages.error(request, form.errors, extra_tags='danger')
+            request.session['building_formdata'] = building_formdata
 
-            messages.error(
-                request,
-                'There were errors processing your request:',
-                extra_tags='danger'
-            )
-            return render(request, "building/form.html", context)
+        return HttpResponseRedirect(reverse('admin_dashboard_building_create'))
 
 
 class AdminDashboardBuildingDetailView(LoginRequiredMixin, IsAdminViewMixin, View):
@@ -164,7 +264,7 @@ class AdminDashboardBuildingDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
     """
 
     def get(self, request, *args, **kwargs):
-        obj = get_object_or_404(Master, pk= kwargs.get('pk', None))
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         context = {
             "page_title": f"Building: {obj}",
             "menu_section": "admin_dashboards",
@@ -193,7 +293,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
     """
 
     def get(self, request, *args, **kwargs):
-        obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         form = MasterForm(instance=obj)
 
         context = {
@@ -208,7 +308,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
         return render(request, "building/form.html", context)
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         form = MasterForm(instance=obj, data=request.POST)
 
         if form.is_valid():
@@ -262,7 +362,7 @@ class AdminDashboardBuildingDeleteView(LoginRequiredMixin, IsAdminViewMixin, Vie
     """
 
     def get(self, request, *args, **kwargs):
-        obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         context = {
             "page_title": f"Delete Building: {obj}",
             "menu_section": "admin_dashboards",
@@ -274,7 +374,7 @@ class AdminDashboardBuildingDeleteView(LoginRequiredMixin, IsAdminViewMixin, Vie
         return render(request, "building/delete.html", context)
 
     def post(self, request, *args, **kwargs):
-        obj = get_object_or_404(Master, pk = kwargs.get('pk', None))
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
 
         messages.success(
             request,

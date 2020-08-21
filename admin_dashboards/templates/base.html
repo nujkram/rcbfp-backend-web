@@ -7,29 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ page_title }}</title>
     <link rel="shortcut icon" href="{% static 'webadmin/images/favicon.png' %}"/>
+
+
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet"/>
 
     <!-- CSS Files -->
     <link href="{% static 'webadmin/css/material-dashboard.css' %}" rel="stylesheet"/>
-
-    <!-- Moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"
-            integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="{% static 'webadmin/css/style.css' %}">
 
     <!-- Tempus Dominus Bootstrap 4 -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"/>
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
-    <style>
-        #mapid {
-            height: 500px;
-        }
-    </style>
-    {% block header_css %} {% endblock %}
+    <link rel="stylesheet" href="{% static 'webadmin/css/datetimepicker/bootstrap-material-datetimepicker.css' %}">
+
+    {% block header_css %}
+        <style>
+            #mapid {
+                height: 500px;
+            }
+        </style>
+    {% endblock %}
     {% block header_js %} {% endblock %}
 
 </head>
@@ -37,40 +39,43 @@
 <!-- body wrapper -->
 <div class="wrapper">
     {% block sidebar %}
-    {% include 'common/sidebar.html' %}
+        {% include 'common/sidebar.html' %}
     {% endblock %}
     <div class="main-panel">
         {% block navbar %}
-        {% include 'common/navbar.html' %}
+            {% include 'common/navbar.html' %}
         {% endblock %}
         {% block page_wrapper %}
-        <div class="content">
-            <div class="wrapper">
-                {% if messages %}
-                <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
-                    {% for message in messages %}
-                    <div class="text-{% if message.tags %}{{ message.tags }}{% endif %}">
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}ERROR: {% endif %}
-                        {{ message }}
+            <div class="content">
+                <div class="wrapper">
+                    {% if messages %}
+                        <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-12">
+                            {% for message in messages %}
+                                <div class="text-{% if message.tags %}{{ message.tags }}{% endif %}">
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}ERROR: {% endif %}
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="container">
+                        {% block page_wrapper_contents %}
+                        {% endblock %}
                     </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <div class="container">
-                    {% block page_wrapper_contents %}
+                    {% block footer %}
+                        {% include 'common/footer.html' %}
                     {% endblock %}
                 </div>
-                {% block footer %}
-                {% include 'common/footer.html' %}
-                {% endblock %}
             </div>
-        </div>
 
         {% endblock %}
 
     </div>
 </div>
 <!-- /body wrapper -->
+<!-- Moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js"
+        integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
 
 <!--   Core JS Files   -->
 <script src="{% static 'webadmin/js/core/jquery.min.js' %}"></script>
@@ -93,14 +98,27 @@
 <!-- Tempus Dominus Bootstrap 4 -->
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<script type="text/javascript"
+        src="{% static 'webadmin/js/datetimepicker/bootstrap-material-datetimepicker.js' %}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datatable').DataTable({
             dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
+            buttons: [],
             pageLength: 15,
+        });
+
+        $('#id_date').bootstrapMaterialDatePicker({
+            time: false,
+            clearButton: true,
+            format: 'YYYY-MM-DD'
+        });
+
+        $('#id_date_of_construction').bootstrapMaterialDatePicker({
+            time: false,
+            clearButton: true,
+            format: 'YYYY-MM-DD'
         });
     });
 </script>
