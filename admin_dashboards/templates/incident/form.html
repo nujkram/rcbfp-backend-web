@@ -1,8 +1,14 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block header_css %}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+    <style>
+        #mapid {
+            height: 180px;
+            margin-bottom: 10px;
+        }
+    </style>
 {% endblock %}
 {% block header_js %}
 {% endblock %}
@@ -17,15 +23,195 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    {% if messages %} {% for m in messages %}
+                        <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+                    {% endfor %} {% endif %}
+                    <form method="post" action="{% url 'admin_dashboard_incident_create' %}"
+                          enctype="multipart/form-data">
                         {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="mapid"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="input-group-sm">
+                                    <input id="id_lat" name="latitude" placeholder="latitude" class="form-control sif"
+                                           type="text" required readonly/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="input-group-sm">
+                                    <input id="id_lng" name="longitude" placeholder="longitude" class="form-control sif"
+                                           type="text" required readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_first_name">First Name</label>
+                                    <input id="id_first_name" name="first_name" type="text" placeholder="First Name"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_middle_name">Middle Name</label>
+                                    <input id="id_middle_name" name="middle_name" type="text" placeholder="Middle Name"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_last_name">Last Name</label>
+                                    <input id="id_last_name" name="last_name" type="text" placeholder="Last Name"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_phone">Phone</label>
+                                    <input id="id_phone" name="phone" type="text" placeholder="Phone Number"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_image">Image</label>
+                                    <input id="id_image" name="image" type="file" placeholder="Insert supportive image"
+                                           class="form-control-file" accept=".jpg, jpeg, .png"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_incident_type" name="incident_type" class="form-control" required>
+                                        <option value="">Select Incident</option>
+                                        {% for incident_type in incident_type_choices %}
+                                            <option value="{{ incident_type.0 }}"
+                                                    {% if application_formdata.incident_type == incident_type %}selected{% endif %}>{{ incident_type.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_property_damage">Property Damage</label>
+                                    <input id="id_property_damage" name="property_damage" type="number"
+                                           placeholder="Value of property damage in tens of thousands of pesos"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_casualties">Casualties</label>
+                                    <input id="id_casualties" name="casualties" type="number"
+                                           placeholder="Number of casualties" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_major_injuries">Major Injuries</label>
+                                    <input id="id_major_injuries" name="major_injuries" type="number"
+                                           placeholder="Number of major injuries" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_minor_injuries">Minor Injuries</label>
+                                    <input id="id_minor_injuries" name="minor_injuries" type="number"
+                                           placeholder="Number of minor injuries" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_intensity">Intensity</label>
+                                    <input id="id_intensity" name="intensity" type="number"
+                                           placeholder="Number of minor injuries" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_severity">Severity</label>
+                                    <input id="id_severity" name="severity" type="number"
+                                           placeholder="Number of severity" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_duration">Duration</label>
+                                    <input id="id_duration" name="duration" type="number"
+                                           placeholder="Duration in minutes" class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_building" name="building" class="form-control">
+                                        <option value="">Select Building Involved</option>
+                                        {% for building in buildings %}
+                                            <option value="{{ building.pk }}"
+                                                    {% if application_formdata.building == building.pk %}selected{% endif %}>{{ building.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_business" name="business" class="form-control">
+                                        <option value="">Select Business Involved</option>
+                                        {% for business in businesses %}
+                                            <option value="{{ business.pk }}"
+                                                    {% if application_formdata.business == business.pk %}selected{% endif %}>{{ business.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_address">Address</label>
+                                    <input id="id_address" name="address" type="text" placeholder="Incident address"
+                                           class="form-control sif" onchange="" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_region" name="region" class="form-control" required>
+                                        <option value="">Select Region</option>
+                                        {% for region in regions %}
+                                            <option value="{{ region.pk }}"
+                                                    {% if application_formdata.region == region.pk or default_region == region %}selected{% endif %}>{{ region.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_province" name="province" class="form-control" required>
+                                        <option value="">Select Province</option>
+                                        {% for province in provinces %}
+                                            <option value="{{ province.pk }}"
+                                                    {% if application_formdata.province == province.pk or default_province == province %}selected{% endif %}>{{ province.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_city" name="city" class="form-control" required>
+                                        <option value="">Select City</option>
+                                        {% for city in cities %}
+                                            <option value="{{ city.pk }}"
+                                                    {% if application_formdata.city == city.pk or default_city == city %}selected{% endif %}>{{ city.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-                        {{ form|crispy }}
-                        <p>
-                            <button type="submit" class="btn btn-success">
-                                Submit
-                            </button>
-                        </p>
+                        <button type="submit" class="btn btn-success">
+                            Submit
+                        </button>
                     </form>
                 </div>
 
@@ -38,4 +224,51 @@
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    {% include 'map/building.js.html' %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function upload_img(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#id_preview').attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $("#id_region").on("change", function (e) {
+                var region_id = $(this).val();
+                var url = "{% url 'provinces_by_region' %}?id=" + region_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, p) {
+                        opts = opts + "<option value='" + p.pk + "'>" + p.name + "</option>";
+                    });
+
+                    $("#id_province").empty().append(opts);
+                });
+            });
+
+            $("#id_province").on("change", function (e) {
+                var province_id = $(this).val();
+                url = "{% url 'cities_by_province' %}?id=" + province_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, c) {
+                        opts = opts + "<option value='" + c.pk + "'>" + c.name + "</option>";
+                    });
+
+                    $("#id_city").empty().append(opts);
+                });
+            });
+        });
+    </script>
 {% endblock %}

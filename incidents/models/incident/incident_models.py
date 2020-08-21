@@ -78,7 +78,7 @@ class Incident(models.Model):
     address = models.CharField(max_length=1024)
     image = models.ImageField(upload_to=photo_upload_path, max_length=512, blank=True, null=True)
     incident_type = models.CharField(choices=INCIDENT_TYPE_CHOICES, max_length=50, blank=False, null=False)
-    property_damage = models.FloatField(help_text="Value of property damage in tens of thousands of pesos", default=1, blank=True, null=True)
+    property_damage = models.DecimalField(help_text="Value of property damage in tens of thousands of pesos", default=1, decimal_places=2, max_digits=12, blank=True, null=True)
     casualties = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
     major_injuries = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
     minor_injuries = models.PositiveSmallIntegerField(default=0, blank=True, null=True)
@@ -176,7 +176,7 @@ class Incident(models.Model):
     # === Builtin methods ===
     ################################################################################
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.building} - {self.created.date()}'
 
     ################################################################################
     # === Model overrides ===
