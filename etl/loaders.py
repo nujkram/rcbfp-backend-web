@@ -257,5 +257,5 @@ def tree_to_code(decision_tree, *, feature_names, max_depth=10, spacing=4, decim
                                                             trunc_report)
 
     print_tree_recurse(0, 1)
-    export_text.report += f"\n{spacing}return result"
+    export_text.report += f"\n{' ' * spacing} return result"
     return export_text.report
