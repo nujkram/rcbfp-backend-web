@@ -77,7 +77,7 @@ class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Building.objects.filter(active=True).values('name', 'latitude', 'longitude').annotate(
+        obj = Building.objects.all().values('name', 'latitude', 'longitude').annotate(
             count=Count('incident_building'))
 
         context = {
@@ -89,3 +89,32 @@ class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
         }
 
         return render(request, "map/incidents.html", context)
+
+
+class AdminDashboardMapFireProneAreaView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    View for Map Fire Prone Areas.
+
+    Allowed HTTP verbs:
+        - GET
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        None
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = Building.objects.all()
+
+        context = {
+            "page_title": f"Fire Prone Areas",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "detail",
+            "objects": obj,
+        }
+
+        return render(request, "map/fire_prone_area.html", context)

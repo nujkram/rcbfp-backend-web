@@ -154,6 +154,11 @@ urlpatterns += {
         map_views.AdminDashboardMapIncidentView.as_view(),
         name='admin_dashboard_map_incident_view'
     ),
+    path(
+        'map/fire-prone',
+        map_views.AdminDashboardMapFireProneAreaView.as_view(),
+        name='admin_dashboard_map_fire_prone_area_view'
+    ),
 }
 
 # Analytics
