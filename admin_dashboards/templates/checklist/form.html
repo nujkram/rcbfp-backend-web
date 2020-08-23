@@ -84,6 +84,20 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
+                                                            <label for="id_building">Building</label>
+                                                            <input id="id_building" name="building" type="text" value="{{ business.building }}"
+                                                                   class="form-control sif" readonly/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_business">Business</label>
+                                                            <input id="id_business" name="business" type="text" value="{{ business }}"
+                                                                   class="form-control sif" readonly/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
                                                             <label for="id_first_name">First Name</label>
                                                             <input id="id_first_name" name="first_name" type="text"
                                                                    class="form-control sif" required/>
@@ -1870,9 +1884,47 @@
                                             <div class="tab-pane" id="fire_tools">
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fire_hose_cabinet"
+                                                                       value="">
+                                                                Fire Hose Cabinet?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fire_hose_cabinet_accessories"
+                                                                       value="">
+                                                                Fire Hose Cabinet Accessories?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_width">Fire Escape Width</label>
-                                                            <input id="id_fire_escape_width" name="fire_escape_width"
+                                                            <label for="id_fire_hose_cabinet_location">Fire Hose Cabinet
+                                                                Location</label>
+                                                            <input id="id_fire_hose_cabinet_location"
+                                                                   name="fire_hose_cabinet_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_hose_per_floor_count">Fire Hose per
+                                                                Floor Count</label>
+                                                            <input id="id_fire_hose_per_floor_count"
+                                                                   name="fire_hose_per_floor_count"
                                                                    type="number"
                                                                    placeholder="Numbers only"
                                                                    class="form-control sif"/>
@@ -1880,10 +1932,27 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_construction">Fire Escape
-                                                                Construction</label>
-                                                            <input id="id_fire_escape_construction"
-                                                                   name="fire_escape_construction"
+                                                            <label for="id_fire_hose_size">Fire Hose Size</label>
+                                                            <input id="id_fire_hose_size" name="fire_hose_size"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_hose_length">Fire Hose Length</label>
+                                                            <input id="id_fire_hose_length" name="fire_hose_length"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_hose_nozzle">Fire Hose Nozzle</label>
+                                                            <input id="id_fire_hose_nozzle"
+                                                                   name="fire_hose_nozzle"
                                                                    type="text"
                                                                    class="form-control sif"/>
                                                         </div>
@@ -1892,15 +1961,394 @@
                                                         <div class="form-check">
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                       name="fire_escape_railings"
+                                                                       name="fire_lane"
                                                                        value="">
-                                                                Fire Escape Railings?
+                                                                Fire Lane?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_hydrant_location">Fire Hydrant
+                                                                Location</label>
+                                                            <input id="id_fire_hydrant_location"
+                                                                   name="fire_hydrant_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_portable_fire_extinguisher_type">Portable
+                                                                Fire Extinguisher Type</label>
+                                                            <input id="id_portable_fire_extinguisher_type"
+                                                                   name="portable_fire_extinguisher_type"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_portable_fire_extinguisher_capacity">Portable
+                                                                Fire Extinguisher Capacity</label>
+                                                            <input id="id_portable_fire_extinguisher_capacity"
+                                                                   name="portable_fire_extinguisher_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_portable_fire_extinguisher_count">Portable
+                                                                Fire Extinguisher Count</label>
+                                                            <input id="id_portable_fire_extinguisher_count"
+                                                                   name="portable_fire_extinguisher_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="portable_fire_extinguisher_with_ps_mark"
+                                                                       value="">
+                                                                Portable Fire Extinguisher with PS Mark?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="portable_fire_extinguisher_with_iso_mark"
+                                                                       value="">
+                                                                Portable Fire Extinguisher with ISO Mark?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="portable_fire_extinguisher_maintained"
+                                                                       value="">
+                                                                Portable Fire Extinguisher Maintained?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_portable_fire_extinguisher_conspicuously_located">Portable
+                                                                Fire Extinguisher Conspicuously Located</label>
+                                                            <input id="id_portable_fire_extinguisher_conspicuously_located"
+                                                                   name="portable_fire_extinguisher_conspicuously_located"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="portable_fire_extinguisher_accessible"
+                                                                       value="">
+                                                                Portable Fire Extinguisher Accessible?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_portable_fire_extinguisher_other_type">Portable
+                                                                Fire Extinguisher Other Type</label>
+                                                            <input id="id_portable_fire_extinguisher_other_type"
+                                                                   name="portable_fire_extinguisher_other_type"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="sprinkler_system_agent_used"
+                                                                       value="">
+                                                                Sprinkler System Agent Used?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_jockey_pump_capacity">Jockey Pump
+                                                                Capacity</label>
+                                                            <input id="id_jockey_pump_capacity"
+                                                                   name="jockey_pump_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_pump_capacity">Fire Pump
+                                                                Capacity</label>
+                                                            <input id="id_fire_pump_capacity" name="fire_pump_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_gpm_tank_capacity">GPM Tank Capacity</label>
+                                                            <input id="id_gpm_tank_capacity" name="gpm_tank_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="maintaining_line_pressure"
+                                                                       value="">
+                                                                Maintaining Line Pressure?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_farthest_sprinkler_head_pressure">Farthest
+                                                                Sprinkler Head Pressure</label>
+                                                            <input id="id_farthest_sprinkler_head_pressure"
+                                                                   name="farthest_sprinkler_head_pressure"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_riser_size">Riser Size</label>
+                                                            <input id="id_riser_size" name="riser_size"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_type_of_heads_installed">Type of Heads
+                                                                Installed</label>
+                                                            <input id="id_type_of_heads_installed"
+                                                                   name="type_of_heads_installed"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_heads_per_floor_count">Heads per Floor
+                                                                Count</label>
+                                                            <input id="id_heads_per_floor_count"
+                                                                   name="heads_per_floor_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_heads_total_count">Heads Total Count</label>
+                                                            <input id="id_heads_total_count" name="heads_total_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_spacing_of_heads">Spacing of Heads</label>
+                                                            <input id="id_spacing_of_heads"
+                                                                   name="spacing_of_heads"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_location_of_fire_dept_connection">Location of
+                                                                Fire Dept Connection</label>
+                                                            <input id="id_location_of_fire_dept_connection"
+                                                                   name="location_of_fire_dept_connection"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="plan_submitted"
+                                                                       value="">
+                                                                Plan Submitted?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="firewall_required"
+                                                                       value="">
+                                                                Firewall Required?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="firewall_provided"
+                                                                       value="">
+                                                                Firewall Provided?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="firewall_opening"
+                                                                       value="">
+                                                                Firewall Opening?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="boiler_provided"
+                                                                       value="">
+                                                                Boiler Provided?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_boiler_unit_count">Boiler Unit Count</label>
+                                                            <input id="id_boiler_unit_count" name="boiler_unit_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <select id="id_boiler_fuel" name="boiler_fuel"
+                                                                    class="form-control"
+                                                                    required>
+                                                                <option value="">Select Boiler Fuel Type</option>
+                                                                {% for value in fuel_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_boiler_capacity">Boiler Capacity</label>
+                                                            <input id="id_boiler_capacity" name="boiler_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_boiler_container">Boiler Container</label>
+                                                            <input id="id_boiler_container"
+                                                                   name="boiler_container"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_boiler_location">Boiler Location</label>
+                                                            <input id="id_boiler_location"
+                                                                   name="boiler_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="lpg_installation_with_permit"
+                                                                       value="">
+                                                                LPG Installation with Permit?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fuel_with_storage_permit"
+                                                                       value="">
+                                                                Fuel with Storage Permit?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <!-- end: Fire Tools Pane -->
@@ -1909,9 +2357,46 @@
                                             <div class="tab-pane" id="generator">
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="generator_set"
+                                                                       value="">
+                                                                Generator Set?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_width">Fire Escape Width</label>
-                                                            <input id="id_fire_escape_width" name="fire_escape_width"
+                                                            <label for="id_generator_set_type">Generator Set
+                                                                Type</label>
+                                                            <input id="id_generator_set_type"
+                                                                   name="generator_set_type"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <select id="id_generator_fuel" name="generator_fuel"
+                                                                    class="form-control"
+                                                                    required>
+                                                                <option value="">Select Generator Fuel Type</option>
+                                                                {% for value in fuel_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_generator_capacity">Generator
+                                                                Capacity</label>
+                                                            <input id="id_generator_capacity" name="generator_capacity"
                                                                    type="number"
                                                                    placeholder="Numbers only"
                                                                    class="form-control sif"/>
@@ -1919,10 +2404,10 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_construction">Fire Escape
-                                                                Construction</label>
-                                                            <input id="id_fire_escape_construction"
-                                                                   name="fire_escape_construction"
+                                                            <label for="id_generator_location">Generator
+                                                                Location</label>
+                                                            <input id="id_generator_location"
+                                                                   name="generator_location"
                                                                    type="text"
                                                                    class="form-control sif"/>
                                                         </div>
@@ -1931,9 +2416,322 @@
                                                         <div class="form-check">
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
-                                                                       name="fire_escape_railings"
+                                                                       name="generator_bound_on_wall"
                                                                        value="">
-                                                                Fire Escape Railings?
+                                                                Generator Bound on Wall?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <select id="id_generator_container"
+                                                                    name="generator_container"
+                                                                    class="form-control"
+                                                                    required>
+                                                                <option value="">Select Generator Fuel Type</option>
+                                                                {% for value in container_location_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <select id="id_generator_dispensing_system"
+                                                                    name="generator_dispensing_system"
+                                                                    class="form-control"
+                                                                    required>
+                                                                <option value="">Select Generator Fuel Type</option>
+                                                                {% for value in generator_dispensing_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_generator_output_capacity">Generator Output
+                                                                Capacity</label>
+                                                            <input id="id_generator_output_capacity"
+                                                                   name="generator_output_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="generator_mechanical_permit"
+                                                                       value="">
+                                                                Generator Mechanical Permit?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="generator_fuel_storage_permit"
+                                                                       value="">
+                                                                Generator Fuel Storage Permit?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_generator_others">Generator Others</label>
+                                                            <input id="id_generator_others"
+                                                                   name="generator_others"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="generator_automatic_transfer_switch"
+                                                                       value="">
+                                                                Generator Automatic Transfer Switch?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_time">Generator Time Interval</label>
+                                                            <input id="id_time" name="generator_time_interval"
+                                                                   type="text"
+                                                                   placeholder="Select date" class="form-control sif"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="refuse_handling"
+                                                                       value="">
+                                                                Refuse Handling?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="refuse_handling_enclosure"
+                                                                       value="">
+                                                                Refuse Handling Enclosure?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="refuse_handling_fire_protection"
+                                                                       value="">
+                                                                Refuse Handling Fire Protection?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="electrical_hazard"
+                                                                       value="">
+                                                                Electrical Hazard?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_electrical_hazard_location">Electrical Hazard
+                                                                Location</label>
+                                                            <input id="id_electrical_hazard_location"
+                                                                   name="electrical_hazard_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="mechanical_hazard"
+                                                                       value="">
+                                                                Mechanical Hazard?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_mechanical_hazard_location">Mechanical Hazard
+                                                                Location</label>
+                                                            <input id="id_mechanical_hazard_location"
+                                                                   name="mechanical_hazard_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_elevator_count">Elevator Count</label>
+                                                            <input id="id_elevator_count" name="elevator_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_other_service_system">Other Service
+                                                                System</label>
+                                                            <input id="id_other_service_system"
+                                                                   name="other_service_system"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_hazardous_area">Hazardous Area</label>
+                                                            <input id="id_hazardous_area"
+                                                                   name="hazardous_area"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_hazardous_area_other">Other Hazardous
+                                                                Area</label>
+                                                            <input id="id_hazardous_area_other"
+                                                                   name="hazardous_area_other"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="separation_fire_rated"
+                                                                       value="">
+                                                                Separation Fire Rated?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_type_of_protection">Type of
+                                                                Protection</label>
+                                                            <input id="id_type_of_protection"
+                                                                   name="type_of_protection"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_separation_fire_rated_count">Separation Fire
+                                                                Rated Count</label>
+                                                            <input id="id_separation_fire_rated_count"
+                                                                   name="separation_fire_rated_count"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_separation_fire_rated_capacity">Separation
+                                                                Fire Rated Capacity</label>
+                                                            <input id="id_separation_fire_rated_capacity"
+                                                                   name="separation_fire_rated_capacity"
+                                                                   type="number"
+                                                                   placeholder="Numbers only"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="separation_fire_rated_accessible"
+                                                                       value="">
+                                                                Is Separation Fire Rated Accessible?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="separation_fire_rated_fuel"
+                                                                       value="">
+                                                                Is Separation Fire Rated Fuel?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="id_separation_fire_rated_location">Separation
+                                                                Fire Rated Location</label>
+                                                            <input id="id_separation_fire_rated_location"
+                                                                   name="separation_fire_rated_location"
+                                                                   type="text"
+                                                                   class="form-control sif"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="separation_fire_rated_permit"
+                                                                       value="">
+                                                                Separation Fire Rated Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
@@ -1948,9 +2746,100 @@
                                             <div class="tab-pane" id="materials">
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="hazardous_material"
+                                                                       value="">
+                                                                Hazardous Material?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="hazardous_material_stored"
+                                                                       value="">
+                                                                Is Hazardous Material Stored?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fire_brigade_organization"
+                                                                       value="">
+                                                                Fire Brigade Organization?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fire_safety_seminar"
+                                                                       value="">
+                                                                Fire Safety Seminar?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="employee_trained_in_emergency_procedures"
+                                                                       value="">
+                                                                Employee Trained in Emergency Procedures?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="evacuation_drill_first"
+                                                                       value="">
+                                                                Evacuation First Drill?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="evacuation_drill_second"
+                                                                       value="">
+                                                                Evacuation Secord Drill?
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_width">Fire Escape Width</label>
-                                                            <input id="id_fire_escape_width" name="fire_escape_width"
+                                                            <label for="id_defects">Defects</label>
+                                                            <input id="id_defects" name="defects"
                                                                    type="number"
                                                                    placeholder="Numbers only"
                                                                    class="form-control sif"/>
@@ -1958,27 +2847,14 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_fire_escape_construction">Fire Escape
-                                                                Construction</label>
-                                                            <input id="id_fire_escape_construction"
-                                                                   name="fire_escape_construction"
-                                                                   type="text"
-                                                                   class="form-control sif"/>
+                                                            <label for="id_defects_photo">Defects Photo</label>
+                                                            <input id="id_defects_photo" name="defects_photo"
+                                                                   type="file"
+                                                                   placeholder="Insert supportive image"
+                                                                   class="form-control-file" accept=".jpg, jpeg, .png"/>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-4">
-                                                        <div class="form-check">
-                                                            <label class="form-check-label">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                       name="fire_escape_railings"
-                                                                       value="">
-                                                                Fire Escape Railings?
-                                                                <span class="form-check-sign">
-                                                                      <span class="check"></span>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <!-- end: Material Pane -->

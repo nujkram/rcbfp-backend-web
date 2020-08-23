@@ -200,6 +200,11 @@ urlpatterns += {
         name='admin_dashboard_checklist_create'
     ),
     path(
+        'checklist/create/<pk>',
+        checklist_views.AdminDashboardChecklistCreateView.as_view(),
+        name='admin_dashboard_checklist_create_by_business'
+    ),
+    path(
         'incident/<pk>/update',
         checklist_views.AdminDashboardChecklistUpdateView.as_view(),
         name='admin_dashboard_checklist_update'

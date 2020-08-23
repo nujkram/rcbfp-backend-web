@@ -240,7 +240,7 @@ class ChecklistForm(forms.Form):
     evacuation_drill_first = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     evacuation_drill_second = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     defects = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    defects_photo = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    defects_photo = forms.ImageField(required=False)
     recommendations = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     building = forms.ModelChoiceField(queryset=Building.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
     business = forms.ModelChoiceField(queryset=Business.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))

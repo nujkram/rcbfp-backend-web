@@ -7,7 +7,8 @@ from django.views import View
 from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
-from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES
+from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, FUEL_CHOICES, CONTAINER_LOCATION_CHOICES, \
+    GENERATOR_DISPENSING_CHOICES
 from buildings.models.building.building_models import Building
 from business.models import Business
 
@@ -104,8 +105,16 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
 
     def get(self, request, *args, **kwargs):
         form = MasterForm
+        pk = kwargs.get('pk', None)
+
+        if pk:
+            business = Business.objects.get(pk=pk)
+
         location_choices = LOCATION_CHOICES
         current_choices = CURRENT_CHOICES
+        fuel_choices = FUEL_CHOICES
+        container_location_choices = CONTAINER_LOCATION_CHOICES
+        generator_dispensing_choices = GENERATOR_DISPENSING_CHOICES
 
         if 'checklist_formdata' in request.session:
             checklist_formdata = request.session['checklist_formdata']
@@ -378,6 +387,10 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
             "form": form,
             "location_choices": location_choices,
             "current_choices": current_choices,
+            "fuel_choices": fuel_choices,
+            "container_location_choices": container_location_choices,
+            "generator_dispensing_choices": generator_dispensing_choices,
+            "business": business,
         }
 
         return render(request, "checklist/form.html", context)
