@@ -7,10 +7,12 @@ from django.views import View
 from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
+from buildings.models.building.building_models import Building
 
 from business.models import Business as Master
 from admin_dashboards.controllers.views.admin_dashboards.business.forms import BusinessForm as MasterForm
 from checklists.models.checklist.checklist_models import Checklist
+from locations.models import Region, Province, City
 
 """
 URLS
@@ -100,12 +102,26 @@ class AdminDashboardBusinessCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         form = MasterForm
+        buildings = Building.objects.all()
+        default_region = Region.objects.get(pk=6)  # Region VI
+        default_province = Province.objects.get(pk=22)  # Capiz
+        default_city = City.objects.get(pk=381)  # Roxas City
+        regions = Region.objects.all()
+        provinces = Province.objects.filter(region=default_region)
+        cities = City.objects.filter(province=default_province)
         context = {
             "page_title": "Create new Business",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "create",
-            "form": form
+            "form": form,
+            "buildings": buildings,
+            "regions": regions,
+            "provinces": provinces,
+            "cities": cities,
+            "default_region": default_region,
+            "default_province": default_province,
+            "default_city": default_city,
         }
 
         return render(request, "business/form.html", context)
@@ -180,7 +196,7 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
 class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
-    Create view for Businesss.
+    Update view for Businesss.
 
     Allowed HTTP verbs:
         - GET
