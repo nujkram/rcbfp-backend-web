@@ -77,6 +77,12 @@
                                                         Application
                                                     </a>
                                                 </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#checklist" data-toggle="tab">
+                                                        <i class="material-icons">fact_check</i>
+                                                        Checklist
+                                                    </a>
+                                                </li>
 
                                             </ul>
                                         </div>
@@ -85,7 +91,6 @@
                                 <div class="card-body ">
                                     <div class="tab-content text-left">
                                         <div class="tab-pane active" id="location">
-                                            {{ obj.building.latitude }}
                                             <div id="mapid"></div>
                                         </div>
                                         <div class="tab-pane" id="details">
@@ -165,6 +170,32 @@
                                                 </table>
                                             </div>
                                         </div>
+                                        <div class="tab-pane" id="checklist">
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>Score</th>
+                                                                <th>Fire Rating</th>
+                                                                <th>Risk</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for data in checklists %}
+                                                            <tr>
+                                                                <td>{{ data.date_checked }}</td>
+                                                                <td>{{ data.get_score }}</td>
+                                                                <td>{{ data.fire_rating }}</td>
+                                                                <td>{{ data.risk }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -181,6 +212,10 @@
                     <h6 class="card-title p-0">{{ page_title }}</h6>
                 </div>
                 <div class="card-body">
+                    <a class="btn btn-success m-1"
+                       href="{% url 'admin_dashboard_checklist_create' %}">
+                        <i class="material-icons">add</i>
+                    </a>
                     <a class="btn btn-warning m-1"
                        href="{% url 'admin_dashboard_business_update' obj.id %}">
                         <i class="material-icons">edit</i>

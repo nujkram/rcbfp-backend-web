@@ -178,3 +178,35 @@ urlpatterns += {
         name='admin_dashboard_analytics_decision_tree_run_view'
     ),
 }
+
+# Checklist
+
+from admin_dashboards.controllers.views.admin_dashboards.checklist import main as checklist_views
+
+urlpatterns += {
+    path(
+        'checklist/list',
+        checklist_views.AdminDashboardChecklistListView.as_view(),
+        name='admin_dashboard_checklist_list'
+    ),
+    path(
+        'checklist/<pk>/detail',
+        checklist_views.AdminDashboardChecklistDetailView.as_view(),
+        name='admin_dashboard_checklist_detail'
+    ),
+    path(
+        'checklist/create',
+        checklist_views.AdminDashboardChecklistCreateView.as_view(),
+        name='admin_dashboard_checklist_create'
+    ),
+    path(
+        'incident/<pk>/update',
+        checklist_views.AdminDashboardChecklistUpdateView.as_view(),
+        name='admin_dashboard_checklist_update'
+    ),
+    path(
+        'checklist/<pk>/delete',
+        checklist_views.AdminDashboardChecklistDeleteView.as_view(),
+        name='admin_dashboard_checklist_delete'
+    )
+}

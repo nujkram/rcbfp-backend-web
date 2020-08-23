@@ -10,7 +10,7 @@ from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
 from business.models import Business as Master
 from admin_dashboards.controllers.views.admin_dashboards.business.forms import BusinessForm as MasterForm
-
+from checklists.models.checklist.checklist_models import Checklist
 
 """
 URLS
@@ -165,12 +165,14 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk= kwargs.get('pk', None))
+        checklists = Checklist.objects.filter(business=obj).order_by('date_checked')
         context = {
             "page_title": f"Business: {obj}",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",
-            "obj": obj
+            "obj": obj,
+            "checklists": checklists,
         }
 
         return render(request, "business/detail.html", context)

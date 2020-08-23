@@ -129,6 +129,8 @@ class Checklist(models.Model):
     main_stair_door_vision_panel_built = models.CharField(max_length=254, blank=True, null=True)
     main_stair_pressurized_stairway = models.BooleanField(default=False)
     main_stair_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
+
+    # fire escapes
     fire_escape_count = models.PositiveSmallIntegerField(blank=True, null=True)
     fire_escape_width = models.PositiveSmallIntegerField(blank=True, null=True)
     fire_escape_construction = models.CharField(max_length=254, blank=True, null=True)
@@ -149,6 +151,8 @@ class Checklist(models.Model):
     fire_door_door_vision_panel_built = models.CharField(max_length=254, blank=True, null=True)
     fire_door_pressurized_stairway = models.BooleanField(default=False)
     fire_door_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
+
+    # Emergency
     horizontal_exit_width = models.PositiveSmallIntegerField(blank=True, null=True)
     horizontal_exit_construction = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_vision_panel = models.BooleanField(default=False)
@@ -230,6 +234,8 @@ class Checklist(models.Model):
     siamese_intake_size = models.PositiveSmallIntegerField(blank=True, null=True)
     siamese_intake_count = models.PositiveSmallIntegerField(blank=True, null=True)
     siamese_intake_accessible = models.BooleanField(default=False)
+
+    # Fire tools
     fire_hose_cabinet = models.BooleanField(default=False)
     fire_hose_cabinet_accessories = models.BooleanField(default=False)
     fire_hose_cabinet_location = models.CharField(max_length=254, blank=True, null=True)
@@ -272,6 +278,8 @@ class Checklist(models.Model):
     boiler_location = models.CharField(max_length=254, blank=True, null=True)
     lpg_installation_with_permit = models.BooleanField(default=False)
     fuel_with_storage_permit = models.BooleanField(default=False)
+
+    # Generator
     generator_set = models.BooleanField(default=False)
     generator_set_type = models.CharField(choices=GENERATOR_TYPE_CHOICES, blank=True, null=True, max_length=64)
     generator_fuel = models.CharField(choices=GENERATOR_FUEL_CHOICES, blank=True, null=True, max_length=64)
@@ -289,18 +297,12 @@ class Checklist(models.Model):
     generator_time_interval = models.TimeField(verbose_name='Generator time interval', blank=True, null=True)
     refuse_handling = models.BooleanField(default=False)
     refuse_handling_enclosure = models.BooleanField(default=False)
-    refuse_handling_fire_resistive = models.BooleanField(default=False)
     refuse_handling_fire_protection = models.BooleanField(default=False)
-    refuse_handling_fire_protection_type = models.CharField(max_length=254, blank=True, null=True)
-    refuse_handling_disposal = models.BooleanField(default=False)
-    refuse_handling_collection_method = models.CharField(max_length=254, blank=True, null=True)
     electrical_hazard = models.BooleanField(default=False)
     electrical_hazard_location = models.CharField(max_length=254, blank=True, null=True)
     mechanical_hazard = models.BooleanField(default=False)
     mechanical_hazard_location = models.CharField(max_length=254, blank=True, null=True)
     elevator_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    fireman_elevator = models.BooleanField(default=False)
-    fireman_elevator_key = models.BooleanField(default=False)
     other_service_system = models.CharField(choices=SERVICE_SYSTEM_CHOICES, blank=True, null=True, max_length=64)
     hazardous_area = models.CharField(choices=HAZARDOUS_AREA_CHOICES, blank=True, null=True, max_length=64)
     hazardous_area_other = models.CharField(max_length=254, blank=True, null=True)
@@ -311,10 +313,9 @@ class Checklist(models.Model):
     separation_fire_rated_accessible = models.BooleanField(default=False)
     separation_fire_rated_fuel = models.BooleanField(default=False)
     separation_fire_rated_location = models.CharField(max_length=254, blank=True, null=True)
+
+    # Materials
     separation_fire_rated_permit = models.BooleanField(default=False)
-    chimney_built = models.CharField(max_length=254, blank=True, null=True)
-    chimney_spark_arrestor = models.BooleanField(default=False)
-    chimney_smoke_hood = models.BooleanField(default=False)
     hazardous_material = models.BooleanField(default=False)
     hazardous_material_stored = models.BooleanField(default=False)
     fire_brigade_organization = models.BooleanField(default=False)
@@ -574,9 +575,6 @@ class Checklist(models.Model):
 
         if self.generator_fuel and not self.generator_fuel_storage_permit:
             chance_of_fire += 0.1
-
-        if self.refuse_handling and (not self.refuse_handling_fire_protection or self.refuse_handling_fire_resistive):
-            chance_of_fire += 0.02
 
         if self.electrical_hazard:
             chance_of_fire += 0.2

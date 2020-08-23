@@ -228,6 +228,14 @@ class Building(models.Model):
                                         hazardous_material_stored=checklist.hazardous_material_stored,
                                         defects=checklist.defects,
                                         avg_fire_rating=self.avg_fire_rating(), building_age=building_age)
+
+            if result:
+                self.status = 2
+                self.save()
+            else:
+                self.status = 0
+                self.save()
+
             return result
 
 
