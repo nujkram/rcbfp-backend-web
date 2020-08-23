@@ -215,3 +215,15 @@ urlpatterns += {
         name='admin_dashboard_checklist_delete'
     )
 }
+
+# reports
+
+from admin_dashboards.controllers.views.admin_dashboards.reports import main as report_views
+
+urlpatterns += {
+    path(
+        'report/building/list',
+        report_views.AdminDashboardBuildingStatusView.as_view(),
+        name='admin_dashboard_building_status_list'
+    ),
+}
