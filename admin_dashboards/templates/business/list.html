@@ -16,7 +16,6 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
                     <table class="table datatable">
                         <thead>
                         <tr>
@@ -49,12 +48,8 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                </div>
                 <div class="card-footer">
-                    <a class="btn btn-success btn-sm"
-                       href="{% url 'admin_dashboard_business_create' %}">
-                        Create
-                    </a>
+
                 </div>
 
             </div>
@@ -68,4 +63,21 @@
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datatable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Create',
+                        attr: {class: 'btn btn-success btn-sm'},
+                        action: function (e, dt, node, config) {
+                            window.location = "{% url 'admin_dashboard_business_create' %}";
+                        }
+                    }
+                ],
+                pageLength: 15,
+            })
+        })
+    </script>
 {% endblock %}
