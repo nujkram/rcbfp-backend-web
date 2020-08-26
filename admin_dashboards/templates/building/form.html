@@ -182,7 +182,7 @@
                                 <div class="form-group">
                                     <label for="id_entry_road_width">Entry Road Width</label>
                                     <input id="id_entry_road_width" name="entry_road_width" type="number"
-                                           placeholder="Width in meters" min="0" max="5" class="form-control sif"/>
+                                           placeholder="Width in meters" class="form-control sif"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -200,7 +200,7 @@
                                 <div class="form-group">
                                     <select id="id_province" name="province" class="form-control" required>
                                         <option value="">Select Province</option>
-                                         {% for province in provinces %}
+                                        {% for province in provinces %}
                                             <option value="{{ province.pk }}"
                                                     {% if application_formdata.province == province.pk or default_province == province %}selected{% endif %}>{{ province.name }}</option>
                                         {% endfor %}

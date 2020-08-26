@@ -2,6 +2,13 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from admin_dashboards.controllers.views.admin_dashboards.home import main as home_views
+from business.controllers.restapi.business.business_api import ApiBusinessesByBuilding
+
+version = 'api/v1'
+
+READ_ONLY = {
+    'get': 'list'
+}
 
 urlpatterns = [
     path(
@@ -72,7 +79,10 @@ urlpatterns += {
         'business/<pk>/delete',
         business_views.AdminDashboardBusinessDeleteView.as_view(),
         name='admin_dashboard_business_delete'
-    )
+    ),
+
+    # API
+    path(f'{version}/businesses_by_building', ApiBusinessesByBuilding.as_view(), name='businesses_by_building'),
 }
 
 # Incident
@@ -213,6 +223,38 @@ urlpatterns += {
         'checklist/<pk>/delete',
         checklist_views.AdminDashboardChecklistDeleteView.as_view(),
         name='admin_dashboard_checklist_delete'
+    )
+}
+
+# Inspection
+
+from admin_dashboards.controllers.views.admin_dashboards.inspection import main as inspection_views
+
+urlpatterns += {
+    path(
+        'inspection/list',
+        inspection_views.AdminDashboardInspectionListView.as_view(),
+        name='admin_dashboard_inspection_list'
+    ),
+    path(
+        'inspection/<pk>/detail',
+        inspection_views.AdminDashboardInspectionDetailView.as_view(),
+        name='admin_dashboard_inspection_detail'
+    ),
+    path(
+        'inspection/create',
+        inspection_views.AdminDashboardInspectionCreateView.as_view(),
+        name='admin_dashboard_inspection_create'
+    ),
+    path(
+        'inspection/<pk>/update',
+        inspection_views.AdminDashboardInspectionUpdateView.as_view(),
+        name='admin_dashboard_inspection_update'
+    ),
+    path(
+        'inspection/<pk>/delete',
+        inspection_views.AdminDashboardInspectionDeleteView.as_view(),
+        name='admin_dashboard_inspection_delete'
     )
 }
 

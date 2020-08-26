@@ -5,7 +5,22 @@
 {% block header_js %} {% endblock %}
 
 {% block page_wrapper_contents %}
-
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">Inspection Schedules</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="float-right">
+                        <a class="btn btn-success" href="{% url 'admin_dashboard_inspection_create' %}">Add Inspection</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}

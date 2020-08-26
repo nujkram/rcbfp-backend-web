@@ -269,6 +269,21 @@
                     $("#id_city").empty().append(opts);
                 });
             });
+
+            $("#id_building").on("change", function (e) {
+                var building_id = $(this).val();
+                url = "{% url 'businesses_by_building' %}?id=" + building_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, c) {
+                        opts = opts + "<option value='" + c.pk + "'>" + c.name + "</option>";
+                    });
+
+                    $("#id_business").empty().append(opts);
+                });
+            });
         });
     </script>
 {% endblock %}
