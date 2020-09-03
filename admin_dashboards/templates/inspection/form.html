@@ -44,9 +44,9 @@
                                 <div class="form-group">
                                     <select id="id_building" name="building" class="form-control">
                                         <option value="">Select Building</option>
-                                        {% for building in buildings %}
-                                            <option value="{{ building.pk }}"
-                                                    {% if application_formdata.building == building.pk %}selected{% endif %}>{{ building.name }}</option>
+                                        {% for data in buildings %}
+                                            <option value="{{ data.pk }}"
+                                                    {% if application_formdata.building == data.pk or building.pk == data.pk %}selected{% endif %}>{{ data.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -55,9 +55,9 @@
                                 <div class="form-group">
                                     <select id="id_business" name="business" class="form-control">
                                         <option value="">Select Business</option>
-                                        {% for business in businesses %}
-                                            <option value="{{ business.pk }}"
-                                                    {% if application_formdata.business == business.pk %}selected{% endif %}>{{ business.name }}</option>
+                                        {% for data in businesses %}
+                                            <option value="{{ data.pk }}"
+                                                    {% if application_formdata.business == data.pk or business.pk == data.pk %}selected{% endif %}>{{ data.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

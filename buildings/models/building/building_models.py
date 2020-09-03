@@ -201,13 +201,14 @@ class Building(models.Model):
         return chance
 
     def latest_checklist(self):
-        return self.building_checklist.last()
+        return self.building_checklist.first()
 
     def is_safe(self):
         today = date.today()
         building_age = today.year - self.date_of_construction.year - (
                 (today.month, today.day) < (self.date_of_construction.month, self.date_of_construction.day))
         checklist = self.latest_checklist()
+
         if checklist:
             result = dt_model.eval_tree(floor_number=self.floor_number, height=self.height, floor_area=self.floor_area,
                                         total_floor_area=self.total_floor_area, beams=self.beams, columns=self.columns,

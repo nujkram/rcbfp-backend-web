@@ -24,13 +24,13 @@ class IncidentManager(models.Manager):
 
         try:
             building = Building.objects.get(name=kwargs['building'])
-        except Region.DoesNotExist:
+        except Building.DoesNotExist:
             flag = False
             m.append(f'{building} is an invalid building')
 
         try:
             business = Business.objects.get(name=kwargs['business'])
-        except Region.DoesNotExist:
+        except Business.DoesNotExist:
             flag = False
             m.append(f'{business} is an invalid business')
 

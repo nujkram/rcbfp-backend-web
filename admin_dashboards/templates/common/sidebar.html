@@ -20,6 +20,12 @@
                 </a>
             </li>
             <li class="nav-item ">
+                <a class="nav-link" href="{% url 'admin_dashboard_building_create_new' %}">
+                    <i class="material-icons">description</i>
+                    <p>New Application</p>
+                </a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="{% url 'admin_dashboard_building_list' %}">
                     <i class="material-icons">store_mall_directory</i>
                     <p>Buildings</p>
@@ -67,12 +73,12 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" role="button" data-toggle="collapse" href="#navAnalytics" aria-expanded="false"
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navReports" aria-expanded="false"
                    aria-controls="navMaps">
                     <i class="material-icons">folder</i>
                     <p>Reports <b class="caret"></b></p>
                 </a>
-                <div class="collapse" id="navAnalytics">
+                <div class="collapse" id="navReports">
                     <ul class="nav">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_dashboard_building_status_list' %}">

@@ -39,6 +39,11 @@ urlpatterns += {
         name='admin_dashboard_building_create'
     ),
     path(
+        'building/create/new',
+        building_views.AdminDashboardBuildingCreateNewView.as_view(),
+        name='admin_dashboard_building_create_new'
+    ),
+    path(
         'building/<pk>/update',
         building_views.AdminDashboardBuildingUpdateView.as_view(),
         name='admin_dashboard_building_update'
@@ -69,6 +74,11 @@ urlpatterns += {
         'business/create',
         business_views.AdminDashboardBusinessCreateView.as_view(),
         name='admin_dashboard_business_create'
+    ),
+    path(
+        'business/<pk>/create',
+        business_views.AdminDashboardBusinessCreateByBuildingView.as_view(),
+        name='admin_dashboard_business_create_by_building'
     ),
     path(
         'business/<pk>/update',
@@ -215,7 +225,7 @@ urlpatterns += {
         name='admin_dashboard_checklist_create_by_business'
     ),
     path(
-        'incident/<pk>/update',
+        'checklist/<pk>/update',
         checklist_views.AdminDashboardChecklistUpdateView.as_view(),
         name='admin_dashboard_checklist_update'
     ),
@@ -223,6 +233,11 @@ urlpatterns += {
         'checklist/<pk>/delete',
         checklist_views.AdminDashboardChecklistDeleteView.as_view(),
         name='admin_dashboard_checklist_delete'
+    ),
+    path(
+        'checklist/<pk>/summary',
+        checklist_views.AdminDashboardChecklistSummaryView.as_view(),
+        name='admin_dashboard_checklist_summary'
     )
 }
 
@@ -245,6 +260,11 @@ urlpatterns += {
         'inspection/create',
         inspection_views.AdminDashboardInspectionCreateView.as_view(),
         name='admin_dashboard_inspection_create'
+    ),
+    path(
+        'inspection/<building>/<business>/create',
+        inspection_views.AdminDashboardInspectionCreateNewView.as_view(),
+        name='admin_dashboard_inspection_create_new'
     ),
     path(
         'inspection/<pk>/update',
