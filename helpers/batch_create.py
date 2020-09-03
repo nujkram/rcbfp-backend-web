@@ -27,6 +27,8 @@ def preload_businesses(data):
         except Building.DoesNotExist:
             building = create_building(item)
 
+        building = Building.objects.get(name=__building)
+
         try:
             business = Business.objects.get(name=__business)
         except Business.DoesNotExist:
@@ -80,7 +82,8 @@ def create_building(item):
         'height': height,
         'floor_number': floors,
         'floor_area': floor_area,
-        'total_floor_area': total_floor_area
+        'total_floor_area': total_floor_area,
+        'entry_road_width': random.randint(10, 25)
     }
     building = Building.objects.create(**field_values)
     return building
