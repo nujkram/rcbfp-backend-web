@@ -19,6 +19,7 @@
                     {% if messages %} {% for m in messages %}
                         <div class="alert alert-{{ m.tags }}">{{ m }}</div>
                     {% endfor %} {% endif %}
+
                     <form method="post" action="{% url 'admin_dashboard_checklist_create_by_business' business.pk %}"
                           enctype="multipart/form-data">
                         {% csrf_token %}
@@ -82,17 +83,37 @@
                                             <!-- begin: Basic Info Pane -->
                                             <div class="tab-pane active" id="information">
                                                 <div class="row">
-                                                    <div class="col-sm-12 col-md-6">
+                                                    <div class="col-sm-12 col-md-6 d-none">
                                                         <div class="form-group">
                                                             <label for="id_building">Building</label>
-                                                            <input id="id_building" name="building" type="text" value="{{ business.building }}"
+                                                            <input id="id_building" name="building" type="text"
+                                                                   value="{{ business.building.pk }}"
+                                                                   class="form-control sif" readonly/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6 d-none">
+                                                        <div class="form-group">
+                                                            <label for="id_business">Business</label>
+                                                            <input id="id_business" name="business" type="text"
+                                                                   value="{{ business.pk }}"
                                                                    class="form-control sif" readonly/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="id_business">Business</label>
-                                                            <input id="id_business" name="business" type="text" value="{{ business }}"
+                                                            <label for="id_building_info">Building</label>
+                                                            <input id="id_building_info" name="building_info"
+                                                                   type="text"
+                                                                   value="{{ business.building }}"
+                                                                   class="form-control sif" readonly/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_business_info">Business</label>
+                                                            <input id="id_business_info" name="business_info"
+                                                                   type="text"
+                                                                   value="{{ business }}"
                                                                    class="form-control sif" readonly/>
                                                         </div>
                                                     </div>
@@ -125,19 +146,53 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="id_building_permit">Building Permit</label>
-                                                            <input id="id_building_permit" name="building_permit"
-                                                                   type="text"
-                                                                   class="form-control sif" required/>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="building_permit"
+                                                                >
+                                                                Building Permit
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="id_occupancy_permit">Occupancy Permit</label>
-                                                            <input id="id_occupancy_permit" name="occupancy_permit"
+                                                            <label for="id_building_permit_date_issued">Building Permit
+                                                                Date Issued</label>
+                                                            <input id="id_building_permit_date_issued"
+                                                                   name="building_permit_date_issued"
                                                                    type="text"
-                                                                   class="form-control sif" required/>
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="occupancy_permit"
+                                                                >
+                                                                Occupancy Permit
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_occupancy_permit_date_issued">Occupancy
+                                                                Permit Date Issued</label>
+                                                            <input id="id_occupancy_permit_date_issued"
+                                                                   name="occupancy_permit_date_issued"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
@@ -149,21 +204,50 @@
                                                                    class="form-control sif" required/>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12 col-md-6">
+                                                    <div class="col-sm-12 col-md-6 d-none">
                                                         <div class="form-group">
                                                             <label for="id_fsic_fee">Fire Safety Inspection Cert
                                                                 Fee</label>
                                                             <input id="id_fsic_fee" name="fsic_fee" type="text"
+                                                                   value="0"
                                                                    class="form-control sif" required/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
-                                                            <label for="id_fire_drill_certificate">Fire Drill
-                                                                Certificate</label>
-                                                            <input id="id_fire_drill_certificate"
-                                                                   name="fire_drill_certificate" type="text"
-                                                                   class="form-control sif" required/>
+                                                            <label for="id_fsic_date_issued">Fire Safety Inspection
+                                                                Certificate Date
+                                                                Issued</label>
+                                                            <input id="id_fsic_date_issued" name="fsic_date_issued"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                       name="fire_drill_certificate"
+                                                                >
+                                                                Fire Drill Certificate
+                                                                <span class="form-check-sign">
+                                                                      <span class="check"></span>
+                                                                </span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_drill_certificate_date_issued">Fire
+                                                                Drill Certificate Date
+                                                                Issued</label>
+                                                            <input id="id_fire_drill_certificate_date_issued"
+                                                                   name="fire_drill_certificate_date_issued" type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
@@ -177,6 +261,19 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="form-group">
+                                                            <label for="id_violation_control_no_date_issued">Violation
+                                                                Control No. Date
+                                                                Issued</label>
+                                                            <input id="id_violation_control_no_date_issued"
+                                                                   name="violation_control_no_date_issued"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
                                                             <label for="id_electrical_inspection_no">Electrical
                                                                 Inspection No</label>
                                                             <input id="id_electrical_inspection_no"
@@ -184,6 +281,41 @@
                                                                    class="form-control sif" required/>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_electrical_inspection_date_issued">Electrical
+                                                                Inspection Date
+                                                                Issued</label>
+                                                            <input id="id_electrical_inspection_date_issued"
+                                                                   name="electrical_inspection_date_issued"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_insurance_date_issued">Insurance Date
+                                                                Issued</label>
+                                                            <input id="id_insurance_date_issued"
+                                                                   name="insurance_date_issued" type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_date_checked">Date Checked</label>
+                                                            <input id="id_date_checked" name="date_checked" type="text"
+                                                                   value="{% now "Y-m-d" %}"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"
+                                                                   required/>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <!-- end: Basic Info Pane -->
@@ -224,7 +356,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="any_renovation"
-                                                                       value="">
+                                                                >
                                                                 Any Renovation
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -278,7 +410,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="is_exits_remote"
-                                                                       value="">
+                                                                >
                                                                 Is Exits Remote?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -299,7 +431,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="any_enclosure"
-                                                                       value="">
+                                                                >
                                                                 Any Enclosure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -312,7 +444,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="is_exit_accessible"
-                                                                       value="">
+                                                                >
                                                                 Is Exit Accessible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -325,7 +457,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="is_fire_doors_provided"
-                                                                       value="">
+                                                                >
                                                                 Is Fire Door Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -338,7 +470,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="self_closing_mechanism"
-                                                                       value="">
+                                                                >
                                                                 Is Fire Door Self Closing Mechanism?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -351,7 +483,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="panic_hardware"
-                                                                       value="">
+                                                                >
                                                                 Panic Hardware?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -364,7 +496,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="readily_accessible"
-                                                                       value="">
+                                                                >
                                                                 Panic Hardware Readily Accessible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -377,7 +509,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="travel_distance_within_limit"
-                                                                       value="">
+                                                                >
                                                                 Panic Hardware Travel Distance within Limit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -390,7 +522,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="adequate_illumination"
-                                                                       value="">
+                                                                >
                                                                 Adequate Illumination?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -403,8 +535,8 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="panic_hardware_operational"
-                                                                       value="">
-                                                                Panice Harfware Operational?
+                                                                >
+                                                                Panic Hardware Operational?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
@@ -416,7 +548,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="doors_open_easily"
-                                                                       value="">
+                                                                >
                                                                 Doors Open Easily?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -429,7 +561,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="bldg_with_mezzanine"
-                                                                       value="">
+                                                                >
                                                                 Bldg with Mezzanine?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -442,7 +574,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="is_obstructed"
-                                                                       value="">
+                                                                >
                                                                 Is Obstructed?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -455,7 +587,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="dead_ends_within_limits"
-                                                                       value="">
+                                                                >
                                                                 Dead Ends within Limit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -468,7 +600,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="proper_rating_illumination"
-                                                                       value="">
+                                                                >
                                                                 Proper Rating Illumination?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -481,7 +613,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="door_swing_in_the_direction_of_exit"
-                                                                       value="">
+                                                                >
                                                                 Door Swing in the Direction of Exit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -494,7 +626,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="self_closure_operational"
-                                                                       value="">
+                                                                >
                                                                 Self Closure Operational?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -507,7 +639,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="mezzanine_with_proper_exits"
-                                                                       value="">
+                                                                >
                                                                 Mezzanine with Proper Exits?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -520,7 +652,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="corridors_of_sufficient_size"
-                                                                       value="">
+                                                                >
                                                                 Corridors of Sufficient Size?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -550,7 +682,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="main_stair_railings"
-                                                                       value="">
+                                                                >
                                                                 Main Stair Railings?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -560,7 +692,7 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_main_stair_railings_built">Main Stair Raining
+                                                            <label for="id_main_stair_railings_built">Main Stair Railing
                                                                 Built</label>
                                                             <input id="id_main_stair_railings_built"
                                                                    name="main_stair_railings_built"
@@ -573,7 +705,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="main_stair_any_enclosure_provided"
-                                                                       value="">
+                                                                >
                                                                 Main Stair Any Enclosure Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -594,7 +726,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="any_openings"
-                                                                       value="">
+                                                                >
                                                                 Any Openings?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -607,7 +739,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="main_stair_door_proper_rating"
-                                                                       value="">
+                                                                >
                                                                 Main Stair Door Proper Rating?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -620,7 +752,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="main_stair_door_provided_with_vision_panel"
-                                                                       value="">
+                                                                >
                                                                 Main Stair Door Provided with Vision Panel?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -643,12 +775,24 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="main_stair_pressurized_stairway"
-                                                                       value="">
+                                                                >
                                                                 Main Stair Pressurized Stairway?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
                                                             </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_main_stair_pressurized_stairway_last_tested">Main
+                                                                Stair Pressurized Stairway Last
+                                                                Tested</label>
+                                                            <input id="id_main_stair_pressurized_stairway_last_tested"
+                                                                   name="main_stair_pressurized_stairway_last_tested"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -701,7 +845,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_railings"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Railings?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -732,7 +876,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_obstruction"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Obstruction?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -745,7 +889,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="discharge_of_exits"
-                                                                       value="">
+                                                                >
                                                                 Discharge of Exits?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -758,7 +902,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_any_enclosure_provided"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Any Enclosure Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -771,7 +915,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_enclosure"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Enclosure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -784,7 +928,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_opening"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Openings?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -797,7 +941,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_escape_opening_protected"
-                                                                       value="">
+                                                                >
                                                                 Fire Escape Opening Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -810,7 +954,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_door_provided"
-                                                                       value="">
+                                                                >
                                                                 Fire Door Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -842,7 +986,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_door_door_proper_rating"
-                                                                       value="">
+                                                                >
                                                                 Fire Door Proper Rating?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -855,7 +999,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_door_door_provided_with_vision_panel"
-                                                                       value="">
+                                                                >
                                                                 Fire Door Provided with Vision Panel?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -878,12 +1022,24 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_door_pressurized_stairway"
-                                                                       value="">
-                                                                Fire Door Pressurized Stairway?
+                                                                >
+                                                                Fire Door Pressurized?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
                                                             </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_main_stair_pressurized_stairway_last_tested">Fire
+                                                                Door Pressurized Last
+                                                                Tested</label>
+                                                            <input id="id_main_stair_pressurized_stairway_last_tested"
+                                                                   name="main_stair_pressurized_stairway_last_tested"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -929,7 +1085,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_vision_panel"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Vision Panel?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -942,7 +1098,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_door_swing_in_direction_of_egress"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Door Swing in Direction of Egress?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -955,7 +1111,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_with_self_closing_device"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit with Self Closing Device?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -989,7 +1145,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_corridor_walls_extended"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Corridor Walls Extended?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1002,7 +1158,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_properly_illuminated"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Property Illuminated?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1015,7 +1171,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_readily_visible"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Readily Visible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1028,7 +1184,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_properly_marked"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Properly Marked?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1041,7 +1197,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_with_illuminated_directional_sign"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit with Illuminated Directional Sign?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1054,7 +1210,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="horizontal_exit_properly_located"
-                                                                       value="">
+                                                                >
                                                                 Horizontal Exit Properly Located?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1067,7 +1223,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_provided"
-                                                                       value="">
+                                                                >
                                                                 Ramps Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1078,9 +1234,8 @@
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
                                                             <select id="id_ramps_type" name="ramps_type"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Ramp Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Ramp Type</option>
                                                                 {% for value in location_choices %}
                                                                     <option value="{{ value.0 }}"
                                                                             {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
@@ -1112,7 +1267,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_railing_provided"
-                                                                       value="">
+                                                                >
                                                                 Ramps Railing Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1135,7 +1290,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_enclosure"
-                                                                       value="">
+                                                                >
                                                                 Ramps Enclosure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1157,7 +1312,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_fire_doors"
-                                                                       value="">
+                                                                >
                                                                 Ramps Fire Doors?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1191,7 +1346,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_with_self_closing_device"
-                                                                       value="">
+                                                                >
                                                                 Ramps with Self Closing Device?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1204,7 +1359,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_door_with_proper_rating"
-                                                                       value="">
+                                                                >
                                                                 Ramps Door with Proper Rating?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1217,7 +1372,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_door_with_vision_panel"
-                                                                       value="">
+                                                                >
                                                                 Ramps Door with Vision Panel?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1240,7 +1395,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_door_swing_in_direction_of_egress"
-                                                                       value="">
+                                                                >
                                                                 Ramps Door Swing in Direction of Egress?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1253,7 +1408,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_obstruction"
-                                                                       value="">
+                                                                >
                                                                 Ramps Obstruction?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1266,7 +1421,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="ramps_discharge_of_exit"
-                                                                       value="">
+                                                                >
                                                                 Ramps Discharge of Exit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1279,7 +1434,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_provided"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1290,9 +1445,8 @@
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
                                                             <select id="id_safe_refuge_type" name="safe_refuge_type"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Refuge Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Refuge Type</option>
                                                                 {% for value in location_choices %}
                                                                     <option value="{{ value.0 }}"
                                                                             {% if application_formdata.safe_refuge_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
@@ -1305,7 +1459,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_enclosure"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge Enclosure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1328,7 +1482,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_fire_door"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge Fire Door?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1362,7 +1516,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_with_self_closing_device"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge with Self Closing Device?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1375,7 +1529,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_door_proper_rating"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge Door Proper Rating
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1388,7 +1542,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_with_vision_panel"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge with Vision Panel
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1401,7 +1555,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_vision_panel_built"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge with Vision Panel Built
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1414,7 +1568,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="safe_refuge_swing_in_direction_of_egress"
-                                                                       value="">
+                                                                >
                                                                 Safe Refuge Swing in Direction of Egress
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1427,7 +1581,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="emergency_light"
-                                                                       value="">
+                                                                >
                                                                 Emergency Light
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1439,9 +1593,8 @@
                                                         <div class="form-group">
                                                             <select id="id_emergency_light_source"
                                                                     name="emergency_light_source"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Light Source Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Light Source Type</option>
                                                                 {% for value in current_choices %}
                                                                     <option value="{{ value.0 }}"
                                                                             {% if application_formdata.emergency_light_source == value.0 %}selected{% endif %}>{{ value.1 }}</option>
@@ -1487,7 +1640,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="emergency_light_operational"
-                                                                       value="">
+                                                                >
                                                                 Emergency Light Operational?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1500,7 +1653,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="emergency_light_exit_path_properly_illuminated"
-                                                                       value="">
+                                                                >
                                                                 Emergency Light Exit Path Properly Illuminated?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1513,7 +1666,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="emergency_light_tested_monthly"
-                                                                       value="">
+                                                                >
                                                                 Emergency Light Tested Monthly?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1526,7 +1679,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="exit_signs_illuminated"
-                                                                       value="">
+                                                                >
                                                                 Exit Signs Illuminated?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1548,9 +1701,8 @@
                                                         <div class="form-group">
                                                             <select id="id_exit_signs_source"
                                                                     name="exit_signs_source"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Exit Sign Source</option>
+                                                                    class="form-control">
+                                                                <option>Select Exit Sign Source</option>
                                                                 {% for value in current_choices %}
                                                                     <option value="{{ value.0 }}"
                                                                             {% if application_formdata.exit_signs_source == value.0 %}selected{% endif %}>{{ value.1 }}</option>
@@ -1563,7 +1715,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="exit_signs_visible"
-                                                                       value="">
+                                                                >
                                                                 Exit Sign Visible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1587,7 +1739,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="exit_route_posted_on_lobby"
-                                                                       value="">
+                                                                >
                                                                 Exit Route Posted on Lobby?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1600,7 +1752,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="exit_route_posted_on_rooms"
-                                                                       value="">
+                                                                >
                                                                 Exit Route Posted on Room?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1613,7 +1765,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="directional_exit_signs"
-                                                                       value="">
+                                                                >
                                                                 Directional Exit Signs?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1636,7 +1788,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="no_smoking_sign"
-                                                                       value="">
+                                                                >
                                                                 No Smoking Sign?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1649,7 +1801,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="dead_end_sign"
-                                                                       value="">
+                                                                >
                                                                 Dead End Sign?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1662,7 +1814,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="elevator_sign"
-                                                                       value="">
+                                                                >
                                                                 Elevator Sign?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1675,7 +1827,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="keep_door_closed_sign"
-                                                                       value="">
+                                                                >
                                                                 Keep Door Closed Sign?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1697,7 +1849,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="vertical_openings_properly_protected"
-                                                                       value="">
+                                                                >
                                                                 Vertical Openings Properly Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1705,12 +1857,23 @@
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_vertical_opening_last_tested">Vertical
+                                                                Opening Last Tested</label>
+                                                            <input id="id_vertical_opening_last_tested"
+                                                                   name="vertical_opening_last_tested"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-check">
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="vertical_openings_atrium"
-                                                                       value="">
+                                                                >
                                                                 Vertical Openings Atrium?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1723,7 +1886,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_doors_good_condition"
-                                                                       value="">
+                                                                >
                                                                 Fire Doors Good Condition?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1736,7 +1899,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="elevator_opening_protected"
-                                                                       value="">
+                                                                >
                                                                 Elevator Opening Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1749,7 +1912,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="pipe_chase_opening_protected"
-                                                                       value="">
+                                                                >
                                                                 Pipe Chase Opening Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1762,7 +1925,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="aircon_ducts_with_dumper"
-                                                                       value="">
+                                                                >
                                                                 Aircon Ducts with Dumper?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1775,7 +1938,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="garbage_chute_protected"
-                                                                       value="">
+                                                                >
                                                                 Garbage Chute Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1788,7 +1951,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="between_floor_protected"
-                                                                       value="">
+                                                                >
                                                                 Between Floor Protected?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1821,7 +1984,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="siamese_intake_provided"
-                                                                       value="">
+                                                                >
                                                                 Siamese Intake Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1866,7 +2029,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="siamese_intake_accessible"
-                                                                       value="">
+                                                                >
                                                                 Siamese Intake Accessible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1888,7 +2051,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_hose_cabinet"
-                                                                       value="">
+                                                                >
                                                                 Fire Hose Cabinet?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1901,7 +2064,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_hose_cabinet_accessories"
-                                                                       value="">
+                                                                >
                                                                 Fire Hose Cabinet Accessories?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -1957,12 +2120,22 @@
                                                                    class="form-control sif"/>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_fire_hose_last_tested">Fire Hose Last
+                                                                Tested</label>
+                                                            <input id="id_fire_hose_last_tested"
+                                                                   name="fire_hose_last_tested" type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-check">
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_lane"
-                                                                       value="">
+                                                                >
                                                                 Fire Lane?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2017,7 +2190,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="portable_fire_extinguisher_with_ps_mark"
-                                                                       value="">
+                                                                >
                                                                 Portable Fire Extinguisher with PS Mark?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2030,7 +2203,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="portable_fire_extinguisher_with_iso_mark"
-                                                                       value="">
+                                                                >
                                                                 Portable Fire Extinguisher with ISO Mark?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2043,7 +2216,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="portable_fire_extinguisher_maintained"
-                                                                       value="">
+                                                                >
                                                                 Portable Fire Extinguisher Maintained?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2066,7 +2239,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="portable_fire_extinguisher_accessible"
-                                                                       value="">
+                                                                >
                                                                 Portable Fire Extinguisher Accessible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2089,12 +2262,46 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="sprinkler_system_agent_used"
-                                                                       value="">
+                                                                >
                                                                 Sprinkler System Agent Used?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
                                                             </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_sprinkler_system_last_tested">Sprinkler
+                                                                System Last Tested</label>
+                                                            <input id="id_sprinkler_system_last_tested"
+                                                                   name="sprinkler_system_last_tested"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_sprinkler_system_last_conducted">Sprinkler
+                                                                System Last Conducted</label>
+                                                            <input id="id_sprinkler_system_last_conducted"
+                                                                   name="sprinkler_system_last_conducted"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_certificate_of_installation_date">Certificate
+                                                                of Installation
+                                                                Date</label>
+                                                            <input id="id_certificate_of_installation_date"
+                                                                   name="certificate_of_installation_date"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -2132,7 +2339,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="maintaining_line_pressure"
-                                                                       value="">
+                                                                >
                                                                 Maintaining Line Pressure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2213,7 +2420,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="plan_submitted"
-                                                                       value="">
+                                                                >
                                                                 Plan Submitted?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2226,7 +2433,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="firewall_required"
-                                                                       value="">
+                                                                >
                                                                 Firewall Required?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2239,7 +2446,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="firewall_provided"
-                                                                       value="">
+                                                                >
                                                                 Firewall Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2252,7 +2459,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="firewall_opening"
-                                                                       value="">
+                                                                >
                                                                 Firewall Opening?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2265,7 +2472,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="boiler_provided"
-                                                                       value="">
+                                                                >
                                                                 Boiler Provided?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2285,12 +2492,11 @@
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
                                                             <select id="id_boiler_fuel" name="boiler_fuel"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Boiler Fuel Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Boiler Fuel Type</option>
                                                                 {% for value in fuel_choices %}
                                                                     <option value="{{ value.0 }}"
-                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                            {% if application_formdata.boiler_fuel == value.0 %}selected{% endif %}>{{ value.1 }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -2306,11 +2512,14 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_boiler_container">Boiler Container</label>
-                                                            <input id="id_boiler_container"
-                                                                   name="boiler_container"
-                                                                   type="text"
-                                                                   class="form-control sif"/>
+                                                            <select id="id_boiler_container" name="boiler_container"
+                                                                    class="form-control">
+                                                                <option>Select Boiler Container Location</option>
+                                                                {% for value in container_location_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.boiler_container == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -2327,7 +2536,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="lpg_installation_with_permit"
-                                                                       value="">
+                                                                >
                                                                 LPG Installation with Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2340,7 +2549,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fuel_with_storage_permit"
-                                                                       value="">
+                                                                >
                                                                 Fuel with Storage Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2361,7 +2570,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="generator_set"
-                                                                       value="">
+                                                                >
                                                                 Generator Set?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2371,23 +2580,24 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_generator_set_type">Generator Set
-                                                                Type</label>
-                                                            <input id="id_generator_set_type"
-                                                                   name="generator_set_type"
-                                                                   type="text"
-                                                                   class="form-control sif"/>
+                                                            <select id="id_generator_set_type" name="generator_set_type"
+                                                                    class="form-control">
+                                                                <option>Select Generator Set Type</option>
+                                                                {% for value in generator_type_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.generator_set_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
                                                             <select id="id_generator_fuel" name="generator_fuel"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Generator Fuel Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Generator Fuel Type</option>
                                                                 {% for value in fuel_choices %}
                                                                     <option value="{{ value.0 }}"
-                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                            {% if application_formdata.generator_fuel == value.0 %}selected{% endif %}>{{ value.1 }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -2417,7 +2627,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="generator_bound_on_wall"
-                                                                       value="">
+                                                                >
                                                                 Generator Bound on Wall?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2429,12 +2639,11 @@
                                                         <div class="form-group">
                                                             <select id="id_generator_container"
                                                                     name="generator_container"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Generator Fuel Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Generator Fuel Type</option>
                                                                 {% for value in container_location_choices %}
                                                                     <option value="{{ value.0 }}"
-                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                            {% if application_formdata.generator_container == value.0 %}selected{% endif %}>{{ value.1 }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -2443,12 +2652,11 @@
                                                         <div class="form-group">
                                                             <select id="id_generator_dispensing_system"
                                                                     name="generator_dispensing_system"
-                                                                    class="form-control"
-                                                                    required>
-                                                                <option value="">Select Generator Fuel Type</option>
+                                                                    class="form-control">
+                                                                <option>Select Generator Fuel Type</option>
                                                                 {% for value in generator_dispensing_choices %}
                                                                     <option value="{{ value.0 }}"
-                                                                            {% if application_formdata.ramps_type == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                            {% if application_formdata.generator_dispensing_system == value.0 %}selected{% endif %}>{{ value.1 }}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -2469,7 +2677,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="generator_mechanical_permit"
-                                                                       value="">
+                                                                >
                                                                 Generator Mechanical Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2477,12 +2685,24 @@
                                                             </label>
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-12 col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="id_generator_mechanical_permit_date_issued">Generator
+                                                                Mechanical Permit Date
+                                                                Issued</label>
+                                                            <input id="id_generator_mechanical_permit_date_issued"
+                                                                   name="generator_mechanical_permit_date_issued"
+                                                                   type="text"
+                                                                   placeholder="Select date"
+                                                                   class="form-control sif datepicker"/>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-check">
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="generator_fuel_storage_permit"
-                                                                       value="">
+                                                                >
                                                                 Generator Fuel Storage Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2504,7 +2724,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="generator_automatic_transfer_switch"
-                                                                       value="">
+                                                                >
                                                                 Generator Automatic Transfer Switch?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2517,8 +2737,7 @@
                                                             <label for="id_time">Generator Time Interval</label>
                                                             <input id="id_time" name="generator_time_interval"
                                                                    type="text"
-                                                                   placeholder="Select date" class="form-control sif"
-                                                                   required/>
+                                                                   placeholder="Select date" class="form-control sif"/>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -2526,7 +2745,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="refuse_handling"
-                                                                       value="">
+                                                                >
                                                                 Refuse Handling?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2539,7 +2758,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="refuse_handling_enclosure"
-                                                                       value="">
+                                                                >
                                                                 Refuse Handling Enclosure?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2552,7 +2771,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="refuse_handling_fire_protection"
-                                                                       value="">
+                                                                >
                                                                 Refuse Handling Fire Protection?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2565,7 +2784,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="electrical_hazard"
-                                                                       value="">
+                                                                >
                                                                 Electrical Hazard?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2588,7 +2807,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="mechanical_hazard"
-                                                                       value="">
+                                                                >
                                                                 Mechanical Hazard?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2617,21 +2836,28 @@
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_other_service_system">Other Service
-                                                                System</label>
-                                                            <input id="id_other_service_system"
-                                                                   name="other_service_system"
-                                                                   type="text"
-                                                                   class="form-control sif"/>
+                                                            <select id="id_other_service_system"
+                                                                    name="other_service_system"
+                                                                    class="form-control">
+                                                                <option>Select Other Service System</option>
+                                                                {% for value in service_system_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.other_service_system == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
                                                         <div class="form-group">
-                                                            <label for="id_hazardous_area">Hazardous Area</label>
-                                                            <input id="id_hazardous_area"
-                                                                   name="hazardous_area"
-                                                                   type="text"
-                                                                   class="form-control sif"/>
+                                                            <select id="id_hazardous_area"
+                                                                    name="hazardous_area"
+                                                                    class="form-control">
+                                                                <option>Select Hazardous Area</option>
+                                                                {% for value in hazardous_area_choices %}
+                                                                    <option value="{{ value.0 }}"
+                                                                            {% if application_formdata.hazardous_area == value.0 %}selected{% endif %}>{{ value.1 }}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-4">
@@ -2649,7 +2875,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="separation_fire_rated"
-                                                                       value="">
+                                                                >
                                                                 Separation Fire Rated?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2694,7 +2920,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="separation_fire_rated_accessible"
-                                                                       value="">
+                                                                >
                                                                 Is Separation Fire Rated Accessible?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2707,7 +2933,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="separation_fire_rated_fuel"
-                                                                       value="">
+                                                                >
                                                                 Is Separation Fire Rated Fuel?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2730,7 +2956,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="separation_fire_rated_permit"
-                                                                       value="">
+                                                                >
                                                                 Separation Fire Rated Permit?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2750,7 +2976,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="hazardous_material"
-                                                                       value="">
+                                                                >
                                                                 Hazardous Material?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2763,7 +2989,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="hazardous_material_stored"
-                                                                       value="">
+                                                                >
                                                                 Is Hazardous Material Stored?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2776,7 +3002,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_brigade_organization"
-                                                                       value="">
+                                                                >
                                                                 Fire Brigade Organization?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2789,7 +3015,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="fire_safety_seminar"
-                                                                       value="">
+                                                                >
                                                                 Fire Safety Seminar?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2802,7 +3028,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="employee_trained_in_emergency_procedures"
-                                                                       value="">
+                                                                >
                                                                 Employee Trained in Emergency Procedures?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2815,7 +3041,7 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="evacuation_drill_first"
-                                                                       value="">
+                                                                >
                                                                 Evacuation First Drill?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
@@ -2828,8 +3054,8 @@
                                                             <label class="form-check-label">
                                                                 <input class="form-check-input" type="checkbox"
                                                                        name="evacuation_drill_second"
-                                                                       value="">
-                                                                Evacuation Secord Drill?
+                                                                >
+                                                                Evacuation Second Drill?
                                                                 <span class="form-check-sign">
                                                                       <span class="check"></span>
                                                                 </span>
@@ -2878,4 +3104,13 @@
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datepicker').bootstrapMaterialDatePicker({
+                time: false,
+                clearButton: true,
+                format: 'YYYY-MM-DD'
+            });
+        });
+    </script>
 {% endblock %}

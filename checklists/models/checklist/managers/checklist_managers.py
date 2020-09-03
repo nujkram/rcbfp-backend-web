@@ -1,6 +1,8 @@
 from django.db import models
 from django.apps import apps
 
+from datesdim.models import DateDim
+
 
 class ChecklistQuerySet(models.QuerySet):
     def actives(self):
@@ -17,7 +19,13 @@ class ChecklistManager(models.Manager):
     def create(self, *args, **kwargs):
         flag = True
         m = []
-
+        date_value = kwargs['date_checked']
+        try:
+            checked_date = DateDim.objects.get(year=date_value.year, month=date_value.month, day=date_value.day)
+        except DateDim.DoesNotExist:
+            flag = False
+            m.append(f'{checked_date} is an invalid building')
+        print(kwargs['building_permit'])
         if flag:
             checklist = self.model(
                 first_name=kwargs['first_name'],
@@ -277,7 +285,7 @@ class ChecklistManager(models.Manager):
                 sprinkler_system_last_conducted=kwargs['sprinkler_system_last_conducted'],
                 certificate_of_installation_date=kwargs['certificate_of_installation_date'],
                 generator_mechanical_permit_date_issued=kwargs['generator_mechanical_permit_date_issued'],
-                date_checked=kwargs['date_checked'],
+                date_checked=checked_date,
             )
             checklist.save()
             return checklist, 'Checklist recorded!'

@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, FUEL_CHOICES, CONTAINER_LOCATION_CHOICES, \
-    GENERATOR_DISPENSING_CHOICES
+    GENERATOR_DISPENSING_CHOICES, GENERATOR_TYPE_CHOICES, SERVICE_SYSTEM_CHOICES, HAZARDOUS_AREA_CHOICES
 from buildings.models.building.building_models import Building
 from business.models import Business
 
@@ -39,7 +39,7 @@ urlpatterns += {
         name='admin_dashboard_checklist_create'
     ),
     path(
-        'incident/<pk>/update',
+        'checklist/<pk>/update',
         checklist_views.AdminDashboardChecklistUpdateView.as_view(),
         name='admin_dashboard_checklist_update'
     ),
@@ -115,6 +115,9 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
         fuel_choices = FUEL_CHOICES
         container_location_choices = CONTAINER_LOCATION_CHOICES
         generator_dispensing_choices = GENERATOR_DISPENSING_CHOICES
+        generator_type_choices = GENERATOR_TYPE_CHOICES
+        service_system_choices = SERVICE_SYSTEM_CHOICES
+        hazardous_area_choices = HAZARDOUS_AREA_CHOICES
 
         if 'checklist_formdata' in request.session:
             checklist_formdata = request.session['checklist_formdata']
@@ -390,6 +393,9 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
             "fuel_choices": fuel_choices,
             "container_location_choices": container_location_choices,
             "generator_dispensing_choices": generator_dispensing_choices,
+            "generator_type_choices": generator_type_choices,
+            "service_system_choices": service_system_choices,
+            "hazardous_area_choices": hazardous_area_choices,
             "business": business,
         }
 
@@ -397,6 +403,7 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
 
     def post(self, request, *args, **kwargs):
         form = MasterForm(request.POST, request.FILES)
+        pk = kwargs.get('pk', None)
 
         checklist_formdata = {
             'first_name': request.post.get('first_name', ''),
@@ -1195,9 +1202,9 @@ class AdminDashboardChecklistCreateView(LoginRequiredMixin, IsAdminViewMixin, Vi
                 messages.error(request, checklist_message, extra_tags='danger')
         else:
             messages.error(request, form.errors, extra_tags='danger')
-            request.session['checklist_formdata'] = checklist_formdata
+            # request.session['checklist_formdata'] = checklist_formdata
 
-        return HttpResponseRedirect(reverse('admin_dashboard_checklist_create'))
+        return HttpResponseRedirect(reverse('admin_dashboard_checklist_create_by_business', kwargs={'pk': pk}))
 
 
 class AdminDashboardChecklistDetailView(LoginRequiredMixin, IsAdminViewMixin, View):
@@ -1342,3 +1349,32 @@ class AdminDashboardChecklistDeleteView(LoginRequiredMixin, IsAdminViewMixin, Vi
                 'admin_dashboard_checklist_list'
             )
         )
+
+
+class AdminDashboardChecklistSummaryView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    Create view for Checklist.
+
+    Allowed HTTP verbs:
+        - GET
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        - pk = kwargs.get('pk')
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
+
+        context = {
+            "page_title": f"Checklist Summary: {obj}",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "detail",
+            "obj": obj,
+        }
+
+        return render(request, "checklist/summary.html", context)

@@ -1,0 +1,794 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.get_full_name }}</h5>
+                                    <p class="text-muted">Policy No: {{ obj.policy_no }}</p>
+                                    <p class="text-muted">Building Permit:
+                                        {% if obj.building_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Occupancy Permit:
+                                        {% if obj.occupancy_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Fire Safety Inspection Certificate Control
+                                        No: {{ obj.fsic_control_no }}</p>
+                                    <p class="text-muted">Fire Drill Certificate:
+                                        {% if obj.fire_drill_certificate %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Electrical Inspection
+                                        No: {{ obj.electrical_inspection_no }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        Remarks:
+                                        {% if obj.building.is_safe %}
+                                            <strong class="text-success">Approved</strong>
+                                        {% else %}
+                                            <strong class="text-warning">Failed</strong>
+                                        {% endif %}
+                                    </h5>
+
+
+                                    <p class="text-muted">Status:
+                                        {% if obj.active %}
+                                            <strong class="text-primary">Active</strong>
+                                        {% else %}
+                                            <strong class="text-secondary">Inactive</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Latest Building Permit Date
+                                        Issued: {{ obj.building_permit_date_issued }}</p>
+                                    <p class="text-muted">Latest Occupancy Permit Date
+                                        Issued: {{ obj.occupancy_permit_date_issued }}</p>
+                                    <p></p>
+                                    <p class="text-muted">Latest Fire Safety Inspection Certificate Date
+                                        Issued: {{ obj.fsic_date_issued }}</p>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">description</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">Summary</h5>
+                                    <div class="row">
+                                        {% if not obj.is_exits_remote %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exits not remote
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.any_enclosure %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> No enclosure</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.is_exit_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exit
+                                                    not accessible</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.is_fire_doors_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exit
+                                                    Fire doors not provided</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.panic_hardware %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exit
+                                                    No panic hardware</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.adequate_illumination %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exit
+                                                    No adequate illumination</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.doors_open_easily %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Door doesn't open easily
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.bldg_with_mezzanine %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Building without mezzanine
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.is_obstructed %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Building mezzanine is obstructed
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.dead_ends_within_limits %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Dead ends over the limits
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.proper_rating_illumination %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Illumination improper rating
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.door_swing_in_the_direction_of_exit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Door swing doesn't swing in exit direction
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.self_closure_operational %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Self closure not operational
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.mezzanine_with_proper_exits %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Mezzanine without proper exits
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.corridors_of_sufficient_size %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Insufficient corridor size
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.main_stair_railings %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No main stair railings
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.main_stair_any_enclosure_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Many stair enclosure not provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.main_stair_door_proper_rating %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Main stair door no proper rating
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.main_stair_door_provided_with_vision_panel %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No vision panel provided for main stair
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.main_stair_pressurized_stairway %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Main stair not pressurized
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_vision_panel %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No horizontal exit vision panel
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_door_swing_in_direction_of_egress %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit door doesn't swing in direction of egress
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_with_self_closing_device %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit without self closing device
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_corridor_walls_extended %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit corridor walls not extended
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_properly_illuminated %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit not properly illuminated
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_readily_visible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit not readily visible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_properly_marked %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit not properly marked
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_with_illuminated_directional_sign %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit without illuminated directional sign
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.horizontal_exit_properly_located %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Horizontal exit not properly located
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramps not provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_railing_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramps railing not provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_enclosure %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No ramp enclosure
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_fire_doors %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No ramp fire doors
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_with_self_closing_device %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramp without self closing device
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_door_with_proper_rating %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramp door without proper rating
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_door_with_vision_panel %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramp door without vision panel
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.ramps_door_swing_in_direction_of_egress %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Ramp door doesn't swing in direction of egress
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge not provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_enclosure %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No safe refuge enclosure
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_fire_door %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No safe refuge fire door
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_with_self_closing_device %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge without self closing device
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_door_proper_rating %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge door no proper rating
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_with_vision_panel %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge without vision panel
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_vision_panel_built %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge without vision panel
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safe_refuge_swing_in_direction_of_egress %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safe refuge doesn't swing in direction of egress
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.emergency_light %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No emergency light
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.emergency_light_operational %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Emergency light not operational
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.emergency_light_exit_path_properly_illuminated %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Emergency light exit path not properly illuminated
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.emergency_light_tested_monthly %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Emergency light not tested monthly
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exit_signs_illuminated %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Exit signs not illuminated
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exit_signs_visible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Exit signs not visible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exit_route_posted_on_lobby %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No exit route posted on the lobby
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exit_route_posted_on_rooms %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No exit route posted on rooms
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.directional_exit_signs %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No directional exit signs
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.no_smoking_sign %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No smoking sign
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.dead_end_sign %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No dead end sign
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.keep_door_closed_sign %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No keep door closed sign
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.vertical_openings_properly_protected %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Vertical openings not properly protected
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.vertical_openings_atrium %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No vertical atrium openings
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_doors_good_condition %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Fire doors not in good condition
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.pipe_chase_opening_protected %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Pipe chase opening not protected
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.aircon_ducts_with_dumper %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Aircon ducts without dumper
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.garbage_chute_protected %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Garbage chute not protected
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.between_floor_protected %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Between floor not protected
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.siamese_intake_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No siamese intake provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.siamese_intake_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Siamese intake not accessible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_hose_cabinet %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No fire hose cabinet
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_hose_cabinet_accessories %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No fire hose cabinet accessories
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_lane %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No fire lane
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.portable_fire_extinguisher_with_ps_mark %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No portable fire extinguisher with PS mark
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.portable_fire_extinguisher_with_iso_mark %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No portable fire extinguisher with ISO mark
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.portable_fire_extinguisher_maintained %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Portable fire extinguisher not maintained
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.portable_fire_extinguisher_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Portable fire extinguisher not accessible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.sprinkler_system_agent_used %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No sprinkler system agent used
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.maintaining_line_pressure %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Unmaintained line pressure
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.plan_submitted %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No plan submitted
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.firewall_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No firewall
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.firewall_opening %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No firewall opening
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.boiler_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Boiler not provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.lpg_installation_with_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    LPG installation without permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fuel_with_storage_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Fuel without storage permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.generator_set %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No generator set
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.generator_mechanical_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No generator mechanical permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.generator_fuel_storage_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No generator fuel storage permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.generator_automatic_transfer_switch %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No generator automatic transfer switch
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.refuse_handling %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No refuse handling
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.refuse_handling_enclosure %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No refuse handling enclosure
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.refuse_handling_fire_protection %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No refuse handling fire protection
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.electrical_hazard %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No electrical hazard
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.mechanical_hazard %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No mechanical hazard
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.separation_fire_rated %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No separation fire rated
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.separation_fire_rated_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Separation fire rated not accessible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.separation_fire_rated_fuel %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No separation fire rated fuel
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.separation_fire_rated_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No separation fire rated permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_safety_seminar %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No fire safety seminar conducted
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.employee_trained_in_emergency_procedures %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Untrained employees in emergency procedures
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.evacuation_drill_first %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No evacuation drill conducted
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,2412 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.get_full_name }}</h5>
+                                    <p class="text-muted">Policy No: {{ obj.policy_no }}</p>
+                                    <p class="text-muted">Building Permit:
+                                        {% if obj.building_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Occupancy Permit:
+                                        {% if obj.occupancy_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Fire Safety Inspection Certificate Control
+                                        No: {{ obj.fsic_control_no }}</p>
+                                    <p class="text-muted">Fire Drill Certificate:
+                                        {% if obj.fire_drill_certificate %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Electrical Inspection
+                                        No: {{ obj.electrical_inspection_no }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        Remarks:
+                                        {% if obj.building.is_safe %}
+                                            <strong class="text-primary">Approved</strong>
+                                        {% else %}
+                                            <strong class="text-warning">Failed</strong>
+                                        {% endif %}
+                                    </h5>
+
+
+                                    <p class="text-muted">Status:
+                                        {% if obj.active %}
+                                            <strong class="text-primary">Active</strong>
+                                        {% else %}
+                                            <strong class="text-secondary">Inactive</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Latest Building Permit Date
+                                        Issued: {{ obj.building_permit_date_issued }}</p>
+                                    <p class="text-muted">Latest Occupancy Permit Date
+                                        Issued: {{ obj.occupancy_permit_date_issued }}</p>
+                                    <p></p>
+                                    <p class="text-muted">Latest Fire Safety Inspection Certificate Date
+                                        Issued: {{ obj.fsic_date_issued }}</p>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs card-plain">
+                                <div class="card-header card-header-primary">
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#feature" data-toggle="tab">
+                                                        <i class="material-icons">star</i>
+                                                        Features
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#fire_escapes" data-toggle="tab">
+                                                        <i class="material-icons">sensor_door</i>
+                                                        Fire Escapes
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#emergency_exit" data-toggle="tab">
+                                                        <i class="material-icons">sensor_door</i>
+                                                        Emergency Exit
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#fire_tools" data-toggle="tab">
+                                                        <i class="material-icons">fire_extinguisher</i>
+                                                        Fire Tools
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#generator" data-toggle="tab">
+                                                        <i class="material-icons">power</i>
+                                                        Generator
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#materials" data-toggle="tab">
+                                                        <i class="material-icons">inbox</i>
+                                                        Materials
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content text-left">
+                                        <!-- begin: Feature Pane -->
+                                        <div class="tab-pane active" id="feature">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_sectional_occupancy">Sectional
+                                                            Occupancy:</label>
+                                                        <strong>{{ obj.sectional_occupancy }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_occupant_load">Occupant Load:</label>
+                                                        <strong>{{ obj.occupant_load }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_egress_capacity">Egress Capacity:</label>
+                                                        <strong>{{ obj.egress_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            Any Renovation:</label>
+                                                        {% if obj.any_renovation %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="id_renovation_specification">Renovation
+                                                            Specification:</label>
+                                                        <strong>{{ obj.renovation_specification }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_horizontal_exit_capacity">Horizontal Exit
+                                                            Capacity:</label>
+                                                        <strong>{{ obj.horizontal_exit_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_exit_stair_capacity">Exit Stair
+                                                            Capacity:</label>
+                                                        <strong>{{ obj.exit_stair_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_no_of_exits">Number of Exits:</label>
+                                                        <strong>{{ obj.no_of_exits }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Is Exits Remote:</label>
+                                                        {% if obj.is_exits_remote %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="id_exit_location">Exit Location:</label>
+                                                        <strong>{{ obj.exit_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>Any Enclosure:</label>
+                                                        {% if obj.any_enclosure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>Is Exit Accessible:</label>
+                                                        {% if obj.is_exit_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>Is Fire Door Provided:</label>
+                                                        {% if obj.is_fire_doors_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>Is Fire Door Self Closing Mechanism:</label>
+                                                        {% if obj.self_closing_mechanism %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Panic Hardware:
+                                                        </label>
+                                                        {% if obj.panic_hardware %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Panic Hardware Readily Accessible:
+                                                        </label>
+                                                        {% if obj.readily_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Panic Hardware Travel Distance within Limit:
+                                                        </label>
+                                                        {% if obj.travel_distance_within_limit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Adequate Illumination:
+                                                        </label>
+                                                        {% if obj.adequate_illumination %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Panic Hardware Operational:
+                                                        </label>
+                                                        {% if obj.panic_hardware_operational %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Doors Open Easily:
+                                                        </label>
+                                                        {% if obj.doors_open_easily %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Bldg with Mezzanine:
+                                                        </label>
+                                                        {% if obj.bldg_with_mezzanine %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Is Obstructed:
+                                                        </label>
+                                                        {% if obj.is_obstructed %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Dead Ends within Limit:
+                                                        </label>
+                                                        {% if obj.dead_ends_within_limits %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Proper Rating Illumination:
+                                                        </label>
+                                                        {% if obj.proper_rating_illumination %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Door Swing in the Direction of Exit:
+                                                        </label>
+                                                        {% if obj.door_swing_in_the_direction_of_exit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Self Closure Operational:
+                                                        </label>
+                                                        {% if obj.self_closure_operational %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Mezzanine with Proper Exits:
+                                                        </label>
+                                                        {% if obj.mezzanine_with_proper_exits %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Corridors of Sufficient Size:
+                                                        </label>
+                                                        {% if obj.corridors_of_sufficient_size %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_width">Main Stair Width:</label>
+                                                        <strong>{{ obj.main_stair_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_construction">Construction:</label>
+                                                        <strong>{{ obj.construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Main Stair Railings:
+                                                        </label>
+                                                        {% if obj.main_stair_railings %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_railings_built">Main Stair Railing
+                                                            Built</label>
+                                                        <strong>{{ obj.main_stair_railings_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Main Stair Any Enclosure Provided:
+                                                        </label>
+                                                        {% if obj.main_stair_any_enclosure_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_enclosure_built">Enclosure Built:</label>
+                                                        <strong>{{ obj.enclosure_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Any Openings:
+                                                        </label>
+                                                        {% if obj.any_openings %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Main Stair Door Proper Rating:
+                                                        </label>
+                                                        {% if obj.main_stair_door_proper_rating %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Main Stair Door Provided with Vision Panel:
+                                                        </label>
+                                                        {% if obj.main_stair_door_provided_with_vision_panel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_door_vision_panel_built">Main
+                                                            Stair Door Vision Panel Built</label>
+                                                        <strong>{{ obj.main_stair_door_vision_panel_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Main Stair Pressurized Stairway:
+                                                        </label>
+                                                        {% if obj.main_stair_pressurized_stairway %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_pressurized_stairway_last_tested">Main
+                                                            Stair Pressurized Stairway Last:
+                                                            Tested</label>
+                                                        <strong>{{ obj.main_stair_pressurized_stairway_last_tested }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_type_of_pressurized_stairway">Main
+                                                            Stair Type of Pressurized Stairway:</label>
+                                                        <strong>{{ obj.main_stair_type_of_pressurized_stairway }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Feature Pane -->
+
+                                        <!-- begin: Fire Escape Pane -->
+                                        <div class="tab-pane" id="fire_escapes">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_escape_count">Fire Escape Count:</label>
+                                                        <strong>{{ obj.fire_escape_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_escape_width">Fire Escape Width:</label>
+                                                        <strong>{{ obj.fire_escape_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_escape_construction">Fire Escape
+                                                            Construction</label>
+                                                        <strong>{{ obj.fire_escape_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Railings:
+                                                        </label>
+                                                        {% if obj.fire_escape_railings %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_escape_built">Fire Escape Built:</label>
+                                                        <strong>{{ obj.fire_escape_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_escape_location">Fire Escape
+                                                            Location:</label>
+                                                        <strong>{{ obj.fire_escape_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Obstruction:
+                                                        </label>
+                                                        {% if obj.fire_escape_obstruction %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Discharge of Exits:
+                                                        </label>
+                                                        {% if obj.discharge_of_exits %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Any Enclosure Provided:
+                                                        </label>
+                                                        {% if obj.fire_escape_any_enclosure_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Enclosure:
+                                                        </label>
+                                                        {% if obj.fire_escape_enclosure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Openings:
+                                                        </label>
+                                                        {% if obj.fire_escape_opening %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Escape Opening Protected:
+                                                        </label>
+                                                        {% if obj.fire_escape_opening_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Door Provided:
+                                                        </label>
+                                                        {% if obj.fire_door_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_door_width">Fire Door Width</label>
+                                                        <strong>{{ obj.fire_door_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_door_construction">Fire Door
+                                                            Construction</label>
+                                                        <strong>{{ obj.fire_door_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Door Proper Rating:
+                                                        </label>
+                                                        {% if obj.fire_door_door_proper_rating %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Door Provided with Vision Panel:
+                                                        </label>
+                                                        {% if obj.fire_door_door_provided_with_vision_panel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_door_door_vision_panel_built">Fire Door
+                                                            Vision Panel Built</label>
+                                                        <strong>{{ obj.fire_door_door_vision_panel_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Door Pressurized:
+                                                        </label>
+                                                        {% if obj.fire_door_pressurized_stairway %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_main_stair_pressurized_stairway_last_tested">Fire
+                                                            Door Pressurized Last
+                                                            Tested</label>
+                                                        <strong>{{ obj.main_stair_pressurized_stairway_last_tested }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_door_type_of_pressurized_stairway">Fire
+                                                            Door Type of Pressurized Stairway</label>
+                                                        <strong>{{ obj.fire_door_type_of_pressurized_stairway }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Fire Escape Pane -->
+
+                                        <!-- begin: Emergency Exit Pane -->
+                                        <div class="tab-pane" id="emergency_exit">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_horizontal_exit_width">Horizontal Exit
+                                                            Width</label>
+                                                        <strong>{{ obj.horizontal_exit_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_horizontal_exit_construction">Horizontal Exit
+                                                            Construction</label>
+                                                        <strong>{{ obj.horizontal_exit_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Vision Panel:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_vision_panel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Door Swing in Direction of Egress:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_door_swing_in_direction_of_egress %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit with Self Closing Device:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_with_self_closing_device %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_horizontal_exit_corridor_width">Horizontal
+                                                            Exit Corridor Width:</label>
+                                                        <strong>{{ obj.horizontal_exit_corridor_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_horizontal_exit_corridor_construction">Horizontal
+                                                            Exit Corridor Construction:</label>
+                                                        <strong>{{ obj.horizontal_exit_corridor_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Corridor Walls Extended:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_corridor_walls_extended %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Property Illuminated:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_properly_illuminated %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Readily Visible:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_readily_visible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Properly Marked:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_properly_marked %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit with Illuminated Directional Sign:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_with_illuminated_directional_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Horizontal Exit Properly Located:
+                                                        </label>
+                                                        {% if obj.horizontal_exit_properly_located %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Provided:
+                                                        </label>
+                                                        {% if obj.ramps_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_type">Ramp Type:</label>
+                                                        <strong>{{ obj.ramps_type }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_width">Ramps Width:</label>
+                                                        <strong>{{ obj.ramps_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_class">Ramp Class:</label>
+                                                        <strong>{{ obj.ramps_class }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Railing Provided:
+                                                        </label>
+                                                        {% if obj.ramps_railing_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_height">Ramps Height:</label>
+                                                        <strong>{{ obj.ramps_height }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Enclosure:
+                                                        </label>
+                                                        {% if obj.ramps_enclosure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_construction">Ramp Construction:</label>
+                                                        <strong>{{ obj.ramps_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Fire Doors:
+                                                        </label>
+                                                        {% if obj.ramps_fire_doors %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_fire_doors_width">Ramps Fire Door
+                                                            Width:</label>
+                                                        <strong>{{ obj.ramps_fire_doors_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_fire_doors_construction">Ramp Fire Door
+                                                            Construction:</label>
+                                                        <strong>{{ obj.ramps_fire_doors_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps with Self Closing Device:
+                                                        </label>
+                                                        {% if obj.ramps_with_self_closing_device %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Door with Proper Rating:
+                                                        </label>
+                                                        {% if obj.ramps_door_with_proper_rating %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Door with Vision Panel:
+                                                        </label>
+                                                        {% if obj.ramps_door_with_vision_panel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_ramps_door_vision_panel_built">Ramp Door
+                                                            Vision Panel Built:</label>
+                                                        <strong>{{ obj.ramps_door_vision_panel_built }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Door Swing in Direction of Egress:
+                                                        </label>
+                                                        {% if obj.ramps_door_swing_in_direction_of_egress %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Ramps Obstruction:
+                                                        </label>
+                                                        {% if obj.ramps_obstruction %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>rge of Exit:
+                                                        </label>
+                                                        {% if obj.ramps_discharge_of_exit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge Provided:
+                                                        </label>
+                                                        {% if obj.safe_refuge_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_safe_refuge_type">Ramp Door
+                                                            Refuge Type:</label>
+                                                        <strong>{{ obj.safe_refuge_type }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge Enclosure:
+                                                        </label>
+                                                        {% if obj.safe_refuge_enclosure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_safe_refuge_construction">Safe Refuge
+                                                            Construction:</label>
+                                                        <strong>{{ obj.safe_refuge_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge Fire Door:
+                                                        </label>
+                                                        {% if obj.safe_refuge_fire_door %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_safe_refuge_fire_door_width">Safe Refuge Fire
+                                                            Door Width:</label>
+                                                        <strong>{{ obj.safe_refuge_fire_door_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_safe_refuge_fire_door_construction">Safe
+                                                            Refuge Fire Door Construction:</label>
+                                                        <strong>{{ obj.safe_refuge_fire_door_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge with Self Closing Device:
+                                                        </label>
+                                                        {% if obj.safe_refuge_with_self_closing_device %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge Door Proper Rating:
+                                                        </label>
+                                                        {% if obj.safe_refuge_door_proper_rating %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge with Vision Panel:
+                                                        </label>
+                                                        {% if obj.safe_refuge_with_vision_panel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge with Vision Panel Built:
+                                                        </label>
+                                                        {% if obj.safe_refuge_vision_panel_built %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Safe Refuge Swing in Direction of Egress:
+                                                        </label>
+                                                        {% if obj.safe_refuge_swing_in_direction_of_egress %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Emergency Light:
+                                                        </label>
+                                                        {% if obj.emergency_light %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_emergency_light_source">Safe Refuge Fire
+                                                            Door Width:</label>
+                                                        <strong>{{ obj.emergency_light_source }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_emergency_light_per_floor_count">Emergency
+                                                            Light per Floor Count:</label>
+                                                        <strong>{{ obj.emergency_light_per_floor_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_emergency_light_hallway_count">Emergency
+                                                            Light Hallway Count:</label>
+                                                        <strong>{{ obj.emergency_light_hallway_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_emergency_light_stairway_count">Emergency
+                                                            Light Stairway Count:</label>
+                                                        <strong>{{ obj.emergency_light_stairway_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Emergency Light Operational:
+                                                        </label>
+                                                        {% if obj.emergency_light_operational %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Emergency Light Exit Properly Illuminated:
+                                                        </label>
+                                                        {% if obj.emergency_light_exit_path_properly_illuminated %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Emergency Light Tested Monthly:
+                                                        </label>
+                                                        {% if obj.emergency_light_tested_monthly %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Exit Signs Illuminated:
+                                                        </label>
+                                                        {% if obj.exit_signs_illuminated %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_exit_signs_location">Exit Signs
+                                                            Location:</label>
+                                                        <strong>{{ obj.exit_signs_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_exit_signs_source">Exit Signs
+                                                            Location:</label>
+                                                        <strong>{{ obj.exit_signs_source }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Exit Sign Visible:
+                                                        </label>
+                                                        {% if obj.exit_signs_visible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_exit_signs_min_letter_size">Exit Signs Min
+                                                            Letter Size:</label>
+                                                        <strong>{{ obj.exit_signs_min_letter_size }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Exit Route Posted on Lobby:
+                                                        </label>
+                                                        {% if obj.exit_route_posted_on_lobby %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Exit Route Posted on Room:
+                                                        </label>
+                                                        {% if obj.exit_route_posted_on_rooms %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Directional Exit Signs:
+                                                        </label>
+                                                        {% if obj.directional_exit_signs %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_directional_exit_signs_location">Directional
+                                                            Exit Signs Location:</label>
+                                                        <strong>{{ obj.directional_exit_signs_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            No Smoking Sign:
+                                                        </label>
+                                                        {% if obj.no_smoking_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Dead End Sign:
+                                                        </label>
+                                                        {% if obj.dead_end_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Elevator Sign:
+                                                        </label>
+                                                        {% if obj.elevator_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Keep Door Closed Sign:
+                                                        </label>
+                                                        {% if obj.keep_door_closed_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_others">Others:</label>
+                                                        <strong>{{ obj.others }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Vertical Openings Properly Protected:
+                                                        </label>
+                                                        {% if obj.vertical_openings_properly_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_vertical_opening_last_tested">Vertical
+                                                            Opening Last Tested:</label>
+                                                        <strong>{{ obj.vertical_opening_last_tested }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Vertical Openings Atrium:
+                                                        </label>
+                                                        {% if obj.vertical_openings_atrium %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Doors Good Condition:
+                                                        </label>
+                                                        {% if obj.fire_doors_good_condition %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Elevator Opening Protected:
+                                                        </label>
+                                                        {% if obj.elevator_opening_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Pipe Chase Opening Protected:
+                                                        </label>
+                                                        {% if obj.pipe_chase_opening_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Aircon Ducts with Dumper:
+                                                        </label>
+                                                        {% if obj.aircon_ducts_with_dumper %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Garbage Chute Protected:
+                                                        </label>
+                                                        {% if obj.garbage_chute_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Between Floor Protected:
+                                                        </label>
+                                                        {% if obj.between_floor_protected %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_standpipe_tank_capacity">Standpipe Tank
+                                                            Capacity:</label>
+                                                        <strong>{{ obj.standpipe_tank_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_standpipe_location">Standpipe
+                                                            Location:</label>
+                                                        <strong>{{ obj.standpipe_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Siamese Intake Provided:
+                                                        </label>
+                                                        {% if obj.siamese_intake_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_siamese_intake_location">Siamese Intake
+                                                            Location:</label>
+                                                        <strong>{{ obj.siamese_intake_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_siamese_intake_size">Siamese Intake
+                                                            Size:</label>
+                                                        <strong>{{ obj.siamese_intake_size }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_siamese_intake_count">Siamese Intake
+                                                            Count:</label>
+                                                        <strong>{{ obj.siamese_intake_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Siamese Intake Accessible:
+                                                        </label>
+                                                        {% if obj.siamese_intake_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Emergency Exit Pane -->
+
+                                        <!-- begin: Fire Tools Pane -->
+                                        <div class="tab-pane" id="fire_tools">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Hose Cabinet:
+                                                        </label>
+                                                        {% if obj.fire_hose_cabinet %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Hose Cabinet Accessories:
+                                                        </label>
+                                                        {% if obj.fire_hose_cabinet_accessories %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_cabinet_location">Fire Hose Cabinet
+                                                            Location:</label>
+                                                        <strong>{{ obj.fire_hose_cabinet_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_per_floor_count">Fire Hose per
+                                                            Floor Count:</label>
+                                                        <strong>{{ obj.fire_hose_per_floor_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_size">Fire Hose Size:</label>
+                                                        <strong>{{ obj.fire_hose_size }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_length">Fire Hose Length:</label>
+                                                        <strong>{{ obj.fire_hose_length }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_nozzle">Fire Hose Nozzle:</label>
+                                                        <strong>{{ obj.fire_hose_nozzle }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hose_last_tested">Fire Hose Last
+                                                            Tested:</label>
+                                                        <strong>{{ obj.fire_hose_last_tested }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Lane:
+                                                        </label>
+                                                        {% if obj.fire_lane %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_hydrant_location">Fire Hydrant
+                                                            Location:</label>
+                                                        <strong>{{ obj.fire_hydrant_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_portable_fire_extinguisher_type">Portable
+                                                            Fire Extinguisher Type:</label>
+                                                        <strong>{{ obj.portable_fire_extinguisher_type }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_portable_fire_extinguisher_capacity">Portable
+                                                            Fire Extinguisher Capacity:</label>
+                                                        <strong>{{ obj.portable_fire_extinguisher_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_portable_fire_extinguisher_count">Portable
+                                                            Fire Extinguisher Count:</label>
+                                                        <strong>{{ obj.portable_fire_extinguisher_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Portable Fire Extinguisher with PS Mark:
+                                                        </label>
+                                                        {% if obj.portable_fire_extinguisher_with_ps_mark %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Portable Fire Extinguisher with ISO Mark:
+                                                        </label>
+                                                        {% if obj.portable_fire_extinguisher_with_iso_mark %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Portable Fire Extinguisher Maintained:
+                                                        </label>
+                                                        {% if obj.portable_fire_extinguisher_maintained %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_portable_fire_extinguisher_conspicuously_located">Portable
+                                                            Fire Extinguisher Conspicuously Located</label>
+                                                        <strong>{{ obj.portable_fire_extinguisher_conspicuously_located }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Portable Fire Extinguisher Accessible:
+                                                        </label>
+                                                        {% if obj.portable_fire_extinguisher_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_portable_fire_extinguisher_other_type">Portable
+                                                            Fire Extinguisher Other Type</label>
+                                                        <strong>{{ obj.portable_fire_extinguisher_other_type }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Sprinkler System Agent Used:
+                                                        </label>
+                                                        {% if obj.sprinkler_system_agent_used %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_sprinkler_system_last_tested">Sprinkler
+                                                            System Last Tested:</label>
+                                                        <strong>{{ obj.sprinkler_system_last_tested }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_sprinkler_system_last_conducted">Sprinkler
+                                                            System Last Conducted:</label>
+                                                        <strong>{{ obj.sprinkler_system_last_conducted }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_certificate_of_installation_date">Certificate
+                                                            of Installation
+                                                            Date:</label>
+                                                        <strong>{{ obj.certificate_of_installation_date }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_jockey_pump_capacity">Jockey Pump
+                                                            Capacity</label>
+                                                        <strong>{{ obj.jockey_pump_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_fire_pump_capacity">Fire Pump
+                                                            Capacity:</label>
+                                                        <strong>{{ obj.fire_pump_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_gpm_tank_capacity">GPM Tank Capacity:</label>
+                                                        <strong>{{ obj.gpm_tank_capacity }}</strong>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Maintaining Line Pressure:
+                                                        </label>
+                                                        {% if obj.maintaining_line_pressure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_farthest_sprinkler_head_pressure">Farthest
+                                                            Sprinkler Head Pressure:</label>
+                                                        <strong>{{ obj.farthest_sprinkler_head_pressure }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_riser_size">Riser Size:</label>
+                                                        <strong>{{ obj.riser_size }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_type_of_heads_installed">Type of Heads
+                                                            Installed:</label>
+                                                        <strong>{{ obj.type_of_heads_installed }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_heads_per_floor_count">Heads per Floor
+                                                            Count:</label>
+                                                        <strong>{{ obj.heads_per_floor_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_heads_total_count">Heads Total Count:</label>
+                                                        <strong>{{ obj.heads_total_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_spacing_of_heads">Spacing of Heads:</label>
+                                                        <strong>{{ obj.spacing_of_heads }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_location_of_fire_dept_connection">Location of
+                                                            Fire Dept Connection:</label>
+                                                        <strong>{{ obj.location_of_fire_dept_connection }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Plan Submitted:
+                                                        </label>
+                                                        {% if obj.plan_submitted %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Firewall Required:
+                                                        </label>
+                                                        {% if obj.firewall_required %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Firewall Provided:
+                                                        </label>
+                                                        {% if obj.firewall_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Firewall Opening:
+                                                        </label>
+                                                        {% if obj.firewall_opening %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Boiler Provided:
+                                                        </label>
+                                                        {% if obj.boiler_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_boiler_unit_count">Boiler Unit Count</label>
+                                                        <strong>{{ obj.boiler_unit_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_boiler_fuel">Boiler Fuel:</label>
+                                                        <strong>{{ obj.boiler_fuel }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_boiler_capacity">Boiler Capacity:</label>
+                                                        <strong>{{ obj.boiler_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_boiler_container">Boiler Container:</label>
+                                                        <strong>{{ obj.boiler_container }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_boiler_location">Boiler Location:</label>
+                                                        <strong>{{ obj.boiler_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            LPG Installation with Permit:
+                                                        </label>
+                                                        {% if obj.lpg_installation_with_permit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fuel with Storage Permit:
+                                                        </label>
+                                                        {% if obj.fuel_with_storage_permit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- end: Fire Tools Pane -->
+
+                                        <!-- begin: Generator Pane -->
+                                        <div class="tab-pane" id="generator">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Generator Set:
+                                                        </label>
+                                                        {% if obj.generator_set %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_set_type">Generator
+                                                            Set Type:</label>
+                                                        <strong>{{ obj.generator_set_type }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_fuel">Generator
+                                                            Fuel:</label>
+                                                        <strong>{{ obj.generator_fuel }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_capacity">Generator
+                                                            Capacity:</label>
+                                                        <strong>{{ obj.generator_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_location">Generator
+                                                            Location:</label>
+                                                        <strong>{{ obj.generator_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Generator Bound on Wall:
+                                                        </label>
+                                                        {% if obj.generator_bound_on_wall %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_container">Generator Container:</label>
+                                                        <strong>{{ obj.generator_container }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_dispensing_system">Generator Dispensing
+                                                            System:</label>
+                                                        <strong>{{ obj.generator_dispensing_system }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_output_capacity">Generator Output
+                                                            Capacity</label>
+                                                        <strong>{{ obj.generator_output_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Generator Mechanical Permit:
+                                                        </label>
+                                                        {% if obj.generator_mechanical_permit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_mechanical_permit_date_issued">Generator
+                                                            Mechanical Permit Date
+                                                            Issued</label>
+                                                        <strong>{{ obj.generator_mechanical_permit_date_issued }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Generator Fuel Storage Permit:
+                                                        </label>
+                                                        {% if obj.generator_fuel_storage_permit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_generator_others">Generator Others</label>
+                                                        <strong>{{ obj.generator_others }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Generator Automatic Transfer Switch:
+                                                        </label>
+                                                        {% if obj.generator_automatic_transfer_switch %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_time">Generator Time Interval</label>
+                                                        <strong>{{ obj.generator_time_interval }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Refuse Handling:
+                                                        </label>
+                                                        {% if obj.refuse_handling %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Refuse Handling Enclosure:
+                                                        </label>
+                                                        {% if obj.refuse_handling_enclosure %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Refuse Handling Fire Protection:
+                                                        </label>
+                                                        {% if obj.refuse_handling_fire_protection %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Electrical Hazard:
+                                                        </label>
+                                                        {% if obj.electrical_hazard %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_electrical_hazard_location">Electrical Hazard
+                                                            Location:</label>
+                                                        <strong>{{ obj.electrical_hazard_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Mechanical Hazard:
+                                                        </label>
+                                                        {% if obj.mechanical_hazard %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_mechanical_hazard_location">Mechanical Hazard
+                                                            Location:</label>
+                                                        <strong>{{ obj.mechanical_hazard_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_elevator_count">Elevator Count:</label>
+                                                        <strong>{{ obj.elevator_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_other_service_system">Other Service
+                                                            System:</label>
+                                                        <strong>{{ obj.other_service_system }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_hazardous_area">Other Hazardous
+                                                            Area:</label>
+                                                        <strong>{{ obj.hazardous_area }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_hazardous_area_other">Other Hazardous
+                                                            Area:</label>
+                                                        <strong>{{ obj.hazardous_area_other }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Separation Fire Rated:
+                                                        </label>
+                                                        {% if obj.separation_fire_rated %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_type_of_protection">Type of
+                                                            Protection:</label>
+                                                        <strong>{{ obj.type_of_protection }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_separation_fire_rated_count">Separation Fire
+                                                            Rated Count:</label>
+                                                        <strong>{{ obj.separation_fire_rated_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_separation_fire_rated_capacity">Separation
+                                                            Fire Rated Capacity:</label>
+                                                        <strong>{{ obj.separation_fire_rated_capacity }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Is Separation Fire Rated Accessible:
+                                                        </label>
+                                                        {% if obj.separation_fire_rated_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Is Separation Fire Rated Fuel:
+                                                        </label>
+                                                        {% if obj.separation_fire_rated_fuel %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_separation_fire_rated_location">Separation
+                                                            Fire Rated Location:</label>
+                                                        <strong>{{ obj.separation_fire_rated_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Separation Fire Rated Permit:
+                                                        </label>
+                                                        {% if obj.separation_fire_rated_permit %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Generator Pane -->
+
+                                        <!-- begin: Material Pane -->
+                                        <div class="tab-pane" id="materials">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Hazardous Material:
+                                                        </label>
+                                                        {% if obj.hazardous_material %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Is Hazardous Material Stored:
+                                                        </label>
+                                                        {% if obj.hazardous_material_stored %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Brigade Organization:
+                                                        </label>
+                                                        {% if obj.fire_brigade_organization %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Fire Safety Seminar:
+                                                        </label>
+                                                        {% if obj.fire_safety_seminar %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Employee Trained in Emergency Procedures:
+                                                        </label>
+                                                        {% if obj.employee_trained_in_emergency_procedures %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Evacuation First Drill:
+                                                        </label>
+                                                        {% if obj.evacuation_drill_first %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class=" form-group">
+                                                        <label>
+                                                            Evacuation Second Drill:
+                                                        </label>
+                                                        {% if obj.evacuation_drill_second %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="id_defects">Defects</label>
+                                                        <strong>{{ obj.defects }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-4">
+                                                    <div class="form-group">
+                                                        {% if obj.defects_photo %}
+                                                            <label for="id_defects_photo">Defects Photo</label>
+                                                            <img src="{{ obj.defects_photo.url }}">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- end: Material Pane -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    {% include 'map/building_location.js.html' %}
+{% endblock %}

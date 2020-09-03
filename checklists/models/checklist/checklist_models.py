@@ -83,20 +83,20 @@ class Checklist(models.Model):
     building_permit = models.BooleanField(default=False)
     occupancy_permit = models.BooleanField(default=False)
     fsic_control_no = models.CharField(max_length=18, blank=True, null=True)
-    fsic_fee = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    fsic_fee = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True, default=0)
     fire_drill_certificate = models.BooleanField(default=False)
     violation_control_no = models.CharField(max_length=24, blank=True, null=True)
     electrical_inspection_no = models.CharField(max_length=24, blank=True, null=True)
 
     # features
-    sectional_occupancy = models.PositiveSmallIntegerField(blank=True, null=True)
-    occupant_load = models.PositiveSmallIntegerField(blank=True, null=True)
-    egress_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    sectional_occupancy = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    occupant_load = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    egress_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     any_renovation = models.BooleanField(default=False)
     renovation_specification = models.CharField(max_length=254, blank=True, null=True)
-    horizontal_exit_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    exit_stair_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    no_of_exits = models.PositiveSmallIntegerField(blank=True, null=True)
+    horizontal_exit_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    exit_stair_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    no_of_exits = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     is_exits_remote = models.BooleanField(default=False)
     exit_location = models.CharField(max_length=254, blank=True, null=True)
     any_enclosure = models.BooleanField(default=False)
@@ -117,7 +117,7 @@ class Checklist(models.Model):
     self_closure_operational = models.BooleanField(default=False)
     mezzanine_with_proper_exits = models.BooleanField(default=False)
     corridors_of_sufficient_size = models.BooleanField(default=False)
-    main_stair_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    main_stair_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     construction = models.CharField(max_length=254, blank=True, null=True)  # not_sure
     main_stair_railings = models.BooleanField(default=False)
     main_stair_railings_built = models.CharField(max_length=254, blank=True, null=True)
@@ -131,8 +131,8 @@ class Checklist(models.Model):
     main_stair_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
 
     # fire escapes
-    fire_escape_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_escape_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    fire_escape_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    fire_escape_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     fire_escape_construction = models.CharField(max_length=254, blank=True, null=True)
     fire_escape_railings = models.BooleanField(default=False)
     fire_escape_built = models.CharField(max_length=254, blank=True, null=True)
@@ -144,7 +144,7 @@ class Checklist(models.Model):
     fire_escape_opening = models.BooleanField(default=False)
     fire_escape_opening_protected = models.BooleanField(default=False)
     fire_door_provided = models.BooleanField(default=False)
-    fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     fire_door_construction = models.CharField(max_length=254, blank=True, null=True)
     fire_door_door_proper_rating = models.BooleanField(default=False)
     fire_door_door_provided_with_vision_panel = models.BooleanField(default=False)
@@ -153,12 +153,12 @@ class Checklist(models.Model):
     fire_door_type_of_pressurized_stairway = models.CharField(max_length=254, blank=True, null=True)
 
     # Emergency
-    horizontal_exit_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    horizontal_exit_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     horizontal_exit_construction = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_vision_panel = models.BooleanField(default=False)
     horizontal_exit_door_swing_in_direction_of_egress = models.BooleanField(default=False)
     horizontal_exit_with_self_closing_device = models.BooleanField(default=False)
-    horizontal_exit_corridor_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    horizontal_exit_corridor_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     horizontal_exit_corridor_construction = models.CharField(max_length=254, blank=True, null=True)
     horizontal_exit_corridor_walls_extended = models.BooleanField(default=False)
     horizontal_exit_properly_illuminated = models.BooleanField(default=False)
@@ -168,14 +168,14 @@ class Checklist(models.Model):
     horizontal_exit_properly_located = models.BooleanField(default=False)
     ramps_provided = models.BooleanField(default=False)
     ramps_type = models.CharField(choices=LOCATION_CHOICES, blank=True, null=True, max_length=64)
-    ramps_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    ramps_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     ramps_class = models.CharField(max_length=254, blank=True, null=True)
     ramps_railing_provided = models.BooleanField(default=False)
-    ramps_height = models.PositiveSmallIntegerField(blank=True, null=True)
+    ramps_height = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     ramps_enclosure = models.BooleanField(default=False)
     ramps_construction = models.CharField(max_length=254, blank=True, null=True)
     ramps_fire_doors = models.BooleanField(default=False)
-    ramps_fire_doors_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    ramps_fire_doors_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     ramps_fire_doors_construction = models.CharField(max_length=254, blank=True, null=True)
     ramps_with_self_closing_device = models.BooleanField(default=False)
     ramps_door_with_proper_rating = models.BooleanField(default=False)
@@ -189,7 +189,7 @@ class Checklist(models.Model):
     safe_refuge_enclosure = models.BooleanField(default=False)
     safe_refuge_construction = models.CharField(max_length=254, blank=True, null=True)
     safe_refuge_fire_door = models.BooleanField(default=False)
-    safe_refuge_fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True)
+    safe_refuge_fire_door_width = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     safe_refuge_fire_door_construction = models.CharField(max_length=254, blank=True, null=True)
     safe_refuge_with_self_closing_device = models.BooleanField(default=False)
     safe_refuge_door_proper_rating = models.BooleanField(default=False)
@@ -198,9 +198,9 @@ class Checklist(models.Model):
     safe_refuge_swing_in_direction_of_egress = models.BooleanField(default=False)
     emergency_light = models.BooleanField(default=False)
     emergency_light_source = models.CharField(choices=CURRENT_CHOICES, blank=True, null=True, max_length=64)
-    emergency_light_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    emergency_light_hallway_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    emergency_light_stairway_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    emergency_light_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    emergency_light_hallway_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    emergency_light_stairway_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     emergency_light_operational = models.BooleanField(default=False)
     emergency_light_exit_path_properly_illuminated = models.BooleanField(default=False)
     emergency_light_tested_monthly = models.BooleanField(default=False)
@@ -208,7 +208,7 @@ class Checklist(models.Model):
     exit_signs_location = models.CharField(max_length=254, blank=True, null=True)
     exit_signs_source = models.CharField(choices=CURRENT_CHOICES, blank=True, null=True, max_length=64)
     exit_signs_visible = models.BooleanField(default=False)
-    exit_signs_min_letter_size = models.PositiveSmallIntegerField(blank=True, null=True)
+    exit_signs_min_letter_size = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     exit_route_posted_on_lobby = models.BooleanField(default=False)
     exit_route_posted_on_rooms = models.BooleanField(default=False)
     directional_exit_signs = models.BooleanField(default=False)
@@ -227,27 +227,27 @@ class Checklist(models.Model):
     garbage_chute_protected = models.BooleanField(default=False)
     between_floor_protected = models.BooleanField(default=False)
     standpipe_type = models.CharField(choices=STANDPIPE_CHOICES, blank=True, null=True, max_length=64)
-    standpipe_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    standpipe_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     standpipe_location = models.CharField(max_length=254, blank=True, null=True)
     siamese_intake_provided = models.BooleanField(default=False)
     siamese_intake_location = models.CharField(max_length=254, blank=True, null=True)
-    siamese_intake_size = models.PositiveSmallIntegerField(blank=True, null=True)
-    siamese_intake_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    siamese_intake_size = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    siamese_intake_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     siamese_intake_accessible = models.BooleanField(default=False)
 
     # Fire tools
     fire_hose_cabinet = models.BooleanField(default=False)
     fire_hose_cabinet_accessories = models.BooleanField(default=False)
     fire_hose_cabinet_location = models.CharField(max_length=254, blank=True, null=True)
-    fire_hose_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_hose_size = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_hose_length = models.PositiveSmallIntegerField(blank=True, null=True)
+    fire_hose_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    fire_hose_size = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    fire_hose_length = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     fire_hose_nozzle = models.CharField(max_length=254, blank=True, null=True)  # not_user
     fire_lane = models.BooleanField(default=False)
     fire_hydrant_location = models.CharField(max_length=254, blank=True, null=True)
     portable_fire_extinguisher_type = models.CharField(max_length=254, blank=True, null=True)  # not_sure
-    portable_fire_extinguisher_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    portable_fire_extinguisher_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    portable_fire_extinguisher_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    portable_fire_extinguisher_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     portable_fire_extinguisher_with_ps_mark = models.BooleanField(default=False)
     portable_fire_extinguisher_with_iso_mark = models.BooleanField(default=False)
     portable_fire_extinguisher_maintained = models.BooleanField(default=False)
@@ -255,15 +255,15 @@ class Checklist(models.Model):
     portable_fire_extinguisher_accessible = models.BooleanField(default=False)
     portable_fire_extinguisher_other_type = models.CharField(max_length=254, blank=True, null=True)  # not_sure
     sprinkler_system_agent_used = models.BooleanField(default=False)
-    jockey_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    fire_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
-    gpm_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    jockey_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    fire_pump_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    gpm_tank_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     maintaining_line_pressure = models.BooleanField(default=False)  # not_sure
     farthest_sprinkler_head_pressure = models.CharField(max_length=254, blank=True, null=True)
-    riser_size = models.PositiveSmallIntegerField(blank=True, null=True)
+    riser_size = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     type_of_heads_installed = models.CharField(max_length=254, blank=True, null=True)
-    heads_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    heads_total_count = models.PositiveSmallIntegerField(default=10)
+    heads_per_floor_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    heads_total_count = models.PositiveSmallIntegerField(blank=True, null=True, default=10)
     spacing_of_heads = models.CharField(max_length=254, blank=True, null=True)
     location_of_fire_dept_connection = models.CharField(max_length=254, blank=True, null=True)
     plan_submitted = models.BooleanField(default=False)
@@ -271,9 +271,9 @@ class Checklist(models.Model):
     firewall_provided = models.BooleanField(default=False)
     firewall_opening = models.BooleanField(default=False)
     boiler_provided = models.BooleanField(default=False)
-    boiler_unit_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    boiler_unit_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     boiler_fuel = models.CharField(choices=FUEL_CHOICES, blank=True, null=True, max_length=64)
-    boiler_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    boiler_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     boiler_container = models.CharField(choices=CONTAINER_LOCATION_CHOICES, blank=True, null=True, max_length=64)
     boiler_location = models.CharField(max_length=254, blank=True, null=True)
     lpg_installation_with_permit = models.BooleanField(default=False)
@@ -283,13 +283,13 @@ class Checklist(models.Model):
     generator_set = models.BooleanField(default=False)
     generator_set_type = models.CharField(choices=GENERATOR_TYPE_CHOICES, blank=True, null=True, max_length=64)
     generator_fuel = models.CharField(choices=GENERATOR_FUEL_CHOICES, blank=True, null=True, max_length=64)
-    generator_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    generator_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     generator_location = models.CharField(max_length=254, blank=True, null=True)
     generator_bound_on_wall = models.BooleanField(default=False)
     generator_container = models.CharField(choices=CONTAINER_LOCATION_CHOICES, blank=True, null=True, max_length=64)
     generator_dispensing_system = models.CharField(choices=GENERATOR_DISPENSING_CHOICES, blank=True, null=True,
                                                    max_length=64)
-    generator_output_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    generator_output_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     generator_mechanical_permit = models.BooleanField(default=False)
     generator_fuel_storage_permit = models.BooleanField(default=False)
     generator_others = models.CharField(max_length=254, blank=True, null=True)
@@ -302,20 +302,20 @@ class Checklist(models.Model):
     electrical_hazard_location = models.CharField(max_length=254, blank=True, null=True)
     mechanical_hazard = models.BooleanField(default=False)
     mechanical_hazard_location = models.CharField(max_length=254, blank=True, null=True)
-    elevator_count = models.PositiveSmallIntegerField(blank=True, null=True)
+    elevator_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     other_service_system = models.CharField(choices=SERVICE_SYSTEM_CHOICES, blank=True, null=True, max_length=64)
     hazardous_area = models.CharField(choices=HAZARDOUS_AREA_CHOICES, blank=True, null=True, max_length=64)
     hazardous_area_other = models.CharField(max_length=254, blank=True, null=True)
     separation_fire_rated = models.BooleanField(default=False)
     type_of_protection = models.CharField(max_length=254, blank=True, null=True)
-    separation_fire_rated_count = models.PositiveSmallIntegerField(blank=True, null=True)
-    separation_fire_rated_capacity = models.PositiveSmallIntegerField(blank=True, null=True)
+    separation_fire_rated_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
+    separation_fire_rated_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     separation_fire_rated_accessible = models.BooleanField(default=False)
     separation_fire_rated_fuel = models.BooleanField(default=False)
     separation_fire_rated_location = models.CharField(max_length=254, blank=True, null=True)
+    separation_fire_rated_permit = models.BooleanField(default=False)
 
     # Materials
-    separation_fire_rated_permit = models.BooleanField(default=False)
     hazardous_material = models.BooleanField(default=False)
     hazardous_material_stored = models.BooleanField(default=False)
     fire_brigade_organization = models.BooleanField(default=False)
@@ -323,10 +323,25 @@ class Checklist(models.Model):
     employee_trained_in_emergency_procedures = models.BooleanField(default=False)
     evacuation_drill_first = models.BooleanField(default=False)
     evacuation_drill_second = models.BooleanField(default=False)
-    defects = models.PositiveSmallIntegerField(default=0)
+    defects = models.PositiveSmallIntegerField(blank=True, null=True,default=0)
     defects_photo = models.FileField(verbose_name='Defects supporting image', upload_to=defect_upload_path,
                                      max_length=254,
                                      blank=True, null=True)
+    building_permit_date_issued = models.DateField(null=True, blank=True)
+    occupancy_permit_date_issued = models.DateField(null=True, blank=True)
+    fsic_date_issued = models.DateField(null=True, blank=True)
+    fire_drill_certificate_date_issued = models.DateField(null=True, blank=True)
+    violation_control_no_date_issued = models.DateField(null=True, blank=True)
+    electrical_inspection_date_issued = models.DateField(null=True, blank=True)
+    insurance_date_issued = models.DateField(null=True, blank=True)
+    main_stair_pressurized_stairway_last_tested = models.DateField(null=True, blank=True)
+    fire_door_pressurized_stairway_last_tested = models.DateField(null=True, blank=True)
+    vertical_opening_last_tested = models.DateField(null=True, blank=True)
+    fire_hose_last_tested = models.DateField(null=True, blank=True)
+    sprinkler_system_last_tested = models.DateField(null=True, blank=True)
+    sprinkler_system_last_conducted = models.DateField(null=True, blank=True)
+    certificate_of_installation_date = models.DateField(null=True, blank=True)
+    generator_mechanical_permit_date_issued = models.DateField(null=True, blank=True)
     recommendations = models.CharField(max_length=254, blank=True, null=True)
 
     # === State ===
@@ -350,117 +365,12 @@ class Checklist(models.Model):
         related_name='business_checklists',
         blank=True
     )
-    building_permit_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='building_issued_datetime'
-    )
-    occupancy_permit_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='occupancy_issued_datetime'
-    )
-    fsic_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='fsic_issued_datetime'
-    )
-    fire_drill_certificate_date_issued = models.ForeignKey(
+    date_checked = models.ForeignKey(
         'datesdim.DateDim',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
         related_name='fire_drill_datetime'
-    )
-    violation_control_no_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='violation_control_no_datetime'
-    )
-    electrical_inspection_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='electrical_inspection_datetime'
-    )
-    insurance_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='issurance_datetime'
-    )
-    main_stair_pressurized_stairway_last_tested = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='main_stair_pressurized_stairway_datetime'
-    )
-    fire_door_pressurized_stairway_last_tested = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='fire_door_pressurized_stairway_datetime'
-    )
-    vertical_opening_last_tested = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='vertical_opening_datetime'
-    )
-    fire_hose_last_tested = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='fire_hose_datetime'
-    )
-    sprinkler_system_last_tested = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='sprinkler_system_datetime'
-    )
-    sprinkler_system_last_conducted = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='sprinkler_system_conducted_datetime'
-    )
-    certificate_of_installation_date = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='certificate_of_installation_datetime'
-    )
-    generator_mechanical_permit_date_issued = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='generator_permit_datetime'
-    )
-    date_checked = models.ForeignKey(
-        'datesdim.DateDim',
-        blank=True,
-        null=True,
-        on_delete=models.CASCADE,
-        related_name='checked_datetime'
     )
     created_by = models.ForeignKey(
         'accounts.Account',
@@ -523,6 +433,11 @@ class Checklist(models.Model):
     ################################################################################
     # === Model-specific methods ===
     ################################################################################
+    def get_full_name(self):
+        if self.middle_name:
+            return f'{self.first_name} {self.middle_name[0]}. {self.last_name}'
+        return f'{self.first_name} {self.last_name}'
+
     def count_score(self):
         score = 0
         fields = []
