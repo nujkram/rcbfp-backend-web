@@ -27,6 +27,9 @@
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
                                     <p class="text-muted">Nature: {{ obj.nature }}</p>
                                     <p class="text-muted">Owner: {{ obj.get_full_name }}</p>
+                                    <p class="text-muted">Landline: {{ obj.landline }}</p>
+                                    <p class="text-muted">Mobile Number: {{ obj.mobile_number }}</p>
+                                    <p class="text-muted">Email: {{ obj.email }}</p>
                                 </div>
                             </div>
                         </div>
@@ -42,20 +45,18 @@
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
 
                                         Remarks:
-                                        {% if obj.building.is_safe %}
-                                            <strong class="text-success">Approved</strong>
+                                        {% if obj.is_safe %}
+                                            <strong class="text-success">SAFE</strong>
                                         {% else %}
-                                            <strong class="text-warning">Failed</strong>
+                                            <strong class="text-danger">FIRE PRONE</strong>
                                         {% endif %}
                                     </h5>
 
 
                                     <p class="text-muted">Status:
-                                        {% if obj.active %}
-                                            <strong class="text-primary">Active</strong>
-                                        {% else %}
-                                            <strong class="text-secondary">Inactive</strong>
-                                        {% endif %}
+                                        <span class="{% if obj.status %}text-success{% else %}text-danger{% endif %}">
+                                        {{ obj.get_status_display }}
+                                        </span>
                                     </p>
                                     <p class="text-muted">Date created: {{ obj.created }}</p>
                                     <p class="text-muted">Date updated: {{ obj.updated }}</p>
@@ -78,18 +79,6 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="#details" data-toggle="tab">
-                                                        <i class="material-icons">article</i>
-                                                        Details
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="#application" data-toggle="tab">
-                                                        <i class="material-icons">folder</i>
-                                                        Application
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
                                                     <a class="nav-link" href="#checklist" data-toggle="tab">
                                                         <i class="material-icons">fact_check</i>
                                                         Checklist
@@ -105,84 +94,6 @@
                                         <div class="tab-pane active" id="location">
                                             <div id="mapid"></div>
                                         </div>
-                                        <div class="tab-pane" id="details">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <p class="text-muted">Landline: {{ obj.landline }}</p>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <p class="text-muted">Mobile Number: {{ obj.mobile_number }}</p>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <p class="text-muted">Email: {{ obj.email }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="businesses">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Nature</th>
-                                                        <th>Owner</th>
-                                                        <th>Landline</th>
-                                                        <th>Email</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbdoy>
-                                                        {% for b in obj.building_business.all %}
-                                                            <tr>
-                                                                <td>{{ b.name }}</td>
-                                                                <td>{{ b.nature }}</td>
-                                                                <td>{{ b.get_full_name }}</td>
-                                                                <td>{{ b.landline }}</td>
-                                                                <td>{{ b.email }}</td>
-                                                                <td>
-                                                                    <a href="{% url 'admin_dashboard_business_detail' b.id %}"
-                                                                       class="text-primary">
-                                                                        View
-                                                                    </a></td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbdoy>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane" id="application">
-                                            <div class="table-responsive">
-                                                <table class="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Date Applied</th>
-                                                        <th>Business</th>
-                                                        <th>Name</th>
-                                                        <th>Email</th>
-                                                        <th>Date Approved</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbdoy>
-                                                        {% for b in obj.business_application.all %}
-                                                            <tr>
-                                                                <td>{{ b.created }}</td>
-                                                                <td>{{ b.business }}</td>
-                                                                <td>{{ b.get_full_name }}</td>
-                                                                <td>{{ b.email }}</td>
-                                                                <td>{{ b.date_approved }}</td>
-                                                                <td>
-                                                                    <a href="{% url 'admin_dashboard_business_application_detail' b.id %}"
-                                                                       class="text-primary">
-                                                                        View
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        {% endfor %}
-                                                    </tbdoy>
-                                                </table>
-                                            </div>
-                                        </div>
                                         <div class="tab-pane" id="checklist">
                                             <a class="btn btn-success m-1"
                                                href="{% url 'admin_dashboard_checklist_create_by_business' obj.pk %}">
@@ -193,6 +104,7 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
+                                                            <th>ID</th>
                                                             <th>Date</th>
                                                             <th>Score</th>
                                                             <th>Fire Rating</th>
@@ -204,17 +116,12 @@
                                                         <tbody>
                                                         {% for data in checklists %}
                                                             <tr>
+                                                                <td>{{ data.id }}</td>
                                                                 <td>{{ data.date_checked }}</td>
                                                                 <td>{{ data.get_score }}</td>
                                                                 <td>{{ data.fire_rating }}</td>
                                                                 <td>{{ data.risk }}</td>
-                                                                <td>
-                                                                    {% if data.building.is_safe %}
-                                                                        <strong class="text-success">Approved</strong>
-                                                                    {% else %}
-                                                                        <strong class="text-warning">Failed</strong>
-                                                                    {% endif %}
-                                                                </td>
+                                                                <td>{{ data.get_remarks_display }}</td>
                                                                 <td>
                                                                     <a href="{% url 'admin_dashboard_checklist_detail' data.id %}"
                                                                        class="text-primary">

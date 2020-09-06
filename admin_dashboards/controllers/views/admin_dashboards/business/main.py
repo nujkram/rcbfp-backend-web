@@ -11,6 +11,7 @@ from buildings.models.building.building_models import Building
 
 from business.models import Business as Master
 from admin_dashboards.controllers.views.admin_dashboards.business.forms import BusinessForm as MasterForm
+from checklists.constants import PASSED
 from checklists.models.checklist.checklist_models import Checklist
 from locations.models import Region, Province, City
 
@@ -207,7 +208,7 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        checklists = Checklist.objects.filter(business=obj).order_by('date_checked')
+        checklists = Checklist.objects.filter(business=obj).order_by('-created')
         context = {
             "page_title": f"Business: {obj}",
             "menu_section": "admin_dashboards",

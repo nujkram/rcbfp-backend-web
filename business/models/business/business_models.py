@@ -7,13 +7,19 @@ This is the Master model for Application
 Author: Mark Gersaniva
 Email: mark.gersaniva@springvalley.tech
 """
+from datetime import date
+
 from django.contrib.postgres.forms import JSONField
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
+import dt_model
+from business.constants import BUSINESS_STATUS_CHOICES, APPROVED, FAILED
 from business.models.business.managers.business_managers import BusinessManager
+from checklists.constants import PASSED, REINSPECT, NOT_TO_OPERATE
+from checklists.models.checklist.checklist_models import Checklist
 
 
 class Business(models.Model):
@@ -69,7 +75,9 @@ class Business(models.Model):
     email = models.EmailField(max_length=254, unique=True, verbose_name='email address')
 
     # === State ===
+    is_new = models.BooleanField(default=True)
     active = models.BooleanField(default=True)
+    status = models.PositiveSmallIntegerField(choices=BUSINESS_STATUS_CHOICES, blank=False, null=False, default=1)
     meta = JSONField()
 
     # === Relationship Fields ===
@@ -119,6 +127,56 @@ class Business(models.Model):
         else:
             return 'Unnamed'
 
+    def latest_checklist(self):
+        return self.building.building_checklist.first()
+
+    def is_safe(self, *args, **kwargs):
+        today = date.today()
+        building_age = today.year - self.building.date_of_construction.year - (
+                (today.month, today.day) < (
+        self.building.date_of_construction.month, self.building.date_of_construction.day))
+        if 'checklist_pk' in kwargs:
+            checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
+        else:
+            checklist = self.latest_checklist()
+
+        if checklist:
+            result = dt_model.eval_tree(
+                floor_number=self.building.floor_number, height=self.building.height,
+                floor_area=self.building.floor_area,
+                total_floor_area=self.building.total_floor_area, beams=self.building.beams,
+                columns=self.building.columns, flooring=self.building.flooring,
+                exterior_walls=self.building.exterior_walls,
+                corridor_walls=self.building.corridor_walls,
+                room_partitions=self.building.room_partitions,
+                main_stair=self.building.main_stair, window=self.building.window,
+                ceiling=self.building.ceiling, main_door=self.building.main_door,
+                trusses=self.building.trusses,
+                roof=self.building.roof, boiler_provided=checklist.boiler_provided,
+                lpg_installation_with_permit=checklist.lpg_installation_with_permit,
+                fuel_with_storage_permit=checklist.fuel_with_storage_permit,
+                generator_set=checklist.generator_set,
+                generator_fuel_storage_permit=checklist.generator_fuel_storage_permit,
+                refuse_handling=checklist.refuse_handling,
+                refuse_handling_fire_protection=checklist.refuse_handling_fire_protection,
+                electrical_hazard=checklist.electrical_hazard,
+                mechanical_hazard=checklist.mechanical_hazard,
+                hazardous_material=checklist.hazardous_material,
+                hazardous_material_stored=checklist.hazardous_material_stored,
+                defects=checklist.defects,
+                avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
+            )
+
+            if result:
+                self.status = APPROVED
+                self.save()
+
+                checklist.remarks = PASSED
+            else:
+                self.status = FAILED
+                self.save()
+
+            return result
     ################################################################################
     # === Properties ===
     ################################################################################
