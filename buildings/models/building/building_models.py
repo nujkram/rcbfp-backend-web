@@ -19,8 +19,10 @@ from sklearn.tree import _tree
 import dt_model
 
 # Model manager
-from buildings.constants import BUILDING_STATUS_CHOICES
+from buildings.constants import BUILDING_STATUS_CHOICES, APPROVED, FAILED
 from buildings.models.building.managers.building_managers import BuildingManager
+from checklists.constants import PASSED, REINSPECT, NOT_TO_OPERATE
+from checklists.models.checklist.checklist_models import Checklist
 
 
 class Building(models.Model):
@@ -203,12 +205,15 @@ class Building(models.Model):
     def latest_checklist(self):
         return self.building_checklist.first()
 
-    def is_safe(self):
+    def is_safe(self, *args, **kwargs):
         today = date.today()
         building_age = today.year - self.date_of_construction.year - (
                 (today.month, today.day) < (self.date_of_construction.month, self.date_of_construction.day))
-        checklist = self.latest_checklist()
-
+        if 'checklist_pk' in kwargs:
+            checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
+        else:
+            checklist = self.latest_checklist()
+        print(checklist.pk)
         if checklist:
             result = dt_model.eval_tree(floor_number=self.floor_number, height=self.height, floor_area=self.floor_area,
                                         total_floor_area=self.total_floor_area, beams=self.beams, columns=self.columns,
@@ -231,10 +236,13 @@ class Building(models.Model):
                                         avg_fire_rating=self.avg_fire_rating(), building_age=building_age)
 
             if result:
-                self.status = 2
+                self.status = APPROVED
                 self.save()
+
+                checklist.remarks = PASSED
+                checklist.save()
             else:
-                self.status = 0
+                self.status = FAILED
                 self.save()
 
             return result
