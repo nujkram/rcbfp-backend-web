@@ -4,12 +4,13 @@ from django.views import View
 from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsUserViewMixin
+from inspections.constants import PENDING
 from inspections.models import InspectionSchedule as Master
 
 
 class AdminDashboardHomeView(LoginRequiredMixin, IsUserViewMixin, View):
     def get(self, request, *args, **kwargs):
-        obj_list = Master.objects.filter(user=request.user)
+        obj_list = Master.objects.filter(user=request.user, status=PENDING)
         paginator = Paginator(obj_list, 200)
         page = request.GET.get('page')
         objs = paginator.get_page(page)

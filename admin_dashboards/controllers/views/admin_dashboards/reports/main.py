@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
-from buildings.models import Building as Master
+from business.models import Business as Master
 
 """
 URLS
@@ -18,17 +18,17 @@ from admin_dashboards.controllers.views.admin_dashboards.reports import main as 
 
 urlpatterns += {
     path(
-        'report/building/list',
-        report_views.AdminDashboardBuildingStatusView.as_view(),
-        name='admin_dashboard_building_status_list'
+        'report/business/list',
+        report_views.AdminDashboardBusinessStatusView.as_view(),
+        name='admin_dashboard_business_status_list'
     ),
 }
 """
 
 
-class AdminDashboardBuildingStatusView(LoginRequiredMixin, IsAdminViewMixin, View):
+class AdminDashboardBusinessStatusView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
-    List view for Compliant and Non-Compliant Building.
+    List view for Compliant and Non-Compliant Business.
 
     Allowed HTTP verbs:
         - GET
@@ -43,13 +43,13 @@ class AdminDashboardBuildingStatusView(LoginRequiredMixin, IsAdminViewMixin, Vie
     """
 
     def get(self, request, *args, **kwargs):
-        obj_list = Master.objects.actives().order_by('-status')
+        obj_list = Master.objects.actives().order_by('status')
         paginator = Paginator(obj_list, 200)
         page = request.GET.get('page')
         objs = paginator.get_page(page)
 
         context = {
-            "page_title": f"Building Report",
+            "page_title": f"Business Report",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "list",
@@ -57,4 +57,4 @@ class AdminDashboardBuildingStatusView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "objects": objs
         }
 
-        return render(request, "reports/building/list.html", context)
+        return render(request, "reports/business/list.html", context)
