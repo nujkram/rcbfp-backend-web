@@ -15,8 +15,91 @@
                 </div>
                 <div class="card-body">
                     <div class="float-right">
-                        <a class="btn btn-success" href="{% url 'admin_dashboard_inspection_create' %}">Renewal Inspection</a>
+                        <a class="btn btn-success" href="{% url 'admin_dashboard_inspection_create_reinspect' %}">Schedule Reinspect</a>
+                        <a class="btn btn-success" href="{% url 'admin_dashboard_inspection_create' %}">Renewal
+                            Inspection</a>
                     </div>
+                    <table class="table datatable">
+                        <thead>
+                        <tr>
+                            <th class="text-left">ID</th>
+                            <th>Object</th>
+                            <th>Inspection Date</th>
+                            <th>Inspector</th>
+                            <th>Status</th>
+                            <th>Date Applied</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in inspection_schedules %}
+                            <tr>
+                                <td class="text-left">{{ item.id }}</td>
+                                <td>
+                                    <a href="{% url 'admin_dashboard_inspection_detail' item.id %}">
+                                        {{ item }}
+                                    </a>
+                                </td>
+                                <td class="text-left">{{ item.inspection_date }}</td>
+                                <td class="text-left">{{ item.user.profile }}</td>
+                                <td class="text-left">{{ item.get_inspection_type_display }}</td>
+                                <td class="text-left">{{ item.created|date }}</td>
+                                <td>
+                                    <a href="{% url 'admin_dashboard_inspection_detail' item.id %}"
+                                       class="text-warning">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">Checklists</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="float-right">
+                        <a class="btn btn-success" href="{% url 'admin_dashboard_inspection_create_reinspect' %}">Schedule Reinspect</a>
+                    </div>
+                    <table class="table datatable">
+                        <thead>
+                        <tr>
+                            <th class="text-left">ID</th>
+                            <th>Object</th>
+                            <th>Inspection Date</th>
+                            <th>Inspector</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in checklist_current_year %}
+                            <tr>
+                                <td class="text-left">{{ item.id }}</td>
+                                <td>
+                                    <a href="{% url 'admin_dashboard_business_detail' item.business.id %}">
+                                        {{ item }}
+                                    </a>
+                                </td>
+                                <td class="text-left">{{ item.date_checked }}</td>
+                                <td class="text-left">{{ item.inspection.user }}</td>
+                                <td class="text-left">{{ item.get_remarks_display }}</td>
+                                <td>
+                                    <a href="{% url 'admin_dashboard_inspection_create_reinspect' %}?business_pk={{ item.business.pk }}"
+                                       class="btn btn-primary">
+                                        Schedule Reinspect
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

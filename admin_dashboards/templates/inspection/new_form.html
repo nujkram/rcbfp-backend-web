@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h4 class="card-title">{{ page_title }}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if messages %} {% for m in messages %}
+                        <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+                    {% endfor %} {% endif %}
+                    <form method="post" action="{% url 'admin_dashboard_inspection_create_new' building.pk business.pk %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_date">Date</label>
+                                    <input id="id_date" name="inspection_date" type="text"
+                                           placeholder="Select date" class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_user" name="user" class="form-control">
+                                        <option value="">Select Inspector</option>
+                                        {% for user in users %}
+                                            <option value="{{ user.pk }}"
+                                                    {% if application_formdata.user == user.pk %}selected{% endif %}>{{ user.profile }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_building" name="building" class="form-control">
+                                        <option value="">Select Building</option>
+                                        {% for data in buildings %}
+                                            <option value="{{ data.pk }}"
+                                                    {% if application_formdata.building == data.pk or building.pk == data.pk %}selected{% endif %}>{{ data.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_business" name="business" class="form-control">
+                                        <option value="">Select Business</option>
+                                        {% for data in businesses %}
+                                            <option value="{{ data.pk }}"
+                                                    {% if application_formdata.business == data.pk or business.pk == data.pk %}selected{% endif %}>{{ data.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            SUBMIT
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $("#id_building").on("change", function (e) {
+                var building_id = $(this).val();
+                url = "{% url 'businesses_by_building' %}?id=" + building_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, c) {
+                        opts = opts + "<option value='" + c.pk + "'>" + c.name + "</option>";
+                    });
+
+                    $("#id_business").empty().append(opts);
+                });
+            });
+    </script>
+{% endblock %}

@@ -11,6 +11,7 @@ from accounts.mixins.user_type_mixins import IsAdminViewMixin
 from accounts.models import Account
 from buildings.models.building.building_models import Building
 from business.models import Business
+from inspections.constants import RENEWAL, NEW, REINSPECT
 
 from inspections.models import InspectionSchedule as Master
 from admin_dashboards.controllers.views.admin_dashboards.inspection.forms import InspectionForm as MasterForm
@@ -107,7 +108,7 @@ class AdminDashboardInspectionCreateView(LoginRequiredMixin, IsAdminViewMixin, V
         buildings = Building.objects.all()
         businesses = Business.objects.all()
         users = Account.objects.filter(user_type=USER)
-        
+
         if 'inspection_formdata' in request.session:
             inspection_formdata = request.session['inspection_formdata']
             del request.session['inspection_formdata']
@@ -118,7 +119,7 @@ class AdminDashboardInspectionCreateView(LoginRequiredMixin, IsAdminViewMixin, V
                 'building': '',
                 'business': '',
             }
-        
+
         context = {
             "page_title": "Create new inspection",
             "menu_section": "admin_dashboards",
@@ -132,7 +133,7 @@ class AdminDashboardInspectionCreateView(LoginRequiredMixin, IsAdminViewMixin, V
 
         }
 
-        return render(request, "inspection/form.html", context)
+        return render(request, "inspection/renewal_form.html", context)
 
     def post(self, request, *args, **kwargs):
         form = MasterForm(data=request.POST)
@@ -153,11 +154,16 @@ class AdminDashboardInspectionCreateView(LoginRequiredMixin, IsAdminViewMixin, V
             inspection, inspection_message = Master.objects.create(
                 inspection_date=inspection_date,
                 user=user,
+                inspection_type=RENEWAL,
                 building=building,
                 business=business,
             )
 
             if inspection:
+                b = Business.objects.get(name=business[0])
+                b.is_new = False
+                b.save()
+
                 messages.success(request, 'Inspection created!', extra_tags='success')
                 return HttpResponseRedirect(reverse('admin_dashboard_inspection_detail', kwargs={'pk': inspection.pk}))
             else:
@@ -188,7 +194,7 @@ class AdminDashboardInspectionDetailView(LoginRequiredMixin, IsAdminViewMixin, V
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         context = {
-            "page_title": f"inspection: {obj}",
+            "page_title": f"Inspection: {obj}",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",
@@ -373,7 +379,7 @@ class AdminDashboardInspectionCreateNewView(LoginRequiredMixin, IsAdminViewMixin
 
         }
 
-        return render(request, "inspection/form.html", context)
+        return render(request, "inspection/new_form.html", context)
 
     def post(self, request, *args, **kwargs):
         form = MasterForm(data=request.POST)
@@ -394,6 +400,7 @@ class AdminDashboardInspectionCreateNewView(LoginRequiredMixin, IsAdminViewMixin
             inspection, inspection_message = Master.objects.create(
                 inspection_date=inspection_date,
                 user=user,
+                inspection_type=NEW,
                 building=building,
                 business=business,
             )
@@ -408,4 +415,100 @@ class AdminDashboardInspectionCreateNewView(LoginRequiredMixin, IsAdminViewMixin
             messages.error(request, form.errors, extra_tags='danger')
             request.session['inspection_formdata'] = inspection_formdata
 
-        return HttpResponseRedirect(reverse('admin_dashboard_inspection_create'))
+        return HttpResponseRedirect(reverse('admin_dashboard_inspection_create_new'))
+
+
+class AdminDashboardInspectionCreateReinspectView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    Create view for reinspect.
+
+    Allowed HTTP verbs:
+        - GET
+        - POST
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        - Optionally used more multi-user/multi-tenant apps to separate ownership
+        - ex: company=kwargs.get('company')
+    """
+
+    def get(self, request, *args, **kwargs):
+        form = MasterForm
+        business_pk = request.GET.get('business_pk', None)
+        business = None
+        building = None
+
+        if business_pk:
+            business = Business.objects.get(pk=business_pk)
+            building = Building.objects.get(pk=business.building.pk)
+
+        buildings = Building.objects.all()
+        businesses = Business.objects.all()
+        users = Account.objects.filter(user_type=USER)
+
+        if 'inspection_formdata' in request.session:
+            inspection_formdata = request.session['inspection_formdata']
+            del request.session['inspection_formdata']
+        else:
+            inspection_formdata = {
+                'inspection_date': '',
+                'user': '',
+                'building': '',
+                'business': '',
+            }
+
+        context = {
+            "page_title": "Set Reinspect Schedule",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "create",
+            "inspection_formdata": inspection_formdata,
+            "form": form,
+            "buildings": buildings,
+            "businesses": businesses,
+            "building": building,
+            "business": business,
+            "users": users,
+
+        }
+
+        return render(request, "inspection/reinspect_form.html", context)
+
+    def post(self, request, *args, **kwargs):
+        form = MasterForm(data=request.POST)
+
+        inspection_formdata = {
+            'inspection_date': request.POST.get('inspection_date', ''),
+            'user': request.POST.get('user', ''),
+            'building': request.POST.get('building', ''),
+            'business': request.POST.get('business', ''),
+        }
+
+        if form.is_valid():
+            inspection_date = form.cleaned_data['inspection_date'],
+            user = form.cleaned_data['user'],
+            building = form.cleaned_data['building'],
+            business = form.cleaned_data['business'],
+
+            inspection, inspection_message = Master.objects.create(
+                inspection_date=inspection_date,
+                user=user,
+                inspection_type=REINSPECT,
+                building=building,
+                business=business,
+            )
+
+            if inspection:
+                messages.success(request, 'Inspection created!', extra_tags='success')
+                return HttpResponseRedirect(reverse('admin_dashboard_inspection_detail', kwargs={'pk': inspection.pk}))
+            else:
+                messages.error(request, inspection_message, extra_tags='danger')
+                request.session['inspection_formdata'] = inspection_formdata
+        else:
+            messages.error(request, form.errors, extra_tags='danger')
+            request.session['inspection_formdata'] = inspection_formdata
+
+        return HttpResponseRedirect(reverse('admin_dashboard_inspection_create_reinspect'))

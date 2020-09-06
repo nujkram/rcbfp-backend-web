@@ -267,6 +267,11 @@ urlpatterns += {
         name='admin_dashboard_inspection_create_new'
     ),
     path(
+        'inspection/reinspect',
+        inspection_views.AdminDashboardInspectionCreateReinspectView.as_view(),
+        name='admin_dashboard_inspection_create_reinspect'
+    ),
+    path(
         'inspection/<pk>/update',
         inspection_views.AdminDashboardInspectionUpdateView.as_view(),
         name='admin_dashboard_inspection_update'
@@ -284,8 +289,8 @@ from admin_dashboards.controllers.views.admin_dashboards.reports import main as 
 
 urlpatterns += {
     path(
-        'report/building/list',
-        report_views.AdminDashboardBuildingStatusView.as_view(),
-        name='admin_dashboard_building_status_list'
+        'report/business/list',
+        report_views.AdminDashboardBusinessStatusView.as_view(),
+        name='admin_dashboard_business_status_list'
     ),
 }

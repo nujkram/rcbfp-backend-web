@@ -40,16 +40,9 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                        {% if obj.status == "1" %}
-                                            <span class="text-gray">PENDING</span>
-                                        {% elif obj.status == "2" %}
-                                            <span class="text-success">APPROVED</span>
-                                        {% elif obj.status == "3" %}
-                                            <span class="text-danger">EXPIRED</span>
-                                        {% else %}
-                                            <span class="text-danger">FAILED</span>
-                                        {% endif %}
+                                        {{ obj.get_status_display }}
                                     </h5>
+                                    <p class="text-muted">Assigned Inspector: {{ obj.user.profile }}</p>
                                     <p class="text-muted">Date created: {{ obj.created }}</p>
                                     <p class="text-muted">Date updated: {{ obj.updated }}</p>
                                 </div>

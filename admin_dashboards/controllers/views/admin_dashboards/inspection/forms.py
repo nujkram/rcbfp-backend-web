@@ -12,6 +12,7 @@ class InspectionForm(forms.Form):
         queryset=Account.objects.all(),
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+    inspection_type = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     building = forms.ModelChoiceField(
         queryset=Building.objects.all(),
         widget=forms.Select(attrs={'class': 'form-control'})

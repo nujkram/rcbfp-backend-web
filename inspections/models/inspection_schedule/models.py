@@ -25,7 +25,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.contrib.postgres.fields import JSONField
 
-from inspections.constants import STATUS_CHOICES
+from inspections.constants import STATUS_CHOICES, INSPECTION_TYPE_CHOICES
 from inspections.models.inspection_schedule.managers.inspection_managers import InspectionScheduleManager
 
 
@@ -42,7 +42,8 @@ class InspectionSchedule(models.Model):
     # === State ===
     active = models.BooleanField(default=True)
     meta = JSONField(default=dict, blank=True, null=True)
-    status = models.CharField(choices=STATUS_CHOICES, default=1, blank=True, null=True, max_length=64)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=False, null=False, default=1)
+    inspection_type = models.PositiveSmallIntegerField(choices=INSPECTION_TYPE_CHOICES, blank=False, null=False, default=1)
 
     # === Relationship Fields ===
     user = models.ForeignKey(

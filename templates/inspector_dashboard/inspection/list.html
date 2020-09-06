@@ -22,6 +22,7 @@
                             <th class="text-left">ID</th>
                             <th>Object</th>
                             <th>Inspection Date</th>
+                            <th>Type</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -35,8 +36,9 @@
                                     </a>
                                 </td>
                                 <td>{{ item.inspection_date }}</td>
+                                <td>{{ item.get_inspection_type_display }}</td>
                                 <td>
-                                    <a href="{% url 'inspector_dashboard_checklist_create_by_business' item.business.id %}">
+                                    <a href="{% url 'inspector_dashboard_checklist_create' item.id %}">
                                         Inspect
                                     </a>
                                 </td>

@@ -1,11 +1,19 @@
 FAILED = 0
 PENDING = 1
-APPROVED = 2
-EXPIRED = 3
+DONE = 2
+
+RENEWAL = 0
+NEW = 1
+REINSPECT = 2
 
 STATUS_CHOICES = (
     (FAILED, 'Denied'),
     (PENDING, 'Pending'),
-    (APPROVED, 'Approved'),
-    (EXPIRED, 'Expired')
+    (DONE, 'Approved'),
+)
+
+INSPECTION_TYPE_CHOICES = (
+    (RENEWAL, 'Renewal'),
+    (NEW, 'New'),
+    (REINSPECT, 'Reinspect'),
 )

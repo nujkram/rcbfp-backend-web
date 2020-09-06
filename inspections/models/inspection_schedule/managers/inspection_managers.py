@@ -23,9 +23,10 @@ class InspectionScheduleManager(models.Manager):
         m = []
         date = kwargs['inspection_date']
         account = kwargs['user']
+        inspection_type = kwargs['inspection_type']
         building = kwargs['building']
         business = kwargs['business']
-
+        print(inspection_type)
         if date:
             for data in date:
                 inspection_date = data
@@ -55,6 +56,7 @@ class InspectionScheduleManager(models.Manager):
             inspection = self.model(
                 inspection_date=inspection_date,
                 user=user,
+                inspection_type=inspection_type,
                 building=building,
                 business=business,
             )
