@@ -25,7 +25,7 @@ class ChecklistManager(models.Manager):
         except DateDim.DoesNotExist:
             flag = False
             m.append(f'{checked_date} is an invalid building')
-        print(kwargs['building_permit'])
+
         if flag:
             checklist = self.model(
                 first_name=kwargs['first_name'],
@@ -253,7 +253,6 @@ class ChecklistManager(models.Manager):
                 separation_fire_rated=kwargs['separation_fire_rated'],
                 type_of_protection=kwargs['type_of_protection'],
                 separation_fire_rated_count=kwargs['separation_fire_rated_count'],
-                separation_fire_rated_capacity=kwargs['separation_fire_rated_capacity'],
                 separation_fire_rated_accessible=kwargs['separation_fire_rated_accessible'],
                 separation_fire_rated_fuel=kwargs['separation_fire_rated_fuel'],
                 separation_fire_rated_location=kwargs['separation_fire_rated_location'],

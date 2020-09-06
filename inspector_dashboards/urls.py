@@ -49,14 +49,9 @@ urlpatterns += {
         name='inspector_dashboard_checklist_detail'
     ),
     path(
-        'checklist/create',
-        checklist_views.InspectorDashboardChecklistCreateView.as_view(),
-        name='inspector_dashboard_checklist_create'
-    ),
-    path(
         'checklist/create/<pk>',
         checklist_views.InspectorDashboardChecklistCreateView.as_view(),
-        name='inspector_dashboard_checklist_create_by_business'
+        name='inspector_dashboard_checklist_create'
     ),
     path(
         'checklist/<pk>/update',

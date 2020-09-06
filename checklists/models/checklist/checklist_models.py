@@ -21,6 +21,7 @@ from django.db.models.signals import post_save, pre_save
 from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, STANDPIPE_CHOICES, FUEL_CHOICES, \
     CONTAINER_LOCATION_CHOICES, GENERATOR_TYPE_CHOICES, GENERATOR_FUEL_CHOICES, GENERATOR_DISPENSING_CHOICES, \
     SERVICE_SYSTEM_CHOICES, HAZARDOUS_AREA_CHOICES
+from checklists.constants import REMARKS_CHOICES
 from checklists.models.checklist.managers.checklist_managers import ChecklistManager
 
 EXCLUDE_FIELDS = ['active']
@@ -309,7 +310,6 @@ class Checklist(models.Model):
     separation_fire_rated = models.BooleanField(default=False)
     type_of_protection = models.CharField(max_length=254, blank=True, null=True)
     separation_fire_rated_count = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
-    separation_fire_rated_capacity = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     separation_fire_rated_accessible = models.BooleanField(default=False)
     separation_fire_rated_fuel = models.BooleanField(default=False)
     separation_fire_rated_location = models.CharField(max_length=254, blank=True, null=True)
@@ -323,7 +323,7 @@ class Checklist(models.Model):
     employee_trained_in_emergency_procedures = models.BooleanField(default=False)
     evacuation_drill_first = models.BooleanField(default=False)
     evacuation_drill_second = models.BooleanField(default=False)
-    defects = models.PositiveSmallIntegerField(blank=True, null=True,default=0)
+    defects = models.PositiveSmallIntegerField(blank=True, null=True, default=0)
     defects_photo = models.FileField(verbose_name='Defects supporting image', upload_to=defect_upload_path,
                                      max_length=254,
                                      blank=True, null=True)
@@ -343,6 +343,7 @@ class Checklist(models.Model):
     certificate_of_installation_date = models.DateField(null=True, blank=True)
     generator_mechanical_permit_date_issued = models.DateField(null=True, blank=True)
     recommendations = models.CharField(max_length=254, blank=True, null=True)
+    remarks = models.PositiveSmallIntegerField(choices=REMARKS_CHOICES, blank=True, null=True, default=0)
 
     # === State ===
     active = models.BooleanField(default=True)
@@ -365,12 +366,20 @@ class Checklist(models.Model):
         related_name='business_checklists',
         blank=True
     )
+    inspection = models.ForeignKey(
+        'inspections.InspectionSchedule',
+        on_delete=models.CASCADE,
+        null=True,
+        db_index=False,
+        related_name='inspection_checklist',
+        blank=True
+    )
     date_checked = models.ForeignKey(
         'datesdim.DateDim',
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name='fire_drill_datetime'
+        related_name='date_checked_checklist'
     )
     created_by = models.ForeignKey(
         'accounts.Account',
@@ -393,23 +402,134 @@ class Checklist(models.Model):
     objects = ChecklistManager()
 
     analytics_features = [
+        'any_renovation',
+        'is_exits_remote',
+        'any_enclosure',
+        'is_exit_accessible',
+        'is_fire_doors_provided',
+        'self_closing_mechanism',
+        'panic_hardware',
+        'readily_accessible',
+        'travel_distance_within_limit',
+        'adequate_illumination',
+        'panic_hardware_operational',
+        'doors_open_easily',
+        'bldg_with_mezzanine',
+        'is_obstructed',
+        'dead_ends_within_limits',
+        'proper_rating_illumination',
+        'door_swing_in_the_direction_of_exit',
+        'self_closure_operational',
+        'mezzanine_with_proper_exits',
+        'corridors_of_sufficient_size',
+        'main_stair_railings',
+        'main_stair_any_enclosure_provided',
+        'any_openings',
+        'main_stair_door_proper_rating',
+        'main_stair_door_provided_with_vision_panel',
+        'main_stair_pressurized_stairway',
+        'fire_escape_railings',
+        'fire_escape_obstruction',
+        'discharge_of_exits',
+        'fire_escape_enclosure',
+        'fire_escape_opening',
+        'fire_escape_opening_protected',
+        'fire_door_provided',
+        'fire_door_door_proper_rating',
+        'fire_door_door_provided_with_vision_panel',
+        'fire_door_pressurized_stairway',
+        'horizontal_exit_vision_panel',
+        'horizontal_exit_door_swing_in_direction_of_egress',
+        'horizontal_exit_with_self_closing_device',
+        'horizontal_exit_corridor_walls_extended',
+        'horizontal_exit_properly_illuminated',
+        'horizontal_exit_readily_visible',
+        'horizontal_exit_properly_marked',
+        'horizontal_exit_with_illuminated_directional_sign',
+        'horizontal_exit_properly_located',
+        'ramps_provided',
+        'ramps_railing_provided',
+        'ramps_enclosure',
+        'ramps_fire_doors',
+        'ramps_with_self_closing_device',
+        'ramps_door_with_proper_rating',
+        'ramps_door_with_vision_panel',
+        'ramps_door_swing_in_direction_of_egress',
+        'ramps_obstruction',
+        'ramps_discharge_of_exit',
+        'safe_refuge_provided',
+        'safe_refuge_enclosure',
+        'safe_refuge_fire_door',
+        'safe_refuge_with_self_closing_device',
+        'safe_refuge_door_proper_rating',
+        'safe_refuge_with_vision_panel',
+        'safe_refuge_vision_panel_built',
+        'safe_refuge_swing_in_direction_of_egress',
+        'emergency_light',
+        'emergency_light_operational',
+        'emergency_light_exit_path_properly_illuminated',
+        'emergency_light_tested_monthly',
+        'exit_signs_illuminated',
+        'exit_signs_visible',
+        'exit_route_posted_on_lobby',
+        'exit_route_posted_on_rooms',
+        'directional_exit_signs',
+        'no_smoking_sign',
+        'dead_end_sign',
+        'elevator_sign',
+        'keep_door_closed_sign',
+        'vertical_openings_properly_protected',
+        'vertical_openings_atrium',
+        'fire_doors_good_condition',
+        'elevator_opening_protected',
+        'pipe_chase_opening_protected',
+        'aircon_ducts_with_dumper',
+        'garbage_chute_protected',
+        'between_floor_protected',
+        'siamese_intake_provided',
+        'siamese_intake_accessible',
+        'fire_hose_cabinet',
+        'fire_hose_cabinet_accessories',
+        'fire_lane',
+        'portable_fire_extinguisher_with_ps_mark',
+        'portable_fire_extinguisher_with_iso_mark',
+        'portable_fire_extinguisher_maintained',
+        'portable_fire_extinguisher_accessible',
+        'sprinkler_system_agent_used',
+        'maintaining_line_pressure',
+        'plan_submitted',
+        'firewall_required',
+        'firewall_provided',
+        'firewall_opening',
         'boiler_provided',
-        'boiler_container',
         'lpg_installation_with_permit',
         'fuel_with_storage_permit',
         'generator_set',
+        'generator_bound_on_wall',
+        'generator_mechanical_permit',
         'generator_fuel_storage_permit',
+        'generator_automatic_transfer_switch',
         'refuse_handling',
+        'refuse_handling_enclosure',
         'refuse_handling_fire_protection',
         'electrical_hazard',
         'mechanical_hazard',
+        'separation_fire_rated',
+        'separation_fire_rated_accessible',
+        'separation_fire_rated_fuel',
+        'separation_fire_rated_permit',
         'hazardous_material',
         'hazardous_material_stored',
+        'fire_brigade_organization',
+        'fire_safety_seminar',
+        'employee_trained_in_emergency_procedures',
+        'evacuation_drill_first',
+        'evacuation_drill_second',
         'defects',
     ]
 
     class Meta:
-        ordering = ('building',)
+        ordering = ('date_checked',)
         verbose_name = "Checklist"
         verbose_name_plural = "Checklists"
 
@@ -505,6 +625,9 @@ class Checklist(models.Model):
 
         if self.hazardous_area == "Kitchen":
             chance_of_fire += 0.1
+
+        if not self.defects:
+            self.defects = 0
 
         if 0 < self.defects <= 100:
             chance_of_fire += self.defects * 0.01

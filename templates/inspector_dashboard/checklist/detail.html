@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'inspector_dashboard/base.html' %}
 {% load static %}
 {% block header_css %}
 {% endblock %}
@@ -65,7 +65,12 @@
                                 <div class="card-body">
 
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                        Remarks: <strong>{{ obj.get_remarks_display }} {{ obj.pk }}</strong>
+                                        Remarks:
+                                        {% if obj.is_safe %}
+                                            <strong class="text-primary">Approved</strong>
+                                        {% else %}
+                                            <strong class="text-warning">Failed</strong>
+                                        {% endif %}
                                     </h5>
 
 
