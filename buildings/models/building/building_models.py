@@ -205,48 +205,6 @@ class Building(models.Model):
     def latest_checklist(self):
         return self.building_checklist.first()
 
-    def is_safe(self, *args, **kwargs):
-        today = date.today()
-        building_age = today.year - self.date_of_construction.year - (
-                (today.month, today.day) < (self.date_of_construction.month, self.date_of_construction.day))
-        if 'checklist_pk' in kwargs:
-            checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
-        else:
-            checklist = self.latest_checklist()
-        print(checklist.pk)
-        if checklist:
-            result = dt_model.eval_tree(floor_number=self.floor_number, height=self.height, floor_area=self.floor_area,
-                                        total_floor_area=self.total_floor_area, beams=self.beams, columns=self.columns,
-                                        flooring=self.flooring, exterior_walls=self.exterior_walls,
-                                        corridor_walls=self.corridor_walls, room_partitions=self.room_partitions,
-                                        main_stair=self.main_stair, window=self.window, ceiling=self.ceiling,
-                                        main_door=self.main_door, trusses=self.trusses, roof=self.roof,
-                                        boiler_provided=checklist.boiler_provided,
-                                        lpg_installation_with_permit=checklist.lpg_installation_with_permit,
-                                        fuel_with_storage_permit=checklist.fuel_with_storage_permit,
-                                        generator_set=checklist.generator_set,
-                                        generator_fuel_storage_permit=checklist.generator_fuel_storage_permit,
-                                        refuse_handling=checklist.refuse_handling,
-                                        refuse_handling_fire_protection=checklist.refuse_handling_fire_protection,
-                                        electrical_hazard=checklist.electrical_hazard,
-                                        mechanical_hazard=checklist.mechanical_hazard,
-                                        hazardous_material=checklist.hazardous_material,
-                                        hazardous_material_stored=checklist.hazardous_material_stored,
-                                        defects=checklist.defects,
-                                        avg_fire_rating=self.avg_fire_rating(), building_age=building_age)
-
-            if result:
-                self.status = APPROVED
-                self.save()
-
-                checklist.remarks = PASSED
-                checklist.save()
-            else:
-                self.status = FAILED
-                self.save()
-
-            return result
-
 
 ################################################################################
 # === Signals ===

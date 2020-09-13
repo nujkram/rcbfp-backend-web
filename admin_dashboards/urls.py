@@ -127,38 +127,6 @@ urlpatterns += {
     )
 }
 
-# Business Application
-
-from admin_dashboards.controllers.views.admin_dashboards.business_application import main as business_application_views
-
-urlpatterns += {
-    path(
-        'business_application/list',
-        business_application_views.AdminDashboardBusinessApplicationListView.as_view(),
-        name='admin_dashboard_business_application_list'
-    ),
-    path(
-        'business_application/<pk>/detail',
-        business_application_views.AdminDashboardBusinessApplicationDetailView.as_view(),
-        name='admin_dashboard_business_application_detail'
-    ),
-    path(
-        'business_application/create',
-        business_application_views.AdminDashboardBusinessApplicationCreateView.as_view(),
-        name='admin_dashboard_business_application_create'
-    ),
-    path(
-        'business_application/<pk>/update',
-        business_application_views.AdminDashboardBusinessApplicationUpdateView.as_view(),
-        name='admin_dashboard_business_application_update'
-    ),
-    path(
-        'business_application/<pk>/delete',
-        business_application_views.AdminDashboardBusinessApplicationDeleteView.as_view(),
-        name='admin_dashboard_business_application_delete'
-    )
-}
-
 # Maps
 
 from admin_dashboards.controllers.views.admin_dashboards.map import main as map_views
