@@ -239,7 +239,14 @@ class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(instance=obj)
+        buildings = Building.objects.all()
+        form = MasterForm(initial=obj)
+        default_region = Region.objects.get(pk=6)  # Region VI
+        default_province = Province.objects.get(pk=22)  # Capiz
+        default_city = City.objects.get(pk=381)  # Roxas City
+        regions = Region.objects.all()
+        provinces = Province.objects.filter(region=default_region)
+        cities = City.objects.filter(province=default_province)
 
         context = {
             "page_title": f"Update Business: {obj}",
@@ -247,20 +254,55 @@ class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "menu_subsection": "admin_dashboards",
             "menu_action": "update",
             "obj": obj,
-            "form": form
+            "form": form,
+            "buildings": buildings,
+            "regions": regions,
+            "provinces": provinces,
+            "cities": cities,
+            "default_region": default_region,
+            "default_province": default_province,
+            "default_city": default_city,
         }
 
         return render(request, "business/form.html", context)
 
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(instance=obj, data=request.POST)
+        form = MasterForm(request.POST, initial=obj)
 
         if form.is_valid():
-            data = form.save()
+            name = form.cleaned_data['name']
+            nature = form.cleaned_data['nature']
+            owner_first_name = form.cleaned_data['owner_first_name']
+            owner_middle_name = form.cleaned_data['owner_middle_name']
+            owner_last_name = form.cleaned_data['owner_last_name']
+            address = form.cleaned_data['address']
+            landline = form.cleaned_data['landline']
+            mobile_number = form.cleaned_data['mobile_number']
+            email = form.cleaned_data['email']
+            building = form.cleaned_data['building']
+            region = form.cleaned_data['region']
+            province = form.cleaned_data['province']
+            city = form.cleaned_data['city']
+
+            obj.name = name
+            obj.nature = nature
+            obj.owner_first_name = owner_first_name
+            obj.owner_middle_name = owner_middle_name
+            obj.owner_last_name = owner_last_name
+            obj.address = address
+            obj.landline = landline
+            obj.mobile_number = mobile_number
+            obj.email = email
+            obj.building = building
+            obj.region = region
+            obj.province = province
+            obj.city = city
+            obj.save()
+
             messages.success(
                 request,
-                f'{data} saved!',
+                f'{obj} updated!',
                 extra_tags='success'
             )
 
@@ -268,7 +310,7 @@ class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 reverse(
                     'admin_dashboard_business_detail',
                     kwargs={
-                        'pk': data.pk
+                        'pk': obj.pk
                     }
                 )
             )
@@ -433,7 +475,8 @@ class AdminDashboardBusinessCreateByBuildingView(LoginRequiredMixin, IsAdminView
 
             if business:
                 messages.success(request, 'Business created!', extra_tags='success')
-                return HttpResponseRedirect(reverse('admin_dashboard_inspection_create_new', kwargs={'building': building.pk, 'business': business.pk}))
+                return HttpResponseRedirect(reverse('admin_dashboard_inspection_create_new',
+                                                    kwargs={'building': building.pk, 'business': business.pk}))
             else:
                 messages.error(request, building_message, extra_tags='danger')
                 request.session['business_formdata'] = business_formdata
