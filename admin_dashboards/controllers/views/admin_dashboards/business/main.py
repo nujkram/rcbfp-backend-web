@@ -69,6 +69,8 @@ class AdminDashboardBusinessListView(LoginRequiredMixin, IsAdminViewMixin, View)
 
     def get(self, request, *args, **kwargs):
         obj_list = Master.objects.actives()
+        for obj in obj_list:
+            obj.is_safe()
         paginator = Paginator(obj_list, 200)
         page = request.GET.get('page')
         objs = paginator.get_page(page)
@@ -285,20 +287,21 @@ class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             province = form.cleaned_data['province']
             city = form.cleaned_data['city']
 
-            obj.name = name
-            obj.nature = nature
-            obj.owner_first_name = owner_first_name
-            obj.owner_middle_name = owner_middle_name
-            obj.owner_last_name = owner_last_name
-            obj.address = address
-            obj.landline = landline
-            obj.mobile_number = mobile_number
-            obj.email = email
-            obj.building = building
-            obj.region = region
-            obj.province = province
-            obj.city = city
-            obj.save()
+            Master.objects.filter(pk=obj.pk).update(
+                name=name,
+                nature=nature,
+                owner_first_name=owner_first_name,
+                owner_middle_name=owner_middle_name,
+                owner_last_name=owner_last_name,
+                address=address,
+                landline=landline,
+                mobile_number=mobile_number,
+                email=email,
+                building=building,
+                region=region,
+                province=province,
+                city=city,
+            )
 
             messages.success(
                 request,
