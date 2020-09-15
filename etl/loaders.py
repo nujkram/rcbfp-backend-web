@@ -36,6 +36,9 @@ def checklist_regr(*args, **kwargs):
             checklist_features=checklist_features
         )
 
+        # include checklist_rating
+        transformed.independent['checklist_rating'] = cl.percentage_checklist_rating()
+
         # include avg_fire_rating
         transformed.independent['avg_fire_rating'] = transformed.building.avg_fire_rating()
 
@@ -95,6 +98,9 @@ def checklist_dtree(*args, **kwargs):
             building_features=building_features,
             checklist_features=checklist_features
         )
+
+        # include checklist_rating
+        transformed.independent['checklist_rating'] = cl.percentage_checklist_rating()
 
         # include avg_fire_rating
         transformed.independent['avg_fire_rating'] = transformed.building.avg_fire_rating()
