@@ -21,7 +21,7 @@ from django.db.models.signals import post_save, pre_save
 from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, STANDPIPE_CHOICES, FUEL_CHOICES, \
     CONTAINER_LOCATION_CHOICES, GENERATOR_TYPE_CHOICES, GENERATOR_FUEL_CHOICES, GENERATOR_DISPENSING_CHOICES, \
     SERVICE_SYSTEM_CHOICES, HAZARDOUS_AREA_CHOICES
-from checklists.constants import REMARKS_CHOICES
+from checklists.constants import REMARKS_CHOICES, STATUS_CHOICES
 from checklists.models.checklist.managers.checklist_managers import ChecklistManager
 
 EXCLUDE_FIELDS = ['active']
@@ -347,6 +347,7 @@ class Checklist(models.Model):
 
     # === State ===
     active = models.BooleanField(default=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES, blank=True, null=True, default=0)
     meta = JSONField()
 
     # === Relationship Fields ===
@@ -402,18 +403,6 @@ class Checklist(models.Model):
     objects = ChecklistManager()
 
     analytics_features = [
-        'boiler_provided',
-        'boiler_container',
-        'lpg_installation_with_permit',
-        'fuel_with_storage_permit',
-        'generator_set',
-        'generator_fuel_storage_permit',
-        'refuse_handling',
-        'refuse_handling_fire_protection',
-        'electrical_hazard',
-        'mechanical_hazard',
-        'hazardous_material',
-        'hazardous_material_stored',
         'defects',
     ]
 
@@ -447,6 +436,16 @@ class Checklist(models.Model):
             return f'{self.first_name} {self.middle_name[0]}. {self.last_name}'
         return f'{self.first_name} {self.last_name}'
 
+    def get_boolean_fields(self):
+        field_count = 0
+
+        for field in Checklist._meta.fields:
+            if isinstance(field, BooleanField):
+                if field.name not in EXCLUDE_FIELDS:
+                    field_count += 1
+
+        return field_count
+
     def count_score(self):
         score = 0
         fields = []
@@ -459,20 +458,28 @@ class Checklist(models.Model):
 
         return score
 
-    def get_score(self):
-        """
-        factors
-        - kitid nga dalan
-        - checklist
-        """
-        score = self.count_score()
+    def avg_checklist_rating(self):
+        field_count = self.get_boolean_fields()
 
-        return score
+        total = self.count_score()
+        if total != 0:
+            avg = total / field_count
 
-    def fire_rating(self):
-        score_percentage = self.get_score() / 129 * 100
+            return avg
+        return 0
+
+    def percentage_checklist_rating(self):
+        field_count = self.get_boolean_fields()
+        score_percentage = self.count_score() / field_count * 100
 
         return score_percentage
+
+    def result(self):
+        rating = self.percentage_checklist_rating()
+        if rating >= 85:
+            return True
+        else:
+            return False
 
     def risk(self):
         chance_of_fire = 0.001

@@ -130,10 +130,10 @@ class Building(models.Model):
 
     analytics_features = [
         'date_of_construction',
-        'floor_number',
-        'height',
-        'floor_area',
-        'total_floor_area',
+        # 'floor_number',
+        # 'height',
+        # 'floor_area',
+        # 'total_floor_area',
         'beams',
         'columns',
         'flooring',

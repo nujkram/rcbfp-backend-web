@@ -8,10 +8,10 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsUserViewMixin
 from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, FUEL_CHOICES, CONTAINER_LOCATION_CHOICES, \
-    GENERATOR_DISPENSING_CHOICES
+    GENERATOR_DISPENSING_CHOICES, GENERATOR_TYPE_CHOICES, SERVICE_SYSTEM_CHOICES, HAZARDOUS_AREA_CHOICES
 from buildings.models.building.building_models import Building
 from business.models import Business
-from checklists.constants import REINSPECT, PASSED, NOT_TO_OPERATE
+from checklists.constants import REINSPECT, PASSED, NOT_TO_OPERATE, FAILED
 
 from checklists.models import Checklist as Master
 from inspections.constants import DONE
@@ -117,6 +117,9 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
         fuel_choices = FUEL_CHOICES
         container_location_choices = CONTAINER_LOCATION_CHOICES
         generator_dispensing_choices = GENERATOR_DISPENSING_CHOICES
+        generator_type_choices = GENERATOR_TYPE_CHOICES
+        service_system_choices = SERVICE_SYSTEM_CHOICES
+        hazardous_area_choices = HAZARDOUS_AREA_CHOICES
 
         if 'checklist_formdata' in request.session:
             checklist_formdata = request.session['checklist_formdata']
@@ -391,6 +394,9 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
             "fuel_choices": fuel_choices,
             "container_location_choices": container_location_choices,
             "generator_dispensing_choices": generator_dispensing_choices,
+            "generator_type_choices": generator_type_choices,
+            "service_system_choices": service_system_choices,
+            "hazardous_area_choices": hazardous_area_choices,
             "business": business,
             "inspection_schedule": inspection_schedule,
         }
@@ -1191,17 +1197,22 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
             )
 
             if checklist:
-                result = checklist.business.is_safe(checklist_pk=checklist.pk)
+                result = checklist.result()
                 if result:
+                    checklist.status = PASSED
                     checklist.remarks = PASSED
+
+
                 else:
                     checklist.remarks = REINSPECT
+                    checklist.status = FAILED
 
                 checklist.inspection = inspection_schedule
                 checklist.save()
 
                 if inspection_schedule.inspection_type == REINSPECT:
                     if checklist.remarks == REINSPECT:
+                        checklist.status = FAILED
                         checklist.remarks = NOT_TO_OPERATE
                         checklist.save()
 
