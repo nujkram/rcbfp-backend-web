@@ -4,7 +4,6 @@
 {% endblock %}
 {% block header_js %}
 {% endblock %}
-
 {% block page_wrapper_contents %}
     <div class="row">
         <div class="col-md-12">
@@ -43,8 +42,6 @@
                                 <div class="card-body">
 
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-
-                                        Remarks:
                                         {% if obj.is_safe %}
                                             <strong class="text-success">SAFE</strong>
                                         {% else %}
@@ -107,8 +104,10 @@
                                                             <th>ID</th>
                                                             <th>Date</th>
                                                             <th>Score</th>
-                                                            <th>Fire Rating</th>
+                                                            <th>Average</th>
+                                                            <th>Percentage</th>
                                                             <th>Risk</th>
+                                                            <th>Status</th>
                                                             <th>Remarks</th>
                                                             <th>Actions</th>
                                                         </tr>
@@ -118,9 +117,11 @@
                                                             <tr>
                                                                 <td>{{ data.id }}</td>
                                                                 <td>{{ data.date_checked }}</td>
-                                                                <td>{{ data.get_score }}</td>
-                                                                <td>{{ data.fire_rating }}</td>
-                                                                <td>{{ data.risk }}</td>
+                                                                <td>{{ data.count_score }}</td>
+                                                                <td>{{ data.avg_checklist_rating|floatformat:2 }}</td>
+                                                                <td>{{ data.percentage_checklist_rating|floatformat:2 }}</td>
+                                                                <td>{{ data.risk|floatformat:2 }}</td>
+                                                                <td>{{ data.get_status_display }}</td>
                                                                 <td>{{ data.get_remarks_display }}</td>
                                                                 <td>
                                                                     <a href="{% url 'admin_dashboard_checklist_detail' data.id %}"
