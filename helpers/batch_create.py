@@ -6,7 +6,7 @@ from buildings.models.building.building_models import Building
 from business.models import Business
 from checklists.models.checklist.checklist_models import Checklist
 from datesdim.models import DateDim
-from incidents.models.incident.incident_models import Incident
+from incidents.models.incident.incident_models import Incident, IncidentCoordinate
 from locations.models import Region, Province, City
 
 region = Region.objects.get(pk=6)
@@ -242,6 +242,7 @@ def checklists(businesses, checklist_year):
             )
 
             fixture.create(1)
+            business.is_safe()
             counter += 1
         else:
             pass
