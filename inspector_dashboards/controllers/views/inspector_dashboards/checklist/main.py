@@ -1,23 +1,20 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsUserViewMixin
 from buildings.constants import LOCATION_CHOICES, CURRENT_CHOICES, FUEL_CHOICES, CONTAINER_LOCATION_CHOICES, \
     GENERATOR_DISPENSING_CHOICES, GENERATOR_TYPE_CHOICES, SERVICE_SYSTEM_CHOICES, HAZARDOUS_AREA_CHOICES
-from buildings.models.building.building_models import Building
 from business.models import Business
-from checklists.constants import REINSPECT, PASSED, NOT_TO_OPERATE, FAILED
-
+from checklists.constants import REINSPECT, APPROVED, FAILED
 from checklists.models import Checklist as Master
 from inspections.constants import DONE
 from inspections.models import InspectionSchedule
 from inspector_dashboards.controllers.views.inspector_dashboards.checklist.forms import ChecklistForm as MasterForm
-from locations.models import Region, City, Province
 
 """
 URLS
@@ -1199,10 +1196,18 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
             if checklist:
                 result = checklist.result()
                 if result:
-                    checklist.status = PASSED
-                    checklist.remarks = PASSED
+                    checklist.status = APPROVED
+                    checklist.remarks = APPROVED
 
-
+                    is_safe = checklist.business.is_safe(checklist_pk=checklist.pk)
+                    if is_safe:
+                        checklist.business.status = APPROVED
+                        checklist.building.status = APPROVED
+                    else:
+                        checklist.business.status = FAILED
+                        checklist.building.status = FAILED
+                    checklist.business.save()
+                    checklist.building.save()
                 else:
                     checklist.remarks = REINSPECT
                     checklist.status = FAILED
@@ -1218,7 +1223,7 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
 
                 inspection_schedule.status = DONE
                 inspection_schedule.save()
-                print(f'CHECKLIST REMARKS: {checklist.remarks}')
+
                 messages.success(request, 'Checklist recorded!', extra_tags='success')
                 return HttpResponseRedirect(reverse('inspector_dashboard_checklist_detail', kwargs={'pk': checklist.pk}))
             else:

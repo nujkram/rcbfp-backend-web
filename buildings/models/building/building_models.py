@@ -7,22 +7,16 @@ This is the Master model for Building
 Author: Mark Gersaniva
 Email: mark.gersaniva@springvalley.tech
 """
-from datetime import date
 
 from django.contrib.postgres.forms import JSONField
 from django.db import models
-from django.apps import apps
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django_extensions.db import fields as extension_fields
-from django.db.models.signals import post_save, pre_save
-from sklearn.tree import _tree
-import dt_model
 
 # Model manager
-from buildings.constants import BUILDING_STATUS_CHOICES, APPROVED, FAILED
+from buildings.constants import BUILDING_STATUS_CHOICES
 from buildings.models.building.managers.building_managers import BuildingManager
-from checklists.constants import PASSED, REINSPECT, NOT_TO_OPERATE
-from checklists.models.checklist.checklist_models import Checklist
 
 
 class Building(models.Model):

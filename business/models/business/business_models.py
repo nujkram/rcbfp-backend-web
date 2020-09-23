@@ -18,7 +18,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 import dt_model
 from business.constants import BUSINESS_STATUS_CHOICES, APPROVED, FAILED
 from business.models.business.managers.business_managers import BusinessManager
-from checklists.constants import PASSED, REINSPECT, NOT_TO_OPERATE, FAILED as checklist_failed
 from checklists.models.checklist.checklist_models import Checklist
 
 
@@ -128,7 +127,7 @@ class Business(models.Model):
             return 'Unnamed'
 
     def latest_checklist(self):
-        return self.building.building_checklist.last()
+        return self.building.building_checklist.first()
 
     def is_safe(self, *args, **kwargs):
         today = date.today()
@@ -150,7 +149,8 @@ class Business(models.Model):
                 defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
                 avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
             )
-
+            print(f'Building Age: {building_age}')
+            print(f'Result: {result}')
             if result:
                 self.status = APPROVED
                 self.save()

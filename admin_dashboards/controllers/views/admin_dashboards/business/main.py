@@ -1,17 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
-from buildings.models.building.building_models import Building
-
-from business.models import Business as Master
 from admin_dashboards.controllers.views.admin_dashboards.business.forms import BusinessForm as MasterForm
-from checklists.constants import PASSED
+from buildings.models.building.building_models import Building
+from business.models import Business as Master
 from checklists.models.checklist.checklist_models import Checklist
 from locations.models import Region, Province, City
 
@@ -70,7 +68,8 @@ class AdminDashboardBusinessListView(LoginRequiredMixin, IsAdminViewMixin, View)
     def get(self, request, *args, **kwargs):
         obj_list = Master.objects.actives()
         for obj in obj_list:
-            obj.is_safe()
+            if obj.business_checklists:
+                obj.is_safe()
         paginator = Paginator(obj_list, 200)
         page = request.GET.get('page')
         objs = paginator.get_page(page)

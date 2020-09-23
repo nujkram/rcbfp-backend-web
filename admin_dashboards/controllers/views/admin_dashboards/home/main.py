@@ -8,7 +8,7 @@ from datetime import date
 from accounts.mixins.user_type_mixins import IsAdminAPIMixin
 from accounts.models import Account
 from accounts.constants import USER
-from checklists.constants import NOT_TO_OPERATE, REINSPECT
+from checklists.constants import REINSPECT, APPROVED
 from checklists.models.checklist.checklist_models import Checklist
 from inspections.constants import PENDING
 from inspections.models import InspectionSchedule
@@ -19,7 +19,7 @@ class AdminDashboardHomeView(LoginRequiredMixin, IsAdminAPIMixin, View):
         now = date.today()
         inspection_schedules = InspectionSchedule.objects.filter(status=PENDING)
         
-        checklist_current_year = Checklist.objects.filter(remarks__in=(NOT_TO_OPERATE, REINSPECT), date_checked__year=now.year)
+        checklist_current_year = Checklist.objects.filter(remarks__in=(APPROVED, REINSPECT), date_checked__year=now.year)
 
         context = {
             "page_title": f"RCBFP: Admin Dashboard",
