@@ -4,8 +4,8 @@ APPROVED = 2
 EXPIRED = 3
 
 BUSINESS_STATUS_CHOICES = (
-    (FAILED, 'Denied'),
+    (FAILED, 'Non-compliant'),
     (PENDING, 'Pending'),
-    (APPROVED, 'Approved'),
+    (APPROVED, 'Compliant'),
     (EXPIRED, 'Expired')
 )
