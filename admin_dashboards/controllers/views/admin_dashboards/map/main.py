@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
 from buildings.models.building.building_models import Building
+from business.models import Business
 
 """
 URLS
@@ -107,7 +108,7 @@ class AdminDashboardMapFireProneAreaView(LoginRequiredMixin, IsAdminViewMixin, V
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Building.objects.all()
+        obj = Business.objects.all()
 
         context = {
             "page_title": f"Fire Prone Areas",

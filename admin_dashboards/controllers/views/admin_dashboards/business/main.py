@@ -66,7 +66,7 @@ class AdminDashboardBusinessListView(LoginRequiredMixin, IsAdminViewMixin, View)
     """
 
     def get(self, request, *args, **kwargs):
-        obj_list = Master.objects.actives()
+        obj_list = Master.objects.all().order_by('-id')
         for obj in obj_list:
             if obj.business_checklists:
                 obj.is_safe()

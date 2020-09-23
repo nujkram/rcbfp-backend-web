@@ -42,21 +42,41 @@
                                 <div class="card-body">
 
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                        {% if obj.is_safe %}
-                                            <strong class="text-success">SAFE</strong>
-                                        {% else %}
-                                            <strong class="text-danger">FIRE PRONE</strong>
-                                        {% endif %}
-                                    </h5>
-
-
-                                    <p class="text-muted">Status:
-                                        <span class="{% if obj.status %}text-success{% else %}text-danger{% endif %}">
+                                        Status: <span
+                                            class="{% if obj.status %}text-success{% else %}text-danger{% endif %}">
                                         {{ obj.get_status_display }}
                                         </span>
-                                    </p>
+                                    </h5>
                                     <p class="text-muted">Date created: {{ obj.created }}</p>
                                     <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                                Safe:
+                                                {% if obj.is_safe %}
+                                                    <strong class="text-success">YES</strong>
+                                                {% else %}
+                                                    <strong class="text-danger">NO</strong>
+                                                {% endif %}
+                                            </h5>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                                Fire Prone:
+                                                {% if not obj.is_safe %}
+                                                    <strong class="text-success">YES</strong>
+                                                {% else %}
+                                                    <strong class="text-danger">NO</strong>
+                                                {% endif %}
+                                            </h5>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

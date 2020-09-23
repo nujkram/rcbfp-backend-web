@@ -149,8 +149,6 @@ class Business(models.Model):
                 defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
                 avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
             )
-            print(f'Building Age: {building_age}')
-            print(f'Result: {result}')
             if result:
                 self.status = APPROVED
                 self.save()
