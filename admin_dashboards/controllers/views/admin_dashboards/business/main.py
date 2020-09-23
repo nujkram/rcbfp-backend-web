@@ -181,7 +181,8 @@ class AdminDashboardBusinessCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
             if business:
                 messages.success(request, 'Business created!', extra_tags='success')
-                return HttpResponseRedirect(reverse('admin_dashboard_business_detail', kwargs={'pk': business.pk}))
+                return HttpResponseRedirect(reverse('admin_dashboard_inspection_create_new',
+                                                    kwargs={'building': building.pk, 'business': business.pk}))
             else:
                 messages.error(request, building_message, extra_tags='danger')
                 request.session['business_formdata'] = business_formdata

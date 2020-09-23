@@ -127,7 +127,7 @@ class Business(models.Model):
             return 'Unnamed'
 
     def latest_checklist(self):
-        return self.building.building_checklist.first()
+        return self.business_checklists.first()
 
     def is_safe(self, *args, **kwargs):
         today = date.today()
@@ -139,7 +139,7 @@ class Business(models.Model):
         else:
             checklist = self.latest_checklist()
 
-        if checklist:
+        if checklist is not None:
             result = dt_model.eval_tree(
                 beams=self.building.beams, columns=self.building.columns, flooring=self.building.flooring,
                 exterior_walls=self.building.exterior_walls,
@@ -170,6 +170,8 @@ class Business(models.Model):
             self.save()
 
             return result
+        else:
+            return False
     ################################################################################
     # === Properties ===
     ################################################################################
