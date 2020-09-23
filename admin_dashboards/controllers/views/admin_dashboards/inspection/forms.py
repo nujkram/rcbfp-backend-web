@@ -9,6 +9,7 @@ class InspectionForm(forms.Form):
     inspection_date = forms.DateTimeField(required=True)
 
     user = forms.ModelChoiceField(
+        required=True,
         queryset=Account.objects.all(),
         widget=forms.Select(attrs={'class': 'form-control'})
     )

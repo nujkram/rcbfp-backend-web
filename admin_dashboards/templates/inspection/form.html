@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <select id="id_user" name="user" class="form-control">
+                                    <select id="id_user" name="user" class="form-control" required>
                                         <option value="">Select Inspector</option>
                                         {% for user in users %}
                                             <option value="{{ user.pk }}"
