@@ -7,7 +7,12 @@
 
 {% block page_wrapper_contents %}
     <div class="row">
-        <div class="col-sm-12 col-md-12 leaflet-container" id="leafletmap">
+        <ul class="legend">
+            <li><span class="fire-prone"></span> Fire Prone</li>
+            <li><span class="safe"></span> Safe</li>
+        </ul>
+
+        <div class="col-sm-12 col-md-12">
             <div id="mapid"></div>
         </div>
     </div>

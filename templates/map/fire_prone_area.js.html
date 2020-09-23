@@ -32,7 +32,7 @@
     $(document).ready(function () {
         {% for b in objects %}
             L.marker;
-            addMarker("{{ b.latitude }}", "{{ b.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.is_safe }}", "{{ b.id }}");
+            addMarker("{{ b.building.latitude }}", "{{ b.building.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.is_safe }}", "{{ b.id }}");
         {% endfor %}
     });
 
@@ -78,7 +78,7 @@
             iconColor = greenIcon;
         }
 
-        var ref = "{% url 'admin_dashboard_building_detail' 0 %}";
+        var ref = "{% url 'admin_dashboard_business_detail' 0 %}";
         var url = ref.replace("0", id);
         
         var marker = L.marker(

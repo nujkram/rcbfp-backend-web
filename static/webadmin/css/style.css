@@ -9,3 +9,14 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+/* basic positioning */
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }
+/* your colors */
+.legend .pending { background-color: #d3d3d3; }
+.legend .non-compliant { background-color: #bb4153; }
+.legend .compliant { background-color: #39ba30; }
+.legend .safe { background-color: #39ba30; }
+.legend .fire-prone { background-color: #bb4153; }
