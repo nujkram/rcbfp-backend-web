@@ -11,6 +11,7 @@
         lng = 122.7519348;
     {% endif %}
     var map = L.map('mapid').setView([lat, lng], 15);
+    map.scrollWheelZoom.disable();
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

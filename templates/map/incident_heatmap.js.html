@@ -47,6 +47,7 @@
             zoom: 15,
             layers: [baseLayer, heatmapLayer]
         });
+        map.scrollWheelZoom.disable();
 
         heatmapLayer.setData(data);
 

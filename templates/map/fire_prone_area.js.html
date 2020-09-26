@@ -2,6 +2,7 @@
 
 <script type="text/javascript">
     var map = L.map('mapid').setView([11.582705, 122.7519348], 15);
+    map.scrollWheelZoom.disable();
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

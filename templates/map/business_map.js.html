@@ -2,6 +2,7 @@
 
 <script type="text/javascript">
   var map = L.map('mapid').setView([11.582705, 122.7519348], 15);
+  map.scrollWheelZoom.disable();
 
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -69,7 +70,7 @@
   $(document).ready(function () {
     {% for b in objects %}
       L.marker;
-      addMarker("{{ b.latitude }}", "{{ b.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.get_status_display }}");
+      addMarker("{{ b.building.latitude }}", "{{ b.building.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.get_status_display }}");
     {% endfor %}
   });
 
@@ -109,11 +110,11 @@
       markerTitle = lat + ", " + lon;
     }
     var iconColor;
-    if (status == "Denied") {
+    if (status == "Non-compliant") {
       iconColor = redIcon;
     } else if (status == "Pending") {
       iconColor = greyIcon;
-    } else if (status == "Approved") {
+    } else if (status == "Compliant") {
       iconColor =greenIcon;
     } else {
       iconColor = redIcon;
