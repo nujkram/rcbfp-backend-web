@@ -11,6 +11,7 @@ from admin_dashboards.controllers.views.admin_dashboards.business.forms import B
 from buildings.models.building.building_models import Building
 from business.models import Business as Master
 from checklists.models.checklist.checklist_models import Checklist
+from incidents.models.incident.incident_models import Incident
 from locations.models import Region, Province, City
 
 """
@@ -211,6 +212,8 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         checklists = Checklist.objects.filter(business=obj).order_by('-created')
+        incidents = Incident.objects.filter(business=obj)
+
         context = {
             "page_title": f"Business: {obj}",
             "menu_section": "admin_dashboards",
@@ -218,6 +221,7 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "menu_action": "detail",
             "obj": obj,
             "checklists": checklists,
+            "incidents": incidents,
         }
 
         return render(request, "business/detail.html", context)

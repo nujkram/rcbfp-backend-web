@@ -69,9 +69,9 @@
                                             <h5 class="font-weight-light pb-2 mb-1 border-bottom">
                                                 Fire Prone:
                                                 {% if not obj.is_safe %}
-                                                    <strong class="text-success">YES</strong>
+                                                    <strong class="text-danger">YES</strong>
                                                 {% else %}
-                                                    <strong class="text-danger">NO</strong>
+                                                    <strong class="text-success">NO</strong>
                                                 {% endif %}
                                             </h5>
                                         </div>
@@ -99,6 +99,12 @@
                                                     <a class="nav-link" href="#checklist" data-toggle="tab">
                                                         <i class="material-icons">fact_check</i>
                                                         Checklist
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#incidents" data-toggle="tab">
+                                                        <i class="material-icons">local_fire_department</i>
+                                                        Incidents
                                                     </a>
                                                 </li>
 
@@ -159,6 +165,35 @@
                                                     </table>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="tab-pane" id="incidents">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Date</th>
+                                                    <th>Caller</th>
+                                                    <th>Type</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for data in incidents %}
+                                                    <tr>
+                                                        <td>{{ data.id }}</td>
+                                                        <td>{{ data.created }}</td>
+                                                        <td>{{ data.get_full_name }}</td>
+                                                        <td>{{ data.incident_type }}</td>
+                                                        <td>
+                                                            <a href="{% url 'admin_dashboard_incident_detail' data.id %}"
+                                                               class="text-primary">
+                                                                Details
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
