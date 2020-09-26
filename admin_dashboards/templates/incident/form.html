@@ -100,54 +100,54 @@
                                     <label for="id_property_damage">Property Damage</label>
                                     <input id="id_property_damage" name="property_damage" type="number"
                                            placeholder="Value of property damage in tens of thousands of pesos"
-                                           class="form-control sif"/>
+                                           class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_casualties">Casualties</label>
                                     <input id="id_casualties" name="casualties" type="number"
-                                           placeholder="Number of casualties" class="form-control sif"/>
+                                           placeholder="Number of casualties" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_major_injuries">Major Injuries</label>
                                     <input id="id_major_injuries" name="major_injuries" type="number"
-                                           placeholder="Number of major injuries" class="form-control sif"/>
+                                           placeholder="Number of major injuries" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_minor_injuries">Minor Injuries</label>
                                     <input id="id_minor_injuries" name="minor_injuries" type="number"
-                                           placeholder="Number of minor injuries" class="form-control sif"/>
+                                           placeholder="Number of minor injuries" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_intensity">Intensity</label>
                                     <input id="id_intensity" name="intensity" type="number"
-                                           placeholder="Number of minor injuries" class="form-control sif"/>
+                                           placeholder="Number of minor injuries" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_severity">Severity</label>
                                     <input id="id_severity" name="severity" type="number"
-                                           placeholder="Number of severity" class="form-control sif"/>
+                                           placeholder="Number of severity" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="id_duration">Duration</label>
                                     <input id="id_duration" name="duration" type="number"
-                                           placeholder="Duration in minutes" class="form-control sif"/>
+                                           placeholder="Duration in minutes" class="form-control sif" value="0"/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <select id="id_building" name="building" class="form-control">
+                                    <select id="id_building" name="building" class="form-control" required>
                                         <option value="">Select Building Involved</option>
                                         {% for building in buildings %}
                                             <option value="{{ building.pk }}"
@@ -158,7 +158,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <select id="id_business" name="business" class="form-control">
+                                    <select id="id_business" name="business" class="form-control" required>
                                         <option value="">Select Business Involved</option>
                                         {% for business in businesses %}
                                             <option value="{{ business.pk }}"

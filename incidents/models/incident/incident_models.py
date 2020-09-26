@@ -179,6 +179,13 @@ class Incident(models.Model):
     def __str__(self):
         return f'{self.building} - {self.created.date()}'
 
+    def get_full_name(self):
+        if self.first_name != '' and self.last_name != '':
+            return '{}, {}'.format(
+                self.last_name, self.first_name
+            )
+        else:
+            return 'Unnamed'
     ################################################################################
     # === Model overrides ===
     ################################################################################

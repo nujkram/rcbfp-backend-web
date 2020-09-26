@@ -31,7 +31,7 @@
                                         </a>
                                     </h5>
                                     <p class="text-muted">Date created: {{ obj.created }}</p>
-                                    <p class="text-muted">Caller: {{ obj.first_name }} {{ obj.last_name }}</p>
+                                    <p class="text-muted">Caller: {{ obj.get_full_name }}</p>
                                     <p class="text-muted">Caller Phone: {{ obj.phone }}</p>
                                     <p class="text-muted">Incident Type: {{ obj.incident_type }}</p>
                                     <p class="text-muted">Property Damage: {{ obj.property_damage|intcomma }}</p>
@@ -66,6 +66,8 @@
                                     <p class="text-muted">Region: {{ obj.region }}</p>
                                     <p class="text-muted">Province: {{ obj.province }}</p>
                                     <p class="text-muted">City: {{ obj.city }}</p>
+                                    {{ obj.occurance }}
+                                    <img src="{{ obj.image.url }}" alt="image" class="img-fluid w-50 h-50">
                                 </div>
                             </div>
                         </div>

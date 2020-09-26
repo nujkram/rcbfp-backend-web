@@ -12,7 +12,7 @@ class IncidentForm(forms.Form):
                                  widget=forms.TextInput(attrs={'placeholder': 'First Name', 'class': 'form-control'}))
     last_name = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name', 'class': 'form-control'}))
-    middle_name = forms.CharField(required=True,
+    middle_name = forms.CharField(required=False,
                                   widget=forms.TextInput(attrs={'placeholder': 'Middle Name', 'class': 'form-control'}))
     phone = forms.CharField(required=True,
                             widget=forms.TextInput(attrs={'placeholder': 'Phone Number', 'class': 'form-control'}))
