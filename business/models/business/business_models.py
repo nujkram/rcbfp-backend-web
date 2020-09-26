@@ -130,6 +130,7 @@ class Business(models.Model):
         return self.business_checklists.first()
 
     def is_safe(self, *args, **kwargs):
+        print(f"Checking {self.name} safety...")
         today = date.today()
         building_age = today.year - self.building.date_of_construction.year - (
                 (today.month, today.day) < (
@@ -149,6 +150,7 @@ class Business(models.Model):
                 defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
                 avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
             )
+            print(f"Evaluation result, Passed: {result}")
             if result:
                 self.status = APPROVED
                 self.save()

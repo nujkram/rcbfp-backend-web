@@ -133,9 +133,9 @@ from admin_dashboards.controllers.views.admin_dashboards.map import main as map_
 
 urlpatterns += {
     path(
-        'map/buildings',
-        map_views.AdminDashboardMapBuildingView.as_view(),
-        name='admin_dashboard_map_building_view'
+        'map/businesses',
+        map_views.AdminDashboardMapBusinessView.as_view(),
+        name='admin_dashboard_map_business_view'
     ),
     path(
         'map/incidents',

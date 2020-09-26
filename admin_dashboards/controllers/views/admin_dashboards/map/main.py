@@ -21,7 +21,7 @@ from admin_dashboards.controllers.views.admin_dashboards.map import main as map_
 urlpatterns += {
     path(
         'map/buildings',
-        map_views.AdminDashboardMapBuildingView.as_view(),
+        map_views.AdminDashboardMapBusinessView.as_view(),
         name='admin_dashboard_map_building_view'
     ),
     path(
@@ -33,9 +33,9 @@ urlpatterns += {
 """
 
 
-class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
+class AdminDashboardMapBusinessView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
-    View for Map Buildings.
+    View for Map Business.
 
     Allowed HTTP verbs:
         - GET
@@ -49,17 +49,17 @@ class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Building.objects.actives()
+        obj = Business.objects.actives()
 
         context = {
-            "page_title": f"Building Map",
+            "page_title": f"Businesses Location",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",
             "objects": obj,
         }
 
-        return render(request, "map/buildings.html", context)
+        return render(request, "map/businesses.html", context)
 
 
 class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
