@@ -65,6 +65,99 @@
                         </ul>
                     </div>
                     <img src="{{ image }}" class="img-fluid">
+                    <pre>
+|--- building_age <= 1394.00
+|   |--- avg_fire_rating <= 3.92
+|   |   |--- flooring <= 0.50
+|   |   |   |--- main_door <= 3.50
+|   |   |   |   |--- avg_fire_rating <= 2.67
+|   |   |   |   |   |--- class: True
+|   |   |   |   |--- avg_fire_rating >  2.67
+|   |   |   |   |   |--- building_age <= 604.50
+|   |   |   |   |   |   |--- building_age <= 450.50
+|   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |--- building_age >  450.50
+|   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |--- building_age >  604.50
+|   |   |   |   |   |   |--- class: True
+|   |   |   |--- main_door >  3.50
+|   |   |   |   |--- checklist_rating <= 52.50
+|   |   |   |   |   |--- class: True
+|   |   |   |   |--- checklist_rating >  52.50
+|   |   |   |   |   |--- building_age <= 148.00
+|   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |--- building_age >  148.00
+|   |   |   |   |   |   |--- building_age <= 904.00
+|   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |   |--- building_age >  904.00
+|   |   |   |   |   |   |   |--- class: True
+|   |   |--- flooring >  0.50
+|   |   |   |--- avg_fire_rating <= 3.38
+|   |   |   |   |--- building_age <= 531.50
+|   |   |   |   |   |--- building_age <= 511.50
+|   |   |   |   |   |   |--- building_age <= 346.00
+|   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |--- building_age >  346.00
+|   |   |   |   |   |   |   |--- building_age <= 358.50
+|   |   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |   |   |--- building_age >  358.50
+|   |   |   |   |   |   |   |   |--- columns <= 5.50
+|   |   |   |   |   |   |   |   |   |--- beams <= 0.50
+|   |   |   |   |   |   |   |   |   |   |--- ceiling <= 3.50
+|   |   |   |   |   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |   |   |   |   |--- ceiling >  3.50
+|   |   |   |   |   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |   |   |   |   |--- beams >  0.50
+|   |   |   |   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |   |   |--- columns >  5.50
+|   |   |   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |--- building_age >  511.50
+|   |   |   |   |   |   |--- window <= 2.50
+|   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |--- window >  2.50
+|   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |--- building_age >  531.50
+|   |   |   |   |   |--- class: True
+|   |   |   |--- avg_fire_rating >  3.38
+|   |   |   |   |--- building_age <= 178.00
+|   |   |   |   |   |--- class: False
+|   |   |   |   |--- building_age >  178.00
+|   |   |   |   |   |--- building_age <= 1216.00
+|   |   |   |   |   |   |--- exterior_walls <= 5.50
+|   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |--- exterior_walls >  5.50
+|   |   |   |   |   |   |   |--- columns <= 4.50
+|   |   |   |   |   |   |   |   |--- building_age <= 518.50
+|   |   |   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |   |   |   |--- building_age >  518.50
+|   |   |   |   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |   |   |--- columns >  4.50
+|   |   |   |   |   |   |   |   |--- class: True
+|   |   |   |   |   |--- building_age >  1216.00
+|   |   |   |   |   |   |--- class: False
+|   |--- avg_fire_rating >  3.92
+|   |   |--- window <= 3.50
+|   |   |   |--- class: True
+|   |   |--- window >  3.50
+|   |   |   |--- beams <= 3.00
+|   |   |   |   |--- building_age <= 849.00
+|   |   |   |   |   |--- class: True
+|   |   |   |   |--- building_age >  849.00
+|   |   |   |   |   |--- building_age <= 1147.50
+|   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |--- building_age >  1147.50
+|   |   |   |   |   |   |--- class: True
+|   |   |   |--- beams >  3.00
+|   |   |   |   |--- building_age <= 486.50
+|   |   |   |   |   |--- trusses <= 4.00
+|   |   |   |   |   |   |--- class: False
+|   |   |   |   |   |--- trusses >  4.00
+|   |   |   |   |   |   |--- class: True
+|   |   |   |   |--- building_age >  486.50
+|   |   |   |   |   |--- class: False
+|--- building_age >  1394.00
+|   |--- class: False
+                    </pre>
                 </div>
             </div>
         </div>

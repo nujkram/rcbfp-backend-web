@@ -16,7 +16,7 @@ class AdminDashboardAnalyticsDecisionTreeFormView(LoginRequiredMixin, IsAdminVie
         checklist_features = Checklist.analytics_features
 
         dependent_variables = ['has_incident']
-        d_tree = f'{settings.MEDIA_URL}models/trees/checklist_dtree--1600174486.927769.png'
+        d_tree = f'{settings.MEDIA_URL}models/trees/checklist_dtree--1601209510.397293.png'
         context = {
             "page_title": f"Run Decision Tree",
             "menu_section": "analytics",
