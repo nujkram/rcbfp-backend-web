@@ -11,6 +11,6 @@ REMARKS_CHOICES = (
 
 STATUS_CHOICES = (
     (PENDING, 'Pending'),
-    (FAILED, 'Failed'),
-    (APPROVED, 'Passed')
+    (FAILED, 'Non-Compliant'),
+    (APPROVED, 'Compliant')
 )

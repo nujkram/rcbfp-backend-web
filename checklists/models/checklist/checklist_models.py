@@ -282,43 +282,17 @@ class Checklist(models.Model):
     def risk(self):
         chance_of_fire = 0.001
 
-        if self.boiler_provided:
-            chance_of_fire += 0.05
+        if self.hazardous_materials:
+            chance_of_fire += 0.20
 
-        if self.boiler_container == 'Above Ground':
+        if self.smoking_permitted:
             chance_of_fire += 0.01
 
-        if self.lpg_installation_with_permit:
-            chance_of_fire += 0.02
-
-        if self.fuel_with_storage_permit:
-            chance_of_fire += 0.02
-        else:
-            chance_of_fire += 0.2
-
-        if self.generator_set:
-            chance_of_fire += 0.02
-
-        if self.generator_fuel == 'Gasoline':
-            chance_of_fire += 0.3
-
-        if self.generator_fuel and not self.generator_fuel_storage_permit:
-            chance_of_fire += 0.1
-
-        if self.electrical_hazard:
-            chance_of_fire += 0.2
-
-        if self.mechanical_hazard:
-            chance_of_fire += 0.1
-
-        if self.hazardous_material:
+        if not self.hazardous_materials_properly_stored:
             chance_of_fire += 0.15
 
-        if self.hazardous_material_stored:
-            chance_of_fire += 0.01
-
-        if self.hazardous_area == "Kitchen":
-            chance_of_fire += 0.1
+        if not self.safety_device_for_lpg:
+            chance_of_fire += 0.15
 
         if not self.defects:
             self.defects = 0

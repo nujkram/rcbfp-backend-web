@@ -403,18 +403,23 @@ class InspectorDashboardChecklistCreateView(LoginRequiredMixin, IsUserViewMixin,
                     checklist.status = APPROVED
                     checklist.remarks = APPROVED
 
-                    is_safe = checklist.business.is_safe(checklist_pk=checklist.pk)
-                    if is_safe:
-                        checklist.business.status = APPROVED
-                        checklist.building.status = APPROVED
-                    else:
-                        checklist.business.status = FAILED
-                        checklist.building.status = FAILED
+                    checklist.business.status = APPROVED
+                    checklist.building.status = APPROVED
+
                     checklist.business.save()
                     checklist.building.save()
+
+                    checklist.business.is_safe(checklist_pk=checklist.pk)
+
                 else:
                     checklist.remarks = REINSPECT
                     checklist.status = FAILED
+
+                    checklist.business.status = FAILED
+                    checklist.building.status = FAILED
+
+                    checklist.business.save()
+                    checklist.building.save()
 
                 checklist.inspection = inspection_schedule
                 checklist.save()

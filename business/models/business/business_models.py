@@ -127,7 +127,7 @@ class Business(models.Model):
             return 'Unnamed'
 
     def latest_checklist(self):
-        return self.business_checklists.first()
+        return self.business_checklists.order_by('-pk').first()
 
     def is_safe(self, *args, **kwargs):
         print(f"Checking {self.name} safety...")
@@ -141,12 +141,20 @@ class Business(models.Model):
             checklist = self.latest_checklist()
 
         if checklist is not None:
+            print(f"Average Fire Rating: {self.building.avg_fire_rating()}")
+            print(f"Columns: {self.building.columns}")
+            print(f"Exterior Walls: {self.building.exterior_walls}")
+            print(f"Checklist: {checklist.percentage_checklist_rating()}")
             result = dt_model.eval_tree(
-                beams=self.building.beams, columns=self.building.columns, flooring=self.building.flooring,
+                beams=self.building.beams, columns=self.building.columns,
+                flooring=self.building.flooring,
                 exterior_walls=self.building.exterior_walls,
-                corridor_walls=self.building.corridor_walls, room_partitions=self.building.room_partitions,
-                main_stair=self.building.main_stair, window=self.building.window, ceiling=self.building.ceiling,
-                main_door=self.building.main_door, trusses=self.building.trusses, roof=self.building.roof,
+                corridor_walls=self.building.corridor_walls,
+                room_partitions=self.building.room_partitions,
+                main_stair=self.building.main_stair, window=self.building.window,
+                ceiling=self.building.ceiling,
+                main_door=self.building.main_door, trusses=self.building.trusses,
+                roof=self.building.roof,
                 defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
                 avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
             )
@@ -160,6 +168,11 @@ class Business(models.Model):
                 else:
                     self.status = FAILED
 
+                self.building.status = APPROVED
+                self.building.save()
+
+                # reverse result
+                # result = True
             else:
                 self.status = FAILED
                 self.save()
@@ -167,6 +180,8 @@ class Business(models.Model):
                 self.building.status = FAILED
                 self.building.save()
 
+                # reverse result
+                # result = False
             self.save()
 
             return result
