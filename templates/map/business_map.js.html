@@ -70,7 +70,7 @@
   $(document).ready(function () {
     {% for b in objects %}
       L.marker;
-      addMarker("{{ b.building.latitude }}", "{{ b.building.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.get_status_display }}");
+      addMarker("{{ b.building.latitude }}", "{{ b.building.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.latest_checklist.get_status_display }}");
     {% endfor %}
   });
 
