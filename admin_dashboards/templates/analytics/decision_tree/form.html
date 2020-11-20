@@ -52,10 +52,18 @@
                             </div>
                         </fieldset>
 
+                        <fieldset>
+                            <div class="form-group mx-3">
+                                <input type="checkbox" class="form-check-input" id="confirm_submission">
+                                <label class="form-check-label" for="confirm_submission">Confirm Submission</label>
+                            </div>
+                        </fieldset>
+
                         <p>
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-success" id="submit" disabled>
                                 Submit
                             </button>
+
                         </p>
                     </form>
                     <div class="float-right">
@@ -167,4 +175,18 @@
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let confirmation = document.getElementById("confirm_submission");
+            let submitButton = document.getElementById("submit");
+
+            $("#confirm_submission").change(function() {
+                if (confirmation.checked) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            });
+        })
+    </script>
 {% endblock %}

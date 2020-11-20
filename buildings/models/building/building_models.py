@@ -199,6 +199,54 @@ class Building(models.Model):
     def latest_checklist(self):
         return self.building_checklist.first()
 
+    def beams_percentage(self):
+        result = self.beams / 5
+        return result
+
+    def columns_percentage(self):
+        result = self.columns / 5
+        return result
+
+    def flooring_percentage(self):
+        result = self.flooring / 5
+        return result
+
+    def exterior_walls_percentage(self):
+        result = self.exterior_walls / 5
+        return result
+
+    def corridor_walls_percentage(self):
+        result = self.corridor_walls / 5
+        return result
+
+    def room_partitions_percentage(self):
+        result = self.room_partitions / 5
+        return result
+
+    def main_stair_percentage(self):
+        result = self.main_stair / 5
+        return result
+
+    def window_percentage(self):
+        result = self.window / 5
+        return result
+
+    def ceiling_percentage(self):
+        result = self.ceiling / 5
+        return result
+
+    def main_door_percentage(self):
+        result = self.main_door / 5
+        return result
+
+    def trusses_percentage(self):
+        result = self.trusses / 5
+        return result
+
+    def roof_percentage(self):
+        result = self.roof / 5
+        return result
+
 
 ################################################################################
 # === Signals ===

@@ -130,7 +130,6 @@ class Business(models.Model):
         return self.business_checklists.order_by('-pk').first()
 
     def is_safe(self, *args, **kwargs):
-        print(f"Checking {self.name} safety...")
         today = date.today()
         building_age = today.year - self.building.date_of_construction.year - (
                 (today.month, today.day) < (
@@ -141,10 +140,6 @@ class Business(models.Model):
             checklist = self.latest_checklist()
 
         if checklist is not None:
-            print(f"Average Fire Rating: {self.building.avg_fire_rating()}")
-            print(f"Columns: {self.building.columns}")
-            print(f"Exterior Walls: {self.building.exterior_walls}")
-            print(f"Checklist: {checklist.percentage_checklist_rating()}")
             result = dt_model.eval_tree(
                 beams=self.building.beams, columns=self.building.columns,
                 flooring=self.building.flooring,
@@ -158,7 +153,6 @@ class Business(models.Model):
                 defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
                 avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
             )
-            print(f"Evaluation result, Passed: {result}")
             if result:
                 self.status = APPROVED
                 self.save()

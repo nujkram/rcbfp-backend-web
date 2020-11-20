@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
@@ -9,6 +11,7 @@ from django.core.paginator import Paginator
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 from buildings.models.building.building_models import Building
 from business.models import Business
+from datesdim.models import DateDim
 from incidents.constants import INCIDENT_TYPE_CHOICES
 
 from incidents.models import Incident as Master
@@ -124,8 +127,9 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 'last_name': '',
                 'middle_name': '',
                 'phone': '',
+                'occurrence_date': '',
+                'occurrence_time': '',
                 'address': '',
-                'image': '',
                 'incident_type': '',
                 'property_damage': '',
                 'casualties': '',
@@ -139,6 +143,7 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 'region': '',
                 'province': '',
                 'city': '',
+                'image': '',
             }
 
         context = {
@@ -164,14 +169,13 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
     def post(self, request, *args, **kwargs):
         form = MasterForm(request.POST, request.FILES)
 
-
         incident_formdata = {
             'first_name': request.POST.get('first_name', ''),
             'last_name': request.POST.get('last_name', ''),
             'middle_name': request.POST.get('middle_name', ''),
             'phone': request.POST.get('phone', ''),
             'address': request.POST.get('address', ''),
-            'image': request.POST.get('image', ''),
+            'occurrence_date': request.POST.get('occurrence_date', ''),
             'incident_type': request.POST.get('incident_type', ''),
             'property_damage': request.POST.get('property_damage', ''),
             'casualties': request.POST.get('casualties', ''),
@@ -187,6 +191,7 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             'city': request.POST.get('city', ''),
             'lat': request.POST.get('latitude', ''),
             'lng': request.POST.get('longitude', ''),
+            'image': request.POST.get('image', ''),
         }
 
         if form.is_valid():
@@ -194,8 +199,8 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             last_name = form.cleaned_data['last_name']
             middle_name = form.cleaned_data['middle_name']
             phone = form.cleaned_data['phone']
+            occurrence_date = form.cleaned_data['occurrence_date']
             address = form.cleaned_data['address']
-            image = form.cleaned_data['image']
             incident_type = form.cleaned_data['incident_type']
             property_damage = form.cleaned_data['property_damage']
             casualties = form.cleaned_data['casualties']
@@ -211,6 +216,8 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             city = form.cleaned_data['city']
             lat = form.cleaned_data['latitude']
             lng = form.cleaned_data['longitude']
+            image = form.cleaned_data['image']
+            occurrence = DateDim.objects.get(year=occurrence_date.year, month=occurrence_date.month, day=occurrence_date.day)
 
             incident, incident_message = Master.objects.create(
                 first_name=first_name,
@@ -218,7 +225,7 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 middle_name=middle_name,
                 phone=phone,
                 address=address,
-                image=image,
+                occurrence=occurrence,
                 incident_type=incident_type,
                 property_damage=property_damage,
                 casualties=casualties,
@@ -232,6 +239,7 @@ class AdminDashboardIncidentCreateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 region=region,
                 province=province,
                 city=city,
+                image=image,
             )
 
             if incident:

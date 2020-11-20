@@ -3,6 +3,7 @@ from django.apps import apps
 
 from buildings.models.building.building_models import Building
 from business.models import Business
+from datesdim.models import DateDim
 from locations.models import Region, Province, City
 
 
@@ -73,6 +74,7 @@ class IncidentManager(models.Manager):
                 region=kwargs['region'],
                 province=kwargs['province'],
                 city=kwargs['city'],
+                occurrence=kwargs['occurrence'],
             )
 
             incident.save()

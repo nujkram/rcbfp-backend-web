@@ -34,6 +34,8 @@ class IncidentForm(forms.Form):
         attrs={'type': 'number', 'placeholder': 'Severity', 'class': 'form-control'}))
     duration = forms.CharField(required=True, widget=forms.TextInput(
         attrs={'type': 'number', 'placeholder': 'Duration', 'class': 'form-control'}))
+    occurrence_date = forms.DateField(required=True)
+    occurrence_time = forms.TimeField(required=False)
     building = forms.ModelChoiceField(
         queryset=Building.objects.all(),
         widget=forms.Select(attrs={'class': 'form-control'})

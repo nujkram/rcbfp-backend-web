@@ -79,11 +79,18 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="id_image">Image</label>
-                                    <input id="id_image" name="image" type="file" placeholder="Insert supportive image"
-                                           class="form-control-file" accept=".jpg, jpeg, .png"/>
+                                    <label for="id_date">Incident Date</label>
+                                    <input id="id_date" name="occurrence_date" type="text"
+                                           placeholder="Select date" class="form-control sif" required/>
                                 </div>
                             </div>
+{#                            <div class="col-sm-12 col-md-6">#}
+{#                                <div class="form-group">#}
+{#                                    <label for="id_time">Time </label>#}
+{#                                    <input id="id_time" name="occurrence_time" type="text"#}
+{#                                           placeholder="Select time" class="form-control sif" required/>#}
+{#                                </div>#}
+{#                            </div>#}
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <select id="id_incident_type" name="incident_type" class="form-control" required>
@@ -205,6 +212,13 @@
                                                     {% if application_formdata.city == city.pk or default_city == city %}selected{% endif %}>{{ city.name }}</option>
                                         {% endfor %}
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_image">Image</label>
+                                    <input id="id_image" name="image" type="file" placeholder="Insert supportive image"
+                                           class="form-control-file" accept=".jpg, jpeg, .png"/>
                                 </div>
                             </div>
                         </div>
