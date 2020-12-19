@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
-from business.models import Business as Master
+from business.models import Business as Master, Business
 
 """
 URLS
@@ -58,3 +58,26 @@ class AdminDashboardBusinessStatusView(LoginRequiredMixin, IsAdminViewMixin, Vie
         }
 
         return render(request, "reports/business/list.html", context)
+
+
+class AdminDashboardAnalyticsView(LoginRequiredMixin, IsAdminViewMixin, View):
+    def get(self, request, *args, **kwargs):
+        businesses = Business.objects.all()
+        true_positive = Business.objects.filter(status=2, building__status=2)  # Safe/Compliant
+        true_negative = Business.objects.filter(status=0, building__status=2)  # Safe/None-compliant
+        false_positive = Business.objects.filter(status=2, building__status=0)  # Fire Prone/Compliant
+        false_negative = Business.objects.filter(status=0, building__status=0)  # Fire Prone/None-compliant
+
+        context = {
+            "page_title": f"Analytics",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "list",
+            "businesses": businesses,
+            "true_positive": true_positive,
+            "true_negative": true_negative,
+            "false_positive": false_positive,
+            "false_negative": false_negative,
+        }
+
+        return render(request, "reports/analytics/analytics.html", context)
