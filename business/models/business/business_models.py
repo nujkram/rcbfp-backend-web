@@ -7,13 +7,18 @@ This is the Master model for Application
 Author: Mark Gersaniva
 Email: mark.gersaniva@springvalley.tech
 """
+from datetime import date
+
 from django.contrib.postgres.forms import JSONField
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
 
+import dt_model
+from business.constants import BUSINESS_STATUS_CHOICES, APPROVED, FAILED
 from business.models.business.managers.business_managers import BusinessManager
+from checklists.models.checklist.checklist_models import Checklist
 
 
 class Business(models.Model):
@@ -69,11 +74,13 @@ class Business(models.Model):
     email = models.EmailField(max_length=254, unique=True, verbose_name='email address')
 
     # === State ===
+    is_new = models.BooleanField(default=True)
     active = models.BooleanField(default=True)
+    status = models.PositiveSmallIntegerField(choices=BUSINESS_STATUS_CHOICES, blank=False, null=False, default=1)
     meta = JSONField()
 
     # === Relationship Fields ===
-    building = models.ForeignKey('buildings.Building', blank=True, null=True, on_delete=models.SET_NULL,
+    building = models.ForeignKey('buildings.Building', blank=True, null=True, on_delete=models.CASCADE,
                                  related_name='building_business')
     region = models.ForeignKey('locations.Region', blank=True, default=6, null=False, on_delete=models.CASCADE,
                                related_name='region_business')
@@ -111,7 +118,69 @@ class Business(models.Model):
     ################################################################################
     # === Model-specific methods ===
     ################################################################################
+    def get_full_name(self):
+        if self.owner_first_name != '' and self.owner_last_name != '':
+            return '{}, {}'.format(
+                self.owner_last_name, self.owner_first_name
+            )
+        else:
+            return 'Unnamed'
 
+    def latest_checklist(self):
+        return self.business_checklists.order_by('-pk').first()
+
+    def is_safe(self, *args, **kwargs):
+        today = date.today()
+        building_age = today.year - self.building.date_of_construction.year - (
+                (today.month, today.day) < (
+            self.building.date_of_construction.month, self.building.date_of_construction.day))
+        if 'checklist_pk' in kwargs:
+            checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
+        else:
+            checklist = self.latest_checklist()
+
+        if checklist is not None:
+            result = dt_model.eval_tree(
+                beams=self.building.beams, columns=self.building.columns,
+                flooring=self.building.flooring,
+                exterior_walls=self.building.exterior_walls,
+                corridor_walls=self.building.corridor_walls,
+                room_partitions=self.building.room_partitions,
+                main_stair=self.building.main_stair, window=self.building.window,
+                ceiling=self.building.ceiling,
+                main_door=self.building.main_door, trusses=self.building.trusses,
+                roof=self.building.roof,
+                defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
+                avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
+            )
+            if result:
+                self.status = APPROVED
+                self.save()
+
+                if checklist.result():
+                    self.status = APPROVED
+                else:
+                    self.status = FAILED
+
+                self.building.status = APPROVED
+                self.building.save()
+
+                # reverse result
+                # result = True
+            else:
+                self.status = FAILED
+                self.save()
+
+                self.building.status = FAILED
+                self.building.save()
+
+                # reverse result
+                # result = False
+            self.save()
+
+            return result
+        else:
+            return False
     ################################################################################
     # === Properties ===
     ################################################################################

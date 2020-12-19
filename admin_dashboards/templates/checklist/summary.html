@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.get_full_name }}</h5>
+                                    <p class="text-muted">Policy No: {{ obj.policy_no }}</p>
+                                    <p class="text-muted">Building Permit:
+                                        {% if obj.building_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Occupancy Permit:
+                                        {% if obj.occupancy_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Fire Safety Inspection Certificate Control
+                                        No: {{ obj.fsic_control_no }}</p>
+                                    <p class="text-muted">Fire Drill Certificate:
+                                        {% if obj.fire_drill_certificate %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Electrical Inspection
+                                        No: {{ obj.electrical_inspection_no }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        Remarks:
+                                        {% if obj.business.is_safe %}
+                                            <strong class="text-success">Approved</strong>
+                                        {% else %}
+                                            <strong class="text-warning">Failed</strong>
+                                        {% endif %}
+                                    </h5>
+
+
+                                    <p class="text-muted">Status:
+                                        {% if obj.active %}
+                                            <strong class="text-primary">Active</strong>
+                                        {% else %}
+                                            <strong class="text-secondary">Inactive</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Latest Building Permit Date
+                                        Issued: {{ obj.building_permit_date_issued }}</p>
+                                    <p class="text-muted">Latest Occupancy Permit Date
+                                        Issued: {{ obj.occupancy_permit_date_issued }}</p>
+                                    <p></p>
+                                    <p class="text-muted">Latest Fire Safety Inspection Certificate Date
+                                        Issued: {{ obj.fsic_date_issued }}</p>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">description</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">Summary</h5>
+                                    <div class="row">
+                                        {% if not obj.building_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Building Permit
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.occupancy_permit %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Occupancy Permit</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_drill_certificate %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Fire Drill Certificate
+                                                    not accessible</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exits_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exits Accessible</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exits_enclosure_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exits Enclosure Provided</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exits_fire_doors_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i> Exits Fire Doors Provided</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.stairs_enclosure_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Stairs Enclosure Provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.stairs_fire_doors_provided %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Stairs Fire Doors Provided
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.emergency_light %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Emergency Lights
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.exit_signs_illuminated %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Exit Signs Illuminated
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_extinguisher_accessible %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Fire Extinguisher Accessible
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.fire_alarm %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Fire Alarm
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.detectors %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Fire Detectors
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.control_panel_functional %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                     Control Panel Functional
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.hazardous_materials %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Hazardous Materials
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.no_smoking_sign %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    No Smoking Sign
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.smoking_permitted %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Smoking Permitted
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                        {% if not obj.safety_device_for_lpg %}
+                                            <div class="col-md-6">
+                                                <p><i class="material-icons text-danger">thumb_down</i>
+                                                    Safety Device for LPG
+                                                </p>
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

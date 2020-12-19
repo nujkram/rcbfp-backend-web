@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -8,8 +9,8 @@ from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
-from buildings.models.building.building_models import Building as Master
-from admin_dashboards.controllers.views.admin_dashboards.building.forms import BuildingForm as MasterForm
+from buildings.models.building.building_models import Building
+from business.models import Business
 
 """
 URLS
@@ -20,7 +21,7 @@ from admin_dashboards.controllers.views.admin_dashboards.map import main as map_
 urlpatterns += {
     path(
         'map/buildings',
-        map_views.AdminDashboardMapBuildingView.as_view(),
+        map_views.AdminDashboardMapBusinessView.as_view(),
         name='admin_dashboard_map_building_view'
     ),
     path(
@@ -32,9 +33,9 @@ urlpatterns += {
 """
 
 
-class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
+class AdminDashboardMapBusinessView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
-    View for Map Buildings.
+    View for Map Business.
 
     Allowed HTTP verbs:
         - GET
@@ -48,17 +49,17 @@ class AdminDashboardMapBuildingView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Master.objects.actives()
+        obj = Business.objects.actives()
 
         context = {
-            "page_title": f"Building Map",
+            "page_title": f"Businesses Location",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",
             "objects": obj,
         }
 
-        return render(request, "map/buildings.html", context)
+        return render(request, "map/businesses.html", context)
 
 
 class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
@@ -77,10 +78,11 @@ class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj = Master.objects.actives()
+        obj = Building.objects.all().values('name', 'latitude', 'longitude').annotate(
+            count=Count('incident_building'))
 
         context = {
-            "page_title": f"Building Map",
+            "page_title": f"Incident Heat Map",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "detail",
@@ -88,3 +90,32 @@ class AdminDashboardMapIncidentView(LoginRequiredMixin, IsAdminViewMixin, View):
         }
 
         return render(request, "map/incidents.html", context)
+
+
+class AdminDashboardMapFireProneAreaView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    View for Map Fire Prone Areas.
+
+    Allowed HTTP verbs:
+        - GET
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        None
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = Business.objects.all()
+
+        context = {
+            "page_title": f"Fire Prone Areas",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "detail",
+            "objects": obj,
+        }
+
+        return render(request, "map/fire_prone_area.html", context)

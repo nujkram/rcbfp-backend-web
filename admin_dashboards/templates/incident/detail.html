@@ -1,53 +1,105 @@
-
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block header_css %}
 {% endblock %}
 {% block header_js %}
 {% endblock %}
 
 {% block page_wrapper_contents %}
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header card-header-text card-header-primary">
-                <div class="card-text">
-                    <h6 class="card-title">{{ page_title }}</h6>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">info</i>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
-                                <p class="text-muted">slug: {{ obj.slug }}</p>
-                                <p class="text-muted">uuid: <code>{{ obj.uuid }}</code></p>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        <a href="{% url 'admin_dashboard_building_detail' obj.building.pk %}">
+                                            {{ obj.building }}
+                                        </a>
+                                    </h5>
+                                    <p class="text-muted">Date Occurred: {{ obj.occurrence }}</p>
+                                    <p class="text-muted">Caller: {{ obj.get_full_name }}</p>
+                                    <p class="text-muted">Caller Phone: {{ obj.phone }}</p>
+                                    <p class="text-muted">Incident Type: {{ obj.incident_type }}</p>
+                                    <p class="text-muted">Property Damage: {{ obj.property_damage|intcomma }}</p>
+                                    <p class="text-muted">Casualties: {{ obj.casualties }}</p>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="text-muted">Major Injuries: {{ obj.major_injuries }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-muted">Minor Injuries: {{ obj.minor_injuries }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-muted">Intensity: {{ obj.intensity }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="text-muted">Severity: {{ obj.severity }}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted">Duration: {{ obj.duration }}min(s)</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">settings</i>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">location_on</i>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                    {% if obj.is_active %}
-                                    <strong class="text-primary">Active</strong>
-                                    {% else %}
-                                    <strong class="text-secondary">Inactive</strong>
+                                <div class="card-body">
+                                    <p class="text-muted">Address: {{ obj.address }}</p>
+                                    <p class="text-muted">Region: {{ obj.region }}</p>
+                                    <p class="text-muted">Province: {{ obj.province }}</p>
+                                    <p class="text-muted">City: {{ obj.city }}</p>
+                                    {{ obj.occurance }}
+                                    {% if obj.image %}
+                                    <img src="{{ obj.image.url }}" alt="image" class="img-fluid w-50 h-50">
                                     {% endif %}
-                                </h5>
-                                <p class="text-muted">Date created: {{ obj.created }}</p>
-                                <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs card-plain">
+                                <div class="card-header card-header-primary">
+                                    <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#location" data-toggle="tab">
+                                                        <i class="material-icons">map</i>
+                                                        Location
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="tab-content text-left">
+                                        <div class="tab-pane active" id="location">
+                                            <div id="mapid"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,29 +107,30 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title p-0">{{ page_title }}</h6>
-            </div>
-            <div class="card-body">
-                <a class="btn btn-warning m-1"
-                   href="{% url 'admin_dashboard_incident_update' obj.id %}">
-                    <i class="material-icons">edit</i>
-                </a>
-                <a class="btn btn-danger m-1"
-                   href="{% url 'admin_dashboard_incident_delete' obj.id %}">
-                    <i class="material-icons">delete</i>
-                </a>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title p-0">{{ page_title }}</h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-warning m-1"
+                       href="{% url 'admin_dashboard_incident_update' obj.id %}">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a class="btn btn-danger m-1"
+                       href="{% url 'admin_dashboard_incident_delete' obj.id %}">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    {% include 'map/incident_location.js.html' %}
 {% endblock %}

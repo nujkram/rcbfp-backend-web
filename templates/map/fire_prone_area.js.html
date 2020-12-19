@@ -1,0 +1,92 @@
+{% load static %}
+
+<script type="text/javascript">
+    var map = L.map('mapid').setView([11.582705, 122.7519348], 15);
+    map.scrollWheelZoom.disable();
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var redIcon = new L.Icon({
+        iconUrl: "{% static 'webadmin/img/map/marker-icon-2x-red.png' %}",
+        shadowUrl: "{% static 'webadmin/img/map/marker-shadow.png' %}",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    var greenIcon = new L.Icon({
+        iconUrl: "{% static 'webadmin/img/map/marker-icon-2x-green.png' %}",
+        shadowUrl: "{% static 'webadmin/img/map/marker-shadow.png' %}",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    /*********************
+     * events
+     *********************/
+
+    $(document).ready(function () {
+        {% for b in objects %}
+            L.marker;
+            addMarker("{{ b.building.latitude }}", "{{ b.building.longitude }}", "{{ b.name }}", "{{ b.address }}", "{{ b.is_safe }}", "{{ b.id }}");
+        {% endfor %}
+    });
+
+    function focusMap(coords) {
+        var lat = parseFloat(coords["data-lat"]);
+        var lon = parseFloat(coords["data-lon"]);
+        drawMap(lat, lon);
+        updateLatLonInputs(lat, lon);
+        addMarker(lat, lon, "");
+    }
+
+    function drawGeolocation(position) {
+        drawMap(position.coords.latitude, position.coords.longitude);
+        updatelatLonInputs(position.coords.latitude, position.coords.longitude);
+        addMarker(position.coords.latitude, position.coords.longitude);
+    }
+
+    function drawMap(lat, lon) {
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, {minZoom: 7, maxZoom: 19, attribution: osmAttrib});
+
+        map.setView(new L.LatLng(lat, lon), 18);
+        map.addLayer(osm);
+    }
+
+    /* not required */
+    function updateLatLonInputs() {
+        $("#geoloc-lat").val(lat);
+        $("#geeloc-lon").val(lon);
+    }
+
+    function addMarker(lat, lon, title, address, status, id) {
+        if (title) {
+            markerTitle = title;
+        } else {
+            markerTitle = lat + ", " + lon;
+        }
+        var iconColor;
+        if (status == "False") {
+            iconColor = redIcon;
+        } else {
+            iconColor = greenIcon;
+        }
+
+        var ref = "{% url 'admin_dashboard_business_detail' 0 %}";
+        var url = ref.replace("0", id);
+        
+        var marker = L.marker(
+            [lat, lon], {
+                title: markerTitle,
+                icon: iconColor,
+            }).addTo(map);
+        marker.bindPopup("<b>" + title + "</b><br><span>Address: " + address + "<br><span>Safe: " + status + "<br><a href='" + url + "'>Info</a>");
+    }
+</script>

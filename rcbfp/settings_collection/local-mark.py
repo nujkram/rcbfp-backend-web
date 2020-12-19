@@ -156,3 +156,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/www/html/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# email
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_API_KEY = "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"
+DEFAULT_FROM_EMAIL = 'mark.gersaniva@pueblodepanay.com'

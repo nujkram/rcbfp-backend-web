@@ -10,10 +10,9 @@ Email: mark.gersaniva@springvalley.tech
 
 from django.contrib.postgres.forms import JSONField
 from django.db import models
-from django.apps import apps
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django_extensions.db import fields as extension_fields
-from django.db.models.signals import post_save, pre_save
 
 # Model manager
 from buildings.constants import BUILDING_STATUS_CHOICES
@@ -125,10 +124,10 @@ class Building(models.Model):
 
     analytics_features = [
         'date_of_construction',
-        'floor_number',
-        'height',
-        'floor_area',
-        'total_floor_area',
+        # 'floor_number',
+        # 'height',
+        # 'floor_area',
+        # 'total_floor_area',
         'beams',
         'columns',
         'flooring',
@@ -196,6 +195,57 @@ class Building(models.Model):
         if age > 365:
             chance = (age / 365) * .005
         return chance
+
+    def latest_checklist(self):
+        return self.building_checklist.first()
+
+    def beams_percentage(self):
+        result = self.beams / 5
+        return result
+
+    def columns_percentage(self):
+        result = self.columns / 5
+        return result
+
+    def flooring_percentage(self):
+        result = self.flooring / 5
+        return result
+
+    def exterior_walls_percentage(self):
+        result = self.exterior_walls / 5
+        return result
+
+    def corridor_walls_percentage(self):
+        result = self.corridor_walls / 5
+        return result
+
+    def room_partitions_percentage(self):
+        result = self.room_partitions / 5
+        return result
+
+    def main_stair_percentage(self):
+        result = self.main_stair / 5
+        return result
+
+    def window_percentage(self):
+        result = self.window / 5
+        return result
+
+    def ceiling_percentage(self):
+        result = self.ceiling / 5
+        return result
+
+    def main_door_percentage(self):
+        result = self.main_door / 5
+        return result
+
+    def trusses_percentage(self):
+        result = self.trusses / 5
+        return result
+
+    def roof_percentage(self):
+        result = self.roof / 5
+        return result
 
 
 ################################################################################

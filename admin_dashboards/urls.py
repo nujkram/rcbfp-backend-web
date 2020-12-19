@@ -2,6 +2,13 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from admin_dashboards.controllers.views.admin_dashboards.home import main as home_views
+from business.controllers.restapi.business.business_api import ApiBusinessesByBuilding
+
+version = 'api/v1'
+
+READ_ONLY = {
+    'get': 'list'
+}
 
 urlpatterns = [
     path(
@@ -30,6 +37,11 @@ urlpatterns += {
         'building/create',
         building_views.AdminDashboardBuildingCreateView.as_view(),
         name='admin_dashboard_building_create'
+    ),
+    path(
+        'building/create/new',
+        building_views.AdminDashboardBuildingCreateNewView.as_view(),
+        name='admin_dashboard_building_create_new'
     ),
     path(
         'building/<pk>/update',
@@ -64,6 +76,11 @@ urlpatterns += {
         name='admin_dashboard_business_create'
     ),
     path(
+        'business/<pk>/create',
+        business_views.AdminDashboardBusinessCreateByBuildingView.as_view(),
+        name='admin_dashboard_business_create_by_building'
+    ),
+    path(
         'business/<pk>/update',
         business_views.AdminDashboardBusinessUpdateView.as_view(),
         name='admin_dashboard_business_update'
@@ -72,7 +89,10 @@ urlpatterns += {
         'business/<pk>/delete',
         business_views.AdminDashboardBusinessDeleteView.as_view(),
         name='admin_dashboard_business_delete'
-    )
+    ),
+
+    # API
+    path(f'{version}/businesses_by_building', ApiBusinessesByBuilding.as_view(), name='businesses_by_building'),
 }
 
 # Incident
@@ -107,52 +127,25 @@ urlpatterns += {
     )
 }
 
-# Business Application
-
-from admin_dashboards.controllers.views.admin_dashboards.business_application import main as business_application_views
-
-urlpatterns += {
-    path(
-        'business_application/list',
-        business_application_views.AdminDashboardBusinessApplicationListView.as_view(),
-        name='admin_dashboard_business_application_list'
-    ),
-    path(
-        'business_application/<pk>/detail',
-        business_application_views.AdminDashboardBusinessApplicationDetailView.as_view(),
-        name='admin_dashboard_business_application_detail'
-    ),
-    path(
-        'business_application/create',
-        business_application_views.AdminDashboardBusinessApplicationCreateView.as_view(),
-        name='admin_dashboard_business_application_create'
-    ),
-    path(
-        'business_application/<pk>/update',
-        business_application_views.AdminDashboardBusinessApplicationUpdateView.as_view(),
-        name='admin_dashboard_business_application_update'
-    ),
-    path(
-        'business_application/<pk>/delete',
-        business_application_views.AdminDashboardBusinessApplicationDeleteView.as_view(),
-        name='admin_dashboard_business_application_delete'
-    )
-}
-
 # Maps
 
 from admin_dashboards.controllers.views.admin_dashboards.map import main as map_views
 
 urlpatterns += {
     path(
-        'map/buildings',
-        map_views.AdminDashboardMapBuildingView.as_view(),
-        name='admin_dashboard_map_building_view'
+        'map/businesses',
+        map_views.AdminDashboardMapBusinessView.as_view(),
+        name='admin_dashboard_map_business_view'
     ),
     path(
         'map/incidents',
         map_views.AdminDashboardMapIncidentView.as_view(),
         name='admin_dashboard_map_incident_view'
+    ),
+    path(
+        'map/fire-prone',
+        map_views.AdminDashboardMapFireProneAreaView.as_view(),
+        name='admin_dashboard_map_fire_prone_area_view'
     ),
 }
 
@@ -171,5 +164,128 @@ urlpatterns += {
         'analytics/decision_tree/run',
         dtree_views.AdminDashboardAnalyticsDecisionTreeFormView.as_view(),
         name='admin_dashboard_analytics_decision_tree_run_view'
+    ),
+}
+
+# Checklist
+
+from admin_dashboards.controllers.views.admin_dashboards.checklist import main as checklist_views
+
+urlpatterns += {
+    path(
+        'checklist/list',
+        checklist_views.AdminDashboardChecklistListView.as_view(),
+        name='admin_dashboard_checklist_list'
+    ),
+    path(
+        'checklist/<pk>/detail',
+        checklist_views.AdminDashboardChecklistDetailView.as_view(),
+        name='admin_dashboard_checklist_detail'
+    ),
+    path(
+        'checklist/create',
+        checklist_views.AdminDashboardChecklistCreateView.as_view(),
+        name='admin_dashboard_checklist_create'
+    ),
+    path(
+        'checklist/create/<pk>',
+        checklist_views.AdminDashboardChecklistCreateView.as_view(),
+        name='admin_dashboard_checklist_create_by_business'
+    ),
+    path(
+        'checklist/<pk>/update',
+        checklist_views.AdminDashboardChecklistUpdateView.as_view(),
+        name='admin_dashboard_checklist_update'
+    ),
+    path(
+        'checklist/<pk>/delete',
+        checklist_views.AdminDashboardChecklistDeleteView.as_view(),
+        name='admin_dashboard_checklist_delete'
+    ),
+    path(
+        'checklist/<pk>/summary',
+        checklist_views.AdminDashboardChecklistSummaryView.as_view(),
+        name='admin_dashboard_checklist_summary'
+    )
+}
+
+# Inspection
+
+from admin_dashboards.controllers.views.admin_dashboards.inspection import main as inspection_views
+
+urlpatterns += {
+    path(
+        'inspection/list',
+        inspection_views.AdminDashboardInspectionListView.as_view(),
+        name='admin_dashboard_inspection_list'
+    ),
+    path(
+        'inspection/<pk>/detail',
+        inspection_views.AdminDashboardInspectionDetailView.as_view(),
+        name='admin_dashboard_inspection_detail'
+    ),
+    path(
+        'inspection/create',
+        inspection_views.AdminDashboardInspectionCreateView.as_view(),
+        name='admin_dashboard_inspection_create'
+    ),
+    path(
+        'inspection/<building>/<business>/create',
+        inspection_views.AdminDashboardInspectionCreateNewView.as_view(),
+        name='admin_dashboard_inspection_create_new'
+    ),
+    path(
+        'inspection/reinspect',
+        inspection_views.AdminDashboardInspectionCreateReinspectView.as_view(),
+        name='admin_dashboard_inspection_create_reinspect'
+    ),
+    path(
+        'inspection/<pk>/update',
+        inspection_views.AdminDashboardInspectionUpdateView.as_view(),
+        name='admin_dashboard_inspection_update'
+    ),
+    path(
+        'inspection/<pk>/delete',
+        inspection_views.AdminDashboardInspectionDeleteView.as_view(),
+        name='admin_dashboard_inspection_delete'
+    )
+}
+
+# User
+
+from admin_dashboards.controllers.views.admin_dashboards.user import main as user_views
+
+urlpatterns += {
+    path(
+        'user/list',
+        user_views.AdminDashboardUserListView.as_view(),
+        name='admin_dashboard_user_list'
+    ),
+    path(
+        'user/<pk>/detail',
+        user_views.AdminDashboardUserDetailView.as_view(),
+        name='admin_dashboard_user_detail'
+    ),
+    path(
+        'user/create',
+        user_views.AdminDashboardUserCreateView.as_view(),
+        name='admin_dashboard_user_create'
+    ),
+}
+
+# reports
+
+from admin_dashboards.controllers.views.admin_dashboards.reports import main as report_views
+
+urlpatterns += {
+    path(
+        'report/business/list',
+        report_views.AdminDashboardBusinessStatusView.as_view(),
+        name='admin_dashboard_business_status_list'
+    ),
+    path(
+        'report/analytics',
+        report_views.AdminDashboardAnalyticsView.as_view(),
+        name='admin_dashboard_analytics'
     ),
 }

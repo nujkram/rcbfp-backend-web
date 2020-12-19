@@ -17,15 +17,123 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form method="post">
+                    {% if messages %} {% for m in messages %}
+                        <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+                    {% endfor %} {% endif %}
+                    <form method="post" >
                         {% csrf_token %}
-
-                        {{ form|crispy }}
-                        <p>
-                            <button type="submit" class="btn btn-success">
-                                Submit
-                            </button>
-                        </p>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_name">Name</label>
+                                    <input id="id_name" name="name" type="text" placeholder="Business name" value="{{ obj.name }}"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_nature">Nature</label>
+                                    <input id="id_nature" name="nature" type="text" placeholder="Nature of Business" value="{{ obj.nature }}"
+                                           class="form-control sif" onchange="" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_owner_first_name">Owner First Name</label>
+                                    <input id="id_owner_first_name" name="owner_first_name" type="text" placeholder="First Name" value="{{ obj.owner_first_name }}"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_owner_middle_name">Owner Middle Name</label>
+                                    <input id="id_owner_middle_name" name="owner_middle_name" type="text" placeholder="Middle Name" value="{{ obj.owner_middle_name }}"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_owner_last_name">Owner Last Name</label>
+                                    <input id="id_owner_last_name" name="owner_last_name" type="text" placeholder="Last Name" value="{{ obj.owner_last_name }}"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_address">Address</label>
+                                    <input id="id_address" name="address" type="text" placeholder="Address" value="{{ obj.address }}"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_landline">Landline</label>
+                                    <input id="id_landline" name="landline" type="text" placeholder="Landline Number" value="{{ obj.landline }}"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_mobile_number">Mobile Number</label>
+                                    <input id="id_mobile_number" name="mobile_number" type="text" placeholder="Mobile Number" value="{{ obj.mobile_number }}"
+                                           class="form-control sif"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="id_email">Email</label>
+                                    <input id="id_email" name="email" type="email" placeholder="Email" value="{{ obj.email }}"
+                                           class="form-control sif" required/>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_building" name="building" class="form-control">
+                                        <option value="">Select Building Involved</option>
+                                        {% for data in buildings %}
+                                            <option value="{{ data.pk }}"
+                                                    {% if application_formdata.building == data.pk or building.pk == data.pk or obj.building.pk == data.pk %}selected{% endif %}>{{ data.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_region" name="region" class="form-control" required>
+                                        <option value="">Select Region</option>
+                                        {% for region in regions %}
+                                            <option value="{{ region.pk }}"
+                                                    {% if application_formdata.region == region.pk or default_region == region %}selected{% endif %}>{{ region.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_province" name="province" class="form-control" required>
+                                        <option value="">Select Province</option>
+                                        {% for province in provinces %}
+                                            <option value="{{ province.pk }}"
+                                                    {% if application_formdata.province == province.pk or default_province == province %}selected{% endif %}>{{ province.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="form-group">
+                                    <select id="id_city" name="city" class="form-control" required>
+                                        <option value="">Select City</option>
+                                        {% for city in cities %}
+                                            <option value="{{ city.pk }}"
+                                                    {% if application_formdata.city == city.pk or default_city == city %}selected{% endif %}>{{ city.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            Submit
+                        </button>
                     </form>
                 </div>
 
@@ -38,4 +146,37 @@
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#id_region").on("change", function (e) {
+                var region_id = $(this).val();
+                var url = "{% url 'provinces_by_region' %}?id=" + region_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, p) {
+                        opts = opts + "<option value='" + p.pk + "'>" + p.name + "</option>";
+                    });
+
+                    $("#id_province").empty().append(opts);
+                });
+            });
+
+            $("#id_province").on("change", function (e) {
+                var province_id = $(this).val();
+                url = "{% url 'cities_by_province' %}?id=" + province_id;
+
+                $.get(url, function (data, status) {
+                    var opts = "";
+
+                    $.each(data, function (i, c) {
+                        opts = opts + "<option value='" + c.pk + "'>" + c.name + "</option>";
+                    });
+
+                    $("#id_city").empty().append(opts);
+                });
+            });
+        });
+    </script>
 {% endblock %}

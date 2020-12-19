@@ -1,0 +1,468 @@
+{% extends 'inspector_dashboard/base.html' %}
+{% load static %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.get_full_name }}</h5>
+                                    <p class="text-muted">Policy No: {{ obj.policy_no }}</p>
+                                    <p class="text-muted">Building Permit:
+                                        {% if obj.building_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Occupancy Permit:
+                                        {% if obj.occupancy_permit %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Fire Safety Inspection Certificate Control
+                                        No: {{ obj.fsic_control_no }}</p>
+                                    <p class="text-muted">Fire Drill Certificate:
+                                        {% if obj.fire_drill_certificate %}
+                                            <strong class="text-success">Yes</strong>
+                                        {% else %}
+                                            <strong class="text-danger">No</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Electrical Inspection
+                                        No: {{ obj.electrical_inspection_no }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        <strong>{{ obj.get_status_display }}</strong>
+                                    </h5>
+
+
+                                    <p class="text-muted">Status:
+                                        {% if obj.active %}
+                                            <strong class="text-primary">Active</strong>
+                                        {% else %}
+                                            <strong class="text-secondary">Inactive</strong>
+                                        {% endif %}
+                                    </p>
+                                    <p class="text-muted">Latest Building Permit Date
+                                        Issued: {{ obj.building_permit_date_issued }}</p>
+                                    <p class="text-muted">Latest Occupancy Permit Date
+                                        Issued: {{ obj.occupancy_permit_date_issued }}</p>
+                                    <p></p>
+                                    <p class="text-muted">Latest Fire Safety Inspection Certificate Date
+                                        Issued: {{ obj.fsic_date_issued }}</p>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs card-plain">
+                                <div class="card-header card-header-primary">
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#egress" data-toggle="tab">
+                                                        <i class="material-icons">star</i>
+                                                        Means of Egress
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#fire_equipment" data-toggle="tab">
+                                                        <i class="material-icons">sensor_door</i>
+                                                        Fire Protection Equipment
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#flammables" data-toggle="tab">
+                                                        <i class="material-icons">local_fire_department</i>
+                                                        Flammables
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#notes" data-toggle="tab">
+                                                        <i class="material-icons">notes</i>
+                                                        Notes
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content text-left">
+                                        <!-- begin: Means of Egress Pane -->
+                                        <div class="tab-pane active" id="egress">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_count">Exits Count:</label>
+                                                        <strong>{{ obj.exits_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_width">Exits Width:</label>
+                                                        <strong>{{ obj.exits_width }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_accessible">Exits Accessible:</label>
+                                                        {% if obj.exits_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="termination_of_exit">Termination of Exits:</label>
+                                                        <strong>{{ obj.termination_of_exit }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_enclosure_provided">Exits Enclosure Provided:</label>
+                                                        {% if obj.exits_enclosure_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_enclosure_construction">Exits Enclosure Construction:</label>
+                                                        <strong>{{ obj.exits_enclosure_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_fire_doors_provided">Exit Fire Doors Provided:</label>
+                                                        {% if obj.exits_fire_doors_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exits_fire_door_construction">Exits Fire Door Construction:</label>
+                                                        <strong>{{ obj.exits_fire_door_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="stairs_count">Stairs Count:</label>
+                                                        <strong>{{ obj.stairs_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="stairs_enclosure_provided">Stairs Enclosure Provided:</label>
+                                                         {% if obj.stairs_enclosure_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="stairs_enclosure_construction">Stairs Enclosure Construction:</label>
+                                                        <strong>{{ obj.stairs_enclosure_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="stairs_fire_doors_provided">Stairs Fire Doors Provided:</label>
+                                                         {% if obj.stairs_fire_doors_provided %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="stairs_fire_door_construction">Stairs Fire Door Construction:</label>
+                                                        <strong>{{ obj.stairs_fire_door_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                     <div class=" form-group">
+                                                        <label for="other_details">Other Details:</label>
+                                                        <strong>{{ obj.other_details }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Mean of Egress Pane -->
+
+                                        <!-- begin: Fire Protection Equipment Pane -->
+                                        <div class="tab-pane" id="fire_equipment">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="emergency_light">Emergency Light Provided:</label>
+                                                        {% if obj.emergency_light %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="exit_signs_illuminated">Exit Signs Illuminated:</label>
+                                                        {% if obj.exit_signs_illuminated %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="fire_extinguisher_count">Fire Extinguisher Count:</label>
+                                                        <strong>{{ obj.fire_extinguisher_count }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="fire_extinguisher_accessible">Fire Extinguisher Accessible:</label>
+                                                        {% if obj.fire_extinguisher_accessible %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="fire_extinguisher_conspicuous_location">Fire Extinguisher Conspicuous Location:</label>
+                                                        {% if obj.fire_extinguisher_conspicuous_location %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="fire_alarm">Fire Alarm:</label>
+                                                        {% if obj.fire_alarm %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="detectors">Fire Detectors:</label>
+                                                        {% if obj.detectors %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="control_panel_location">Control Panel Location:</label>
+                                                        <strong>{{ obj.control_panel_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="control_panel_functional">Control Panel Functional:</label>
+                                                        {% if obj.control_panel_functional %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Fire Protection Equipment Pane -->
+
+                                        <!-- begin: Flammables Pane -->
+                                        <div class="tab-pane" id="flammables">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="hazardous_materials">Hazardous Materials:</label>
+                                                        {% if obj.hazardous_materials %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                   <div class=" form-group">
+                                                        <label for="hazardous_materials_properly_stored">Hazardous Materials Properly Stored:</label>
+                                                        {% if obj.hazardous_materials_properly_stored %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="no_smoking_sign">No Smoking Sign:</label>
+                                                        {% if obj.no_smoking_sign %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                   <div class=" form-group">
+                                                        <label for="smoking_permitted">Smoking Permitted:</label>
+                                                        {% if obj.smoking_permitted %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="smoking_area_location">Smoking Area Location:</label>
+                                                        <strong>{{ obj.smoking_area_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="storage_location">Storage Location:</label>
+                                                        <strong>{{ obj.storage_location }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class=" form-group">
+                                                        <label for="safety_device_for_lpg">Safety Device for LPG Tanks Provided:</label>
+                                                        {% if obj.safety_device_for_lpg %}
+                                                            <strong class="text-primary">Yes</strong>
+                                                        {% else %}
+                                                            <strong class="text-danger">No</strong>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                   <div class="form-group">
+                                                        <label for="oven_used">Oven Used:</label>
+                                                        <strong>{{ obj.oven_used }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="kind_of_fuel">Kind of Fuel:</label>
+                                                        <strong>{{ obj.kind_of_fuel }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="smoke_hood">Smoke Hood:</label>
+                                                        <strong>{{ obj.smoke_hood }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="spark_arrester">Spark Arrester:</label>
+                                                        <strong>{{ obj.spark_arrester }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partition_construction">Partition Construction:</label>
+                                                        <strong>{{ obj.partition_construction }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                     <div class=" form-group">
+                                                        <label for="defects">Defects:</label>
+                                                        <strong>{{ obj.defects }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Flammables Pane -->
+
+                                        <!-- begin: Notes Pane -->
+                                        <div class="tab-pane" id="notes">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12">
+                                                    <div class=" form-group">
+                                                        <label for="notes">Notes:</label>
+                                                        <strong>{{ obj.notes }}</strong>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-12">
+                                                    <div class=" form-group">
+                                                        <label for="recommendations">Recommendations:</label>
+                                                        <strong>{{ obj.recommendations }}</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end: Notes Pane -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+{% endblock %}

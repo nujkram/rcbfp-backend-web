@@ -1,53 +1,202 @@
-
 {% extends 'base.html' %}
 {% load static %}
 {% block header_css %}
 {% endblock %}
 {% block header_js %}
 {% endblock %}
-
 {% block page_wrapper_contents %}
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header card-header-text card-header-primary">
-                <div class="card-text">
-                    <h6 class="card-title">{{ page_title }}</h6>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">info</i>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
+                                    <p class="text-muted">Nature: {{ obj.nature }}</p>
+                                    <p class="text-muted">Owner: {{ obj.get_full_name }}</p>
+                                    <p class="text-muted">Landline: {{ obj.landline }}</p>
+                                    <p class="text-muted">Mobile Number: {{ obj.mobile_number }}</p>
+                                    <p class="text-muted">Email: {{ obj.email }}</p>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
-                                <p class="text-muted">slug: {{ obj.slug }}</p>
-                                <p class="text-muted">uuid: <code>{{ obj.uuid }}</code></p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        Status: <span
+                                            class="{% if obj.latest_checklist.status == 2 %}text-success{% else %}text-danger{% endif %}">
+                                        {{ obj.latest_checklist.get_status_display }}
+                                        </span>
+                                    </h5>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                                Safe:
+                                                {% if obj.is_safe %}
+                                                    <strong class="text-success">YES</strong>
+                                                {% else %}
+                                                    <strong class="text-danger">NO</strong>
+                                                {% endif %}
+                                            </h5>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                                Fire Prone:
+                                                {% if not obj.is_safe %}
+                                                    <strong class="text-danger">YES</strong>
+                                                {% else %}
+                                                    <strong class="text-success">NO</strong>
+                                                {% endif %}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header card-header-icon card-header-primary">
-                                <div class="card-icon">
-                                    <i class="material-icons">settings</i>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card card-nav-tabs card-plain">
+                                <div class="card-header card-header-primary">
+                                    <!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
+                                    <div class="nav-tabs-navigation">
+                                        <div class="nav-tabs-wrapper">
+                                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" href="#location" data-toggle="tab">
+                                                        <i class="material-icons">map</i>
+                                                        Location
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#checklist" data-toggle="tab">
+                                                        <i class="material-icons">fact_check</i>
+                                                        Checklist
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="#incidents" data-toggle="tab">
+                                                        <i class="material-icons">local_fire_department</i>
+                                                        Incidents
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="font-weight-light pb-2 mb-1 border-bottom">
-                                    {% if obj.is_active %}
-                                    <strong class="text-primary">Active</strong>
-                                    {% else %}
-                                    <strong class="text-secondary">Inactive</strong>
-                                    {% endif %}
-                                </h5>
-                                <p class="text-muted">Date created: {{ obj.created }}</p>
-                                <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                <div class="card-body ">
+                                    <div class="tab-content text-left">
+                                        <div class="tab-pane active" id="location">
+                                            <div id="mapid"></div>
+                                        </div>
+                                        <div class="tab-pane" id="checklist">
+                                            <a class="btn btn-success m-1"
+                                               href="{% url 'admin_dashboard_checklist_create_by_business' obj.pk %}">
+                                                <i class="material-icons">add</i> Add Checklist
+                                            </a>
+                                            <div class="table-responsive">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Date</th>
+                                                            <th>Score</th>
+                                                            <th>Average</th>
+                                                            <th>Percentage</th>
+                                                            <th>Risk</th>
+                                                            <th>Status</th>
+                                                            <th>Remarks</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for data in checklists %}
+                                                            <tr>
+                                                                <td>{{ data.id }}</td>
+                                                                <td>{{ data.date_checked }}</td>
+                                                                <td>{{ data.count_score }}</td>
+                                                                <td>{{ data.avg_checklist_rating|floatformat:2 }}</td>
+                                                                <td>{{ data.percentage_checklist_rating|floatformat:2 }}</td>
+                                                                <td>{{ data.risk|floatformat:2 }}</td>
+                                                                <td>{{ data.get_status_display }}</td>
+                                                                <td>{{ data.get_remarks_display }}</td>
+                                                                <td>
+                                                                    <a href="{% url 'admin_dashboard_checklist_detail' data.id %}"
+                                                                       class="text-primary">
+                                                                        Details
+                                                                    </a>
+                                                                    |
+                                                                    <a href="{% url 'admin_dashboard_checklist_summary' data.id %}">
+                                                                        Summary
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="incidents">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Date</th>
+                                                    <th>Caller</th>
+                                                    <th>Type</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for data in incidents %}
+                                                    <tr>
+                                                        <td>{{ data.id }}</td>
+                                                        <td>{{ data.created }}</td>
+                                                        <td>{{ data.get_full_name }}</td>
+                                                        <td>{{ data.incident_type }}</td>
+                                                        <td>
+                                                            <a href="{% url 'admin_dashboard_incident_detail' data.id %}"
+                                                               class="text-primary">
+                                                                Details
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,33 +204,30 @@
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title p-0">{{ page_title }}</h6>
-            </div>
-            <div class="card-body">
-                <a class="btn btn-outline-secondary m-1"
-                   href="{% url 'admin_dashboard_business_application_list'%}?pk= {{ obj.id  }}">
-                    <i class="material-icons">insert_drive_file</i>
-                </a>
-                <a class="btn btn-warning m-1"
-                   href="{% url 'admin_dashboard_business_update' obj.id %}">
-                    <i class="material-icons">edit</i>
-                </a>
-                <a class="btn btn-danger m-1"
-                   href="{% url 'admin_dashboard_business_delete' obj.id %}">
-                    <i class="material-icons">delete</i>
-                </a>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="card-title p-0">{{ page_title }}</h6>
+                </div>
+                <div class="card-body">
+                    <a class="btn btn-warning m-1"
+                       href="{% url 'admin_dashboard_business_update' obj.id %}">
+                        <i class="material-icons">edit</i>
+                    </a>
+                    <a class="btn btn-danger m-1"
+                       href="{% url 'admin_dashboard_business_delete' obj.id %}">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block footer_js %}
 {% endblock %}
 {% block scripts %}
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    {% include 'map/business_location.js.html' %}
 {% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'inspector_dashboard/base.html' %}
+{% load static %}
+
+{% block header_css %} {% endblock %}
+{% block header_js %} {% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">Inspection Schedules</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table datatable">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-left">ID</th>
+                                            <th>Object</th>
+                                            <th>Inspection Date</th>
+                                            <th>Type</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in objects %}
+                                            <tr>
+                                                <td class="text-left">{{ item.id }}</td>
+                                                <td>
+                                                    <a href="{% url 'inspector_dashboard_inspection_detail' item.id %}">
+                                                        {{ item }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ item.inspection_date }}</td>
+                                                <td>{{ item.get_inspection_type_display }}</td>
+                                                <td>
+                                                    <a href="{% url 'inspector_dashboard_checklist_create' item.id %}">
+                                                        Inspect
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="card-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

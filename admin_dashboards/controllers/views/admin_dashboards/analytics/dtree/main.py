@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import View
@@ -15,7 +16,7 @@ class AdminDashboardAnalyticsDecisionTreeFormView(LoginRequiredMixin, IsAdminVie
         checklist_features = Checklist.analytics_features
 
         dependent_variables = ['has_incident']
-
+        d_tree = f'{settings.MEDIA_URL}models/trees/checklist_dtree--1601209510.397293.png'
         context = {
             "page_title": f"Run Decision Tree",
             "menu_section": "analytics",
@@ -23,7 +24,8 @@ class AdminDashboardAnalyticsDecisionTreeFormView(LoginRequiredMixin, IsAdminVie
             "menu_action": "create",
             "building_features": building_features,
             "checklist_features": checklist_features,
-            "dependent_variables": dependent_variables
+            "dependent_variables": dependent_variables,
+            "image": d_tree
         }
 
         return render(request, "analytics/decision_tree/form.html", context)
@@ -45,9 +47,10 @@ class AdminDashboardAnalyticsDecisionTreeFormView(LoginRequiredMixin, IsAdminVie
             if cf:
                 checklist_features.append(cf)
 
+        checklists = Checklist.objects.all()
         iv = request.POST['iv']
 
-        result = checklist_dtree(dvar=iv, building_features=building_features, checklist_features=checklist_features)
+        result = checklist_dtree(dvar=iv, building_features=building_features, checklist_features=checklist_features, checklists=checklists)
 
         context = {
             "page_title": f"Decision Tree Result",

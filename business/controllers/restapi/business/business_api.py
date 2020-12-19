@@ -17,10 +17,12 @@ from django.db import IntegrityError
 from rest_framework.exceptions import PermissionDenied
 
 # Master
-from business.models.business.business_models import Business as Master
+from buildings.models.building.building_models import Building
+from business.models.business.business_models import Business as Master, Business
 
 # Master Serializer
-from business.controllers.restapi.business.serializers.business_serializers import BusinessPublicSerializer as MasterPublicSerializer
+from business.controllers.restapi.business.serializers.business_serializers import \
+    BusinessPublicSerializer as MasterPublicSerializer, BusinessSerializer
 from business.controllers.restapi.business.serializers.business_serializers import BusinessPrivateSerializer as MasterPrivateSerializer
 
 """
@@ -132,3 +134,25 @@ class ApiPrivateBusinessViewSet(viewsets.ModelViewSet):
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+class ApiBusinessesByBuilding(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        """
+        Get businesses by building id
+        ?id=int
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+
+        building_id = request.GET.get('id', None)
+        building = get_object_or_404(Building, id=building_id)
+
+        businessses = Business.objects.filter(building=building)
+
+        serializer = BusinessSerializer(businessses, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

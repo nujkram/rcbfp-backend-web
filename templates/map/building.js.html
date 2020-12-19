@@ -1,0 +1,33 @@
+{% load static %}
+<script type="text/javascript">
+  var map = L.map('mapid').setView([11.5876, 122.7567], 15);
+  map.scrollWheelZoom.disable();
+  var newMarker;
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  const $source = document.querySelector("#id_address");
+
+  const typeHandler = function (e) {
+
+  };
+
+  $source.addEventListener('input', typeHandler);
+
+  function addMarker(e) {
+
+    if (newMarker) {
+      map.removeLayer(newMarker);
+    }
+    newMarker = L.marker(e.latlng).addTo(map);
+    let lat = document.querySelector('#id_lat');
+    let lng = document.querySelector('#id_lng');
+    lat.value = e.latlng.lat;
+    lng.value = e.latlng.lng;
+
+    return newMarker
+  }
+
+  map.on('click', addMarker);
+</script>

@@ -21,7 +21,10 @@
 ## Generate Checklist for each Businesses by Year
 1. from helpers import converter, batch_create
 2. businesses = Business.objects.all()
-3. batch_create.checklist(businesses, [year])
+```
+for year in range(1990, 2019):
+    batch_create.checklists(businesses, year)
+```
 
 ## Generate Incident Report
 1. from helpers import batch_create

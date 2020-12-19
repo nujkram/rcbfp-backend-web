@@ -8,7 +8,7 @@
   -->
     <div class="logo">
         <a href="{% url 'admin_dashboard_home_view' %}" class="simple-text logo-normal">
-            {{ page_title }}
+            Dashboard
         </a>
     </div>
     <div class="sidebar-wrapper">
@@ -17,6 +17,12 @@
                 <a class="nav-link" href="{% url 'admin_dashboard_home_view' %}">
                     <i class="material-icons">dashboard</i>
                     <p>Dashboard</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'admin_dashboard_building_create_new' %}">
+                    <i class="material-icons">description</i>
+                    <p>New Application</p>
                 </a>
             </li>
             <li class="nav-item ">
@@ -32,7 +38,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" role="botton" data-toggle="collapse" href="#navMaps" aria-expanded="false"
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navMaps" aria-expanded="false"
                    aria-controls="navMaps">
                     <i class="material-icons">map</i>
                     <p>Maps <b class="caret"></b></p>
@@ -40,15 +46,21 @@
                 <div class="collapse" id="navMaps">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin_dashboard_map_building_view' %}">
-                                <i class="material-icons">map</i>
-                                <p>Buildings</p>
+                            <a class="nav-link" href="{% url 'admin_dashboard_map_business_view' %}">
+                                <i class="material-icons">store_mall_directory</i>
+                                <p>Businesses</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_dashboard_map_incident_view' %}">
-                                <i class="material-icons">map</i>
+                                <i class="material-icons">warning</i>
                                 <p>Incidents</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_map_fire_prone_area_view' %}">
+                                <i class="material-icons">local_fire_department</i>
+                                <p>Fire Prone Areas</p>
                             </a>
                         </li>
                     </ul>
@@ -59,6 +71,68 @@
                     <i class="material-icons">fireplace</i>
                     <p>Incidents</p>
                 </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navUsers" aria-expanded="false" aria-controls="navUsers">
+                    <i class="material-icons">account_circle</i>
+                    <p>Users <b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="navUsers">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_user_list' %}">
+                                <i class="material-icons">account_circle</i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navReports" aria-expanded="false"
+                   aria-controls="navMaps">
+                    <i class="material-icons">folder</i>
+                    <p>Reports <b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="navReports">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics' %}">
+                                <i class="material-icons">analytics</i>
+                                <p>Analytics</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_business_status_list' %}">
+                                <i class="material-icons">folder</i>
+                                <p>Compliant and Non-Compliant</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navAnalytics" aria-expanded="false"
+                   aria-controls="navMaps">
+                    <i class="material-icons">analytics</i>
+                    <p>Analytics <b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="navAnalytics">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics_decision_tree_run_view' %}">
+                                <i class="material-icons">account_tree</i>
+                                <p>Decision Tree</p>
+                            </a>
+                        </li>
+                        <li class="nav-item d-none">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics_linear_regression_run_view' %}">
+                                <i class="material-icons">notes</i>
+                                <p>Regression Test</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
         </ul>
     </div>

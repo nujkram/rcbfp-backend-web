@@ -28,5 +28,5 @@ USER_TYPE_CHOICES = (
 USER_DASHBOARD_ROOTS = {
     SUPERADMIN: ADMIN_URL,
     ADMIN: 'admin',
-    USER: '',
+    USER: 'inspector',
 }

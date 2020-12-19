@@ -56,4 +56,6 @@ INSTALLED_APPS += [
     'checklists',
     'incidents',
     'admin_dashboards',
+    'inspections',
+    'inspector_dashboards',
 ]
