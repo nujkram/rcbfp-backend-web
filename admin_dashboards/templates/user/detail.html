@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block header_css %}
+{% endblock %}
+{% block header_js %}
+{% endblock %}
+
+{% block page_wrapper_contents %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-text card-header-primary">
+                    <div class="card-text">
+                        <h6 class="card-title">{{ page_title }}</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">info</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        {{ obj.username }}
+                                    </h5>
+                                    <p class="text-muted">Email: {{ obj.email }}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-icon card-header-primary">
+                                    <div class="card-icon">
+                                        <i class="material-icons">settings</i>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="font-weight-light pb-2 mb-1 border-bottom">
+                                        Status: <span
+                                            class="{% if obj.is_active == 1 %}text-success{% else %}text-danger{% endif %}">
+                                        {% if obj.is_active %}
+                                            Active
+                                        {% else %}
+                                            Inactive
+                                        {% endif %}
+                                        </span>
+                                    </h5>
+                                    <p class="text-muted">Date created: {{ obj.created }}</p>
+                                    <p class="text-muted">Date updated: {{ obj.updated }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_js %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

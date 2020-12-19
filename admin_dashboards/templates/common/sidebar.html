@@ -72,6 +72,22 @@
                     <p>Incidents</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" data-toggle="collapse" href="#navUsers" aria-expanded="false" aria-controls="navUsers">
+                    <i class="material-icons">account_circle</i>
+                    <p>Users <b class="caret"></b></p>
+                </a>
+                <div class="collapse" id="navUsers">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_user_list' %}">
+                                <i class="material-icons">account_circle</i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item ">
                 <a class="nav-link" role="button" data-toggle="collapse" href="#navReports" aria-expanded="false"
                    aria-controls="navMaps">
@@ -80,6 +96,12 @@
                 </a>
                 <div class="collapse" id="navReports">
                     <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admin_dashboard_analytics' %}">
+                                <i class="material-icons">analytics</i>
+                                <p>Analytics</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'admin_dashboard_business_status_list' %}">
                                 <i class="material-icons">folder</i>

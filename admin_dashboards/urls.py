@@ -251,6 +251,28 @@ urlpatterns += {
     )
 }
 
+# User
+
+from admin_dashboards.controllers.views.admin_dashboards.user import main as user_views
+
+urlpatterns += {
+    path(
+        'user/list',
+        user_views.AdminDashboardUserListView.as_view(),
+        name='admin_dashboard_user_list'
+    ),
+    path(
+        'user/<pk>/detail',
+        user_views.AdminDashboardUserDetailView.as_view(),
+        name='admin_dashboard_user_detail'
+    ),
+    path(
+        'user/create',
+        user_views.AdminDashboardUserCreateView.as_view(),
+        name='admin_dashboard_user_create'
+    ),
+}
+
 # reports
 
 from admin_dashboards.controllers.views.admin_dashboards.reports import main as report_views
@@ -260,5 +282,10 @@ urlpatterns += {
         'report/business/list',
         report_views.AdminDashboardBusinessStatusView.as_view(),
         name='admin_dashboard_business_status_list'
+    ),
+    path(
+        'report/analytics',
+        report_views.AdminDashboardAnalyticsView.as_view(),
+        name='admin_dashboard_analytics'
     ),
 }
