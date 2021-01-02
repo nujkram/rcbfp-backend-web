@@ -78,13 +78,13 @@ class AdminDashboardUserListView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj_list = Master.objects.actives()
+        obj_list = Master.objects.all()
         paginator = Paginator(obj_list, 1000)
         page = request.GET.get('page')
         objs = paginator.get_page(page)
 
         context = {
-            "page_title": f"Users",
+            "page_title": f"Manage Users",
             "menu_section": "admin_dashboards",
             "menu_subsection": "admin_dashboards",
             "menu_action": "list",
@@ -183,7 +183,10 @@ class AdminDashboardUserCreateView(LoginRequiredMixin, IsAdminViewMixin, View):
                 return HttpResponseRedirect(reverse('admin_dashboard_user_detail', kwargs={'pk': user.pk}))
             else:
                 messages.error(request, form.errors, extra_tags='danger')
-                return HttpResponseRedirect(reverse('admin_dashboard_incident_create'))
+                return HttpResponseRedirect(reverse('admin_dashboard_user_create'))
+        else:
+            messages.error(request, form.errors, extra_tags='danger')
+            return HttpResponseRedirect(reverse('admin_dashboard_user_create'))
 
 
 class AdminDashboardUserDetailView(LoginRequiredMixin, IsAdminViewMixin, View):
@@ -213,6 +216,88 @@ class AdminDashboardUserDetailView(LoginRequiredMixin, IsAdminViewMixin, View):
         }
 
         return render(request, "user/detail.html", context)
+
+
+class AdminDashboardUserUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    Update view for User.
+
+    Allowed HTTP verbs:
+        - GET
+        - POST
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        - pk = kwargs.get('pk')
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
+        form = MasterForm(instance=obj)
+        context = {
+            "page_title": f"Update User: {obj}",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "update",
+            "obj": obj,
+            "form": form,
+        }
+
+        return render(request, "user/form.html", context)
+
+    def post(self, request, *args, **kwargs):
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
+        form = MasterForm(request.POST, instance=obj)
+
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            user_type = form.cleaned_data['user_type']
+            is_active = form.cleaned_data['is_active']
+
+            user = Master.objects.get(pk=obj.pk)
+
+            user.set_password(password)
+            user.email = email
+            user.user_type = user_type
+            user.is_active = is_active
+
+            user.save()
+
+            messages.success(
+                request,
+                f'{obj} updated!',
+                extra_tags='success'
+            )
+
+            return HttpResponseRedirect(
+                reverse(
+                    'admin_dashboard_user_detail',
+                    kwargs={
+                        'pk': obj.pk
+                    }
+                )
+            )
+        else:
+            context = {
+                "page_title": f"Update User: {obj}",
+                "menu_section": "admin_dashboards",
+                "menu_subsection": "admin_dashboards",
+                "menu_action": "update",
+                "obj": obj,
+                "form": form
+            }
+
+            messages.error(
+                request,
+                'There were errors processing your request:',
+                extra_tags='danger'
+            )
+            return render(request, "user/form.html", context)
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):

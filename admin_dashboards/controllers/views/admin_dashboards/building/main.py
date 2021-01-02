@@ -302,7 +302,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(instance=obj)
+        form = MasterForm(initial=obj)
 
         context = {
             "page_title": f"Update Building: {obj}",

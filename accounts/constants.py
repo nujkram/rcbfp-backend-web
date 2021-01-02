@@ -30,3 +30,8 @@ USER_DASHBOARD_ROOTS = {
     ADMIN: 'admin',
     USER: 'inspector',
 }
+
+YES_NO = (
+    (True, 'Active'),
+    (False, 'Disable'),
+)

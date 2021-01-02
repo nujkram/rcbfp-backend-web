@@ -229,7 +229,7 @@ class AdminDashboardBusinessDetailView(LoginRequiredMixin, IsAdminViewMixin, Vie
 
 class AdminDashboardBusinessUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
-    Update view for Businesss.
+    Update view for Business.
 
     Allowed HTTP verbs:
         - GET

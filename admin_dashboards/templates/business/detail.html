@@ -24,6 +24,11 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">{{ obj.name }}</h5>
+                                    <p class="text-muted">Building:
+                                        <a href="{% url 'admin_dashboard_building_detail' obj.building.pk %}" target="_blank">
+                                            {{ obj.building }}
+                                        </a>
+                                    </p>
                                     <p class="text-muted">Nature: {{ obj.nature }}</p>
                                     <p class="text-muted">Owner: {{ obj.get_full_name }}</p>
                                     <p class="text-muted">Landline: {{ obj.landline }}</p>
