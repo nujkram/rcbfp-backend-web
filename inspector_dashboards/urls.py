@@ -11,8 +11,18 @@ READ_ONLY = {
 urlpatterns = [
     path(
         '',
-        home_views.AdminDashboardHomeView.as_view(),
+        home_views.InspectorDashboardHomeView.as_view(),
         name='inspector_dashboard_home_view'
+    ),
+    path(
+        'profile',
+        home_views.InspectorDashboardProfileView.as_view(),
+        name='inspector_dashboard_profile_view'
+    ),
+    path(
+        'profile/update',
+        home_views.InspectorDashboardUserUpdateView.as_view(),
+        name='inspector_dashboard_update_profile_view'
     ),
 ]
 
