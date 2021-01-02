@@ -130,6 +130,7 @@ class Business(models.Model):
         return self.business_checklists.order_by('-pk').first()
 
     def is_safe(self, *args, **kwargs):
+        result = False
         today = date.today()
         building_age = today.year - self.building.date_of_construction.year - (
                 (today.month, today.day) < (
@@ -138,22 +139,28 @@ class Business(models.Model):
             checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
         else:
             checklist = self.latest_checklist()
-
+        print(self.building.name)
         if checklist is not None:
-            result = dt_model.eval_tree(
-                beams=self.building.beams, columns=self.building.columns,
-                flooring=self.building.flooring,
-                exterior_walls=self.building.exterior_walls,
-                corridor_walls=self.building.corridor_walls,
-                room_partitions=self.building.room_partitions,
-                main_stair=self.building.main_stair, window=self.building.window,
-                ceiling=self.building.ceiling,
-                main_door=self.building.main_door, trusses=self.building.trusses,
-                roof=self.building.roof,
-                defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
-                avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
-            )
+            try:
+                result = dt_model.eval_tree(
+                    beams=self.building.beams, columns=self.building.columns,
+                    flooring=self.building.flooring,
+                    exterior_walls=self.building.exterior_walls,
+                    corridor_walls=self.building.corridor_walls,
+                    room_partitions=self.building.room_partitions,
+                    main_stair=self.building.main_stair, window=self.building.window,
+                    ceiling=self.building.ceiling,
+                    main_door=self.building.main_door, trusses=self.building.trusses,
+                    roof=self.building.roof,
+                    defects=checklist.defects, checklist_rating=checklist.percentage_checklist_rating(),
+                    avg_fire_rating=self.building.avg_fire_rating(), building_age=building_age
+                )
+            except UnboundLocalError:
+                result = False
+
             if result:
+                print(result)
+
                 self.status = APPROVED
                 self.save()
 
@@ -168,6 +175,7 @@ class Business(models.Model):
                 # reverse result
                 # result = True
             else:
+                print(result)
                 self.status = FAILED
                 self.save()
 
@@ -180,7 +188,8 @@ class Business(models.Model):
 
             return result
         else:
-            return False
+            print(result)
+            return result
     ################################################################################
     # === Properties ===
     ################################################################################
