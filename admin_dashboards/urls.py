@@ -271,6 +271,12 @@ urlpatterns += {
         user_views.AdminDashboardUserCreateView.as_view(),
         name='admin_dashboard_user_create'
     ),
+    path(
+        'user/<pk>/update',
+        user_views.AdminDashboardUserUpdateView.as_view(),
+        name='admin_dashboard_user_update'
+    ),
+
 }
 
 # reports

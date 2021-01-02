@@ -1,6 +1,6 @@
 from django import forms
 
-from accounts.constants import USER_TYPE_CHOICES
+from accounts.constants import USER_TYPE_CHOICES, YES_NO
 from accounts.models import Account
 
 
@@ -10,6 +10,7 @@ class UserForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
+    is_active = forms.ChoiceField(choices=YES_NO)
 
     class Meta:
         model = Account
