@@ -20,6 +20,7 @@
                         <tr>
                             <th class="text-left">ID</th>
                             <th>Object</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -31,9 +32,20 @@
                                     {{ item }}
                                 </td>
                                 <td>
+                                    {% if item.is_active %}
+                                        Active
+                                    {% else %}
+                                        Disabled
+                                    {% endif %}
+                                </td>
+                                <td>
                                     <a href="{% url 'admin_dashboard_user_detail' item.id %}"
                                        class="text-primary">
                                         View
+                                    </a> |
+                                    <a href="{% url 'admin_dashboard_user_update' item.id %}"
+                                       class="text-warning">
+                                        Update
                                     </a>
                                 </td>
                             </tr>

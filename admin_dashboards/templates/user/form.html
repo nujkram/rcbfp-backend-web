@@ -19,7 +19,7 @@
                     {% if messages %} {% for m in messages %}
                         <div class="alert alert-{{ m.tags }}">{{ m }}</div>
                     {% endfor %} {% endif %}
-                    <form method="post" action="{% url 'admin_dashboard_user_create' %}" onsubmit="return checkPassword(this)">
+                    <form method="post" onsubmit="return checkPassword(this)">
                         {% csrf_token %}
                         {{ form|crispy }}
 
