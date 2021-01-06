@@ -7,6 +7,7 @@ from django.views import View
 from django.core.paginator import Paginator
 
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
+from buildings.models.building.building_models import Building
 
 from business.models import Business as Master, Business
 
@@ -21,6 +22,16 @@ urlpatterns += {
         'report/business/list',
         report_views.AdminDashboardBusinessStatusView.as_view(),
         name='admin_dashboard_business_status_list'
+    ),
+    path(
+        'report/analytics',
+        report_views.AdminDashboardAnalyticsView.as_view(),
+        name='admin_dashboard_analytics'
+    ),
+    path(
+        'report/building/list',
+        report_views.AdminDashboardBuildingStatusView.as_view(),
+        name='admin_dashboard_building_status_list'
     ),
 }
 """
@@ -81,3 +92,18 @@ class AdminDashboardAnalyticsView(LoginRequiredMixin, IsAdminViewMixin, View):
         }
 
         return render(request, "reports/analytics/analytics.html", context)
+
+
+class AdminDashboardBuildingStatusView(LoginRequiredMixin, IsAdminViewMixin, View):
+    def get(self, request, *args, **kwargs):
+        buildings = Building.objects.actives()
+
+        context = {
+            "page_title": f"Building Report",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "list",
+            "objects": buildings
+        }
+
+        return render(request, "reports/building/list.html", context)

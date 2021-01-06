@@ -139,7 +139,7 @@ class Business(models.Model):
             checklist = Checklist.objects.get(pk=kwargs['checklist_pk'])
         else:
             checklist = self.latest_checklist()
-        print(self.building.name)
+
         if checklist is not None:
             try:
                 result = dt_model.eval_tree(
@@ -159,7 +159,6 @@ class Business(models.Model):
                 result = False
 
             if result:
-                print(result)
 
                 self.status = APPROVED
                 self.save()
@@ -175,7 +174,6 @@ class Business(models.Model):
                 # reverse result
                 # result = True
             else:
-                print(result)
                 self.status = FAILED
                 self.save()
 
@@ -188,7 +186,6 @@ class Business(models.Model):
 
             return result
         else:
-            print(result)
             return result
     ################################################################################
     # === Properties ===

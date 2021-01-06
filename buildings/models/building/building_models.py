@@ -7,6 +7,7 @@ This is the Master model for Building
 Author: Mark Gersaniva
 Email: mark.gersaniva@springvalley.tech
 """
+from datetime import date
 
 from django.contrib.postgres.forms import JSONField
 from django.db import models
@@ -245,6 +246,12 @@ class Building(models.Model):
 
     def roof_percentage(self):
         result = self.roof / 5
+        return result
+
+    def age(self):
+        today = date.today()
+        result = today.year - self.date_of_construction.year - (
+                    (today.month, today.day) < (self.date_of_construction.month, self.date_of_construction.day))
         return result
 
 

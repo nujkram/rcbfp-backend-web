@@ -18,26 +18,39 @@
                     <table class="table datatable">
                         <thead>
                         <tr>
-                            <th class="text-left">ID</th>
                             <th>Object</th>
-                            <th>Actions</th>
+                            <th>Age</th>
+                            <th title="Average Fire Rating">AFR</th>
+                            <th>Flooring</th>
+                            <th>Window</th>
+                            <th>Door</th>
+                            <th>Beams</th>
+                            <th title="Latest Inspection Rating">Rating</th>
+                            <th>Wall</th>
+                            <th>Columns</th>
+                            <th>Ceiling</th>
+                            <th>Safe</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for item in objects %}
                             <tr>
-                                <td class="text-left">{{ item.id }}</td>
                                 <td>
                                     <a href="{% url 'admin_dashboard_building_detail' item.id %}">
                                         {{ item }}
                                     </a>
                                 </td>
-                                <td>
-                                    <a href="{% url 'admin_dashboard_building_update' item.id %}"
-                                       class="text-warning">
-                                        Update
-                                    </a>
-                                </td>
+                                <td>{{ item.age }}</td>
+                                <td>{{ item.avg_fire_rating|floatformat }}</td>
+                                <td>{{ item.flooring_percentage|floatformat }}</td>
+                                <td>{{ item.window_percentage|floatformat }}</td>
+                                <td>{{ item.main_door_percentage|floatformat }}</td>
+                                <td>{{ item.beams_percentage|floatformat }}</td>
+                                <td>{{ item.latest_checklist.avg_checklist_rating }}</td>
+                                <td>{{ item.exterior_walls_percentage|floatformat }}</td>
+                                <td>{{ item.columns_percentage|floatformat }}</td>
+                                <td>{{ item.ceiling_percentage|floatformat }}</td>
+                                <td>{{ item.building_business.first.is_safe }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -68,7 +81,7 @@
                         }
                     }
                 ],
-                pageLength: 15,
+                pageLength: 25,
             })
         })
     </script>
