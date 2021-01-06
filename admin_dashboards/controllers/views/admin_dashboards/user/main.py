@@ -16,7 +16,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.tokens import default_token_generator
 from rest_framework.authtoken.models import Token
 
-from accounts.constants import USER_TYPE_CHOICES
+from accounts.constants import USER_TYPE_CHOICES, SUPERADMIN
 from accounts.controllers.views.forms.account_forms import AccountPasswordResetForm
 from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
@@ -78,7 +78,7 @@ class AdminDashboardUserListView(LoginRequiredMixin, IsAdminViewMixin, View):
     """
 
     def get(self, request, *args, **kwargs):
-        obj_list = Master.objects.all()
+        obj_list = Master.objects.exclude(user_type=SUPERADMIN)
         paginator = Paginator(obj_list, 1000)
         page = request.GET.get('page')
         objs = paginator.get_page(page)

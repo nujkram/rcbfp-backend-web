@@ -294,4 +294,9 @@ urlpatterns += {
         report_views.AdminDashboardAnalyticsView.as_view(),
         name='admin_dashboard_analytics'
     ),
+    path(
+        'report/building/list',
+        report_views.AdminDashboardBuildingStatusView.as_view(),
+        name='admin_dashboard_building_status_list'
+    ),
 }
