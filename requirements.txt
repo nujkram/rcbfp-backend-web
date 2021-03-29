@@ -70,7 +70,7 @@ py-moneyed==0.8.0
 Pycco==0.6.0
 pycparser==2.19
 pydotplus==2.0.2
-Pygments==2.5.2
+Pygments==2.7.4
 PyHamcrest==2.0.1
 pyparsing==2.4.6
 pystache==0.5.4
