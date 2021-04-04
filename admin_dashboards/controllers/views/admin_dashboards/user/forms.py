@@ -9,12 +9,29 @@ class UserForm(forms.ModelForm):
     email = forms.EmailField()
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
-    user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
     is_active = forms.ChoiceField(choices=YES_NO)
 
     class Meta:
         model = Account
-        fields = ('username', 'email')
+        fields = ('user_type',)
+
+
+class UpdateForm(forms.ModelForm):
+    is_active = forms.ChoiceField(choices=YES_NO)
+
+    class Meta:
+        model = Account
+        fields = ('user_type',)
+
+
+class ChangePassForm(forms.ModelForm):
+    current_pass = forms.CharField(label='Current Password', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    class Meta:
+        model = Account
+        fields = ()
 
         def clean_password2(self):
             # Check that the two password entries match
@@ -23,4 +40,3 @@ class UserForm(forms.ModelForm):
             if password1 and password2 and password1 != password2:
                 raise forms.ValidationError("Passwords don't match")
             return password2
-

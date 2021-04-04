@@ -20,6 +20,8 @@
                         <tr>
                             <th class="text-left">ID</th>
                             <th>Object</th>
+                            <th>Email</th>
+                            <th>Type</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -30,6 +32,12 @@
                                 <td class="text-left">{{ item.id }}</td>
                                 <td>
                                     {{ item }}
+                                </td>
+                                <td>
+                                    {{ item.email }}
+                                </td>
+                                <td>
+                                    {{ item.user_type }}
                                 </td>
                                 <td>
                                     {% if item.is_active %}
