@@ -77,9 +77,9 @@ class Checklist(models.Model):
     # === Identifiers ===
 
     # === Properties ===
-    first_name = models.CharField(max_length=24, blank=True, null=True)
-    middle_name = models.CharField(max_length=24, blank=True, null=True)
-    last_name = models.CharField(max_length=24, blank=True, null=True)
+    first_name = models.CharField(max_length=42, blank=True, null=True)
+    middle_name = models.CharField(max_length=42, blank=True, null=True)
+    last_name = models.CharField(max_length=42, blank=True, null=True)
     policy_no = models.CharField(max_length=24, blank=True, null=True)
     building_permit = models.BooleanField(default=False)
     occupancy_permit = models.BooleanField(default=False)
