@@ -160,13 +160,13 @@ class Business(models.Model):
 
             if result:
 
-                self.status = APPROVED
-                self.save()
+                # self.status = APPROVED
+                # self.save()
 
-                if checklist.result():
-                    self.status = APPROVED
-                else:
-                    self.status = FAILED
+                # if checklist.result():
+                #     self.status = APPROVED
+                # else:
+                #     self.status = FAILED
 
                 self.building.status = APPROVED
                 self.building.save()
@@ -174,8 +174,8 @@ class Business(models.Model):
                 # reverse result
                 # result = True
             else:
-                self.status = FAILED
-                self.save()
+                # self.status = FAILED
+                # self.save()
 
                 self.building.status = FAILED
                 self.building.save()

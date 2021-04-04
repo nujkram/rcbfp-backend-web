@@ -186,7 +186,8 @@ class Building(models.Model):
         total = 0
         for f in fields:
             rating = getattr(self, f)
-            total += rating
+            if rating:
+                total += rating
 
         return total / len(fields)
 
