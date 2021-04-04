@@ -8,7 +8,7 @@ class BusinessAdmin(admin.ModelAdmin):
     list_display = ('name', 'building', 'region', 'province', 'city', 'email', 'mobile_number')
     search_fields = ('name', 'owner_first_name', 'owner_last_name')
     list_filter = ('active',)
-    ordering = ('-created',)
+    ordering = ('building__name',)
 
 
 admin.site.register(Business, BusinessAdmin)

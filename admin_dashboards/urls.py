@@ -276,6 +276,11 @@ urlpatterns += {
         user_views.AdminDashboardUserUpdateView.as_view(),
         name='admin_dashboard_user_update'
     ),
+    path(
+        'user/<pk>/change_password',
+        user_views.AdminDashboardUserUpdatePasswordView.as_view(),
+        name='admin_dashboard_user_update_password'
+    ),
 
 }
 

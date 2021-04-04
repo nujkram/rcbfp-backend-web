@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import EmailMultiAlternatives
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template import TemplateDoesNotExist
@@ -22,6 +23,8 @@ from accounts.mixins.user_type_mixins import IsAdminViewMixin
 
 from accounts.models import Account as Master
 from admin_dashboards.controllers.views.admin_dashboards.user.forms import UserForm as MasterForm
+from admin_dashboards.controllers.views.admin_dashboards.user.forms import UpdateForm as UpdateForm
+from admin_dashboards.controllers.views.admin_dashboards.user.forms import ChangePassForm as PasswordForm
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils import six
 
@@ -137,6 +140,11 @@ class AdminDashboardUserCreateView(LoginRequiredMixin, IsAdminViewMixin, View):
             password2 = form.cleaned_data['password2']
             user_type = form.cleaned_data['user_type']
 
+            user_account = Master.objects.filter(Q(username=username) | Q(email=email))
+            if user_account:
+                messages.error(request, 'User information already exist!', extra_tags='danger')
+                return HttpResponseRedirect(reverse('admin_dashboard_user_create'))
+
             user = Master.objects.create(
                 username=username,
                 email=email,
@@ -153,7 +161,7 @@ class AdminDashboardUserCreateView(LoginRequiredMixin, IsAdminViewMixin, View):
                              "window instead.\n\n" \
                              "Sincerely,\n" \
                              "The RCBFP Team"
-                message = render_to_string('accounts/password_reset_email.html', {
+                message = render_to_string('registration/create_user_email.html', {
                     'user': user,
                     'protocol': 'http',
                     'domain': 'http://192.168.33.66:8000',
@@ -236,7 +244,7 @@ class AdminDashboardUserUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
 
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(instance=obj)
+        form = UpdateForm(instance=obj)
         context = {
             "page_title": f"Update User: {obj}",
             "menu_section": "admin_dashboards",
@@ -250,19 +258,14 @@ class AdminDashboardUserUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
 
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(request.POST, instance=obj)
+        form = UpdateForm(request.POST, instance=obj)
 
         if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password1']
             user_type = form.cleaned_data['user_type']
             is_active = form.cleaned_data['is_active']
 
             user = Master.objects.get(pk=obj.pk)
 
-            user.set_password(password)
-            user.email = email
             user.user_type = user_type
             user.is_active = is_active
 
@@ -298,6 +301,93 @@ class AdminDashboardUserUpdateView(LoginRequiredMixin, IsAdminViewMixin, View):
                 extra_tags='danger'
             )
             return render(request, "user/form.html", context)
+
+
+class AdminDashboardUserUpdatePasswordView(LoginRequiredMixin, IsAdminViewMixin, View):
+    """
+    Update view for User.
+
+    Allowed HTTP verbs:
+        - GET
+        - POST
+
+    Restrictions:
+        - LoginRequired
+        - Admin user
+
+    Filters:
+        - pk = kwargs.get('pk')
+    """
+
+    def get(self, request, *args, **kwargs):
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
+        form = PasswordForm(instance=obj)
+        context = {
+            "page_title": f"Update User: {obj}",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "update",
+            "obj": obj,
+            "form": form,
+        }
+
+        return render(request, "user/change_password.html", context)
+
+    def post(self, request, *args, **kwargs):
+        obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
+        form = PasswordForm(request.POST, instance=obj)
+
+        context = {
+            "page_title": f"Update User: {obj}",
+            "menu_section": "admin_dashboards",
+            "menu_subsection": "admin_dashboards",
+            "menu_action": "update",
+            "obj": obj,
+            "form": form
+        }
+
+        if form.is_valid():
+            current_pass = form.cleaned_data['current_pass']
+            password = form.cleaned_data['password1']
+
+            if not request.user.check_password(current_pass):
+                messages.error(
+                    request,
+                    'Invalid password!',
+                    extra_tags='danger'
+                )
+                return render(request, "user/change_password.html", context)
+
+            if len(password) < 8:
+                messages.error(
+                    request,
+                    'Your password must contain at least 8 characters.',
+                    extra_tags='danger'
+                )
+                return render(request, "user/change_password.html", context)
+
+            user = Master.objects.get(pk=obj.pk)
+
+            user.set_password(password)
+
+            user.save()
+
+            messages.success(
+                request,
+                f'{obj} updated!',
+                extra_tags='success'
+            )
+
+            return HttpResponseRedirect(reverse('accounts_login'))
+        else:
+
+
+            messages.error(
+                request,
+                'There were errors processing your request:',
+                extra_tags='danger'
+            )
+            return render(request, "user/change_password.html", context)
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):

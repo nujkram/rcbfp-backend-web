@@ -48,8 +48,8 @@
 
                                     <h5 class="font-weight-light pb-2 mb-1 border-bottom">
                                         Status: <span
-                                            class="{% if obj.latest_checklist.status == 2 %}text-success{% else %}text-danger{% endif %}">
-                                        {{ obj.latest_checklist.get_status_display }}
+                                            class="{% if obj.status == 2 %}text-success{% else %}text-danger{% endif %}">
+                                        {{ obj.get_status_display }}
                                         </span>
                                     </h5>
                                     <p class="text-muted">Date created: {{ obj.created }}</p>

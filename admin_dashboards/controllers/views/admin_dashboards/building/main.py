@@ -303,6 +303,12 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
     def get(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
         form = MasterForm(initial=obj)
+        default_region = Region.objects.get(pk=6)  # Region VI
+        default_province = Province.objects.get(pk=22)  # Capiz
+        default_city = City.objects.get(pk=381)  # Roxas City
+        regions = Region.objects.all()
+        provinces = Province.objects.filter(region=default_region)
+        cities = City.objects.filter(province=default_province)
 
         context = {
             "page_title": f"Update Building: {obj}",
@@ -310,20 +316,85 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
             "menu_subsection": "admin_dashboards",
             "menu_action": "update",
             "obj": obj,
-            "form": form
+            "form": form,
+            "regions": regions,
+            "provinces": provinces,
+            "cities": cities,
+            "default_region": default_region,
+            "default_province": default_province,
+            "default_city": default_city,
         }
 
         return render(request, "building/form.html", context)
 
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Master, pk=kwargs.get('pk', None))
-        form = MasterForm(instance=obj, data=request.POST)
+        form = MasterForm(initial=obj, data=request.POST)
+        default_region = Region.objects.get(pk=6)  # Region VI
+        default_province = Province.objects.get(pk=22)  # Capiz
+        default_city = City.objects.get(pk=381)  # Roxas City
+        regions = Region.objects.all()
+        provinces = Province.objects.filter(region=default_region)
+        cities = City.objects.filter(province=default_province)
 
         if form.is_valid():
-            data = form.save()
+            name = form.cleaned_data['name']
+            address = form.cleaned_data['address']
+            latitude = form.cleaned_data['latitude']
+            longitude = form.cleaned_data['longitude']
+            date_of_construction = form.cleaned_data['date_of_construction']
+            floor_number = form.cleaned_data['floor_number']
+            height = form.cleaned_data['height']
+            floor_area = form.cleaned_data['floor_area']
+            total_floor_area = form.cleaned_data['total_floor_area']
+            beams = form.cleaned_data['beams']
+            columns = form.cleaned_data['columns']
+            flooring = form.cleaned_data['flooring']
+            exterior_walls = form.cleaned_data['exterior_walls']
+            corridor_walls = form.cleaned_data['corridor_walls']
+            room_partitions = form.cleaned_data['room_partitions']
+            main_stair = form.cleaned_data['main_stair']
+            window = form.cleaned_data['window']
+            ceiling = form.cleaned_data['ceiling']
+            main_door = form.cleaned_data['main_door']
+            trusses = form.cleaned_data['trusses']
+            roof = form.cleaned_data['roof']
+            entry_road_width = form.cleaned_data['entry_road_width']
+            region = form.cleaned_data['region']
+            province = form.cleaned_data['province']
+            city = form.cleaned_data['city']
+
+            Master.objects.filter(pk=obj.pk).update(
+                name=name,
+                address=address,
+                longitude=longitude,
+                date_of_construction=date_of_construction,
+                floor_number=floor_number,
+                height=height,
+                floor_area=floor_area,
+                total_floor_area=total_floor_area,
+                beams=beams,
+                columns=columns,
+                flooring=flooring,
+                exterior_walls=exterior_walls,
+                corridor_walls=corridor_walls,
+                room_partitions=room_partitions,
+                main_stair=main_stair,
+                window=window,
+                ceiling=ceiling,
+                main_door=main_door,
+                trusses=trusses,
+                roof=roof,
+                entry_road_width=entry_road_width,
+                region=region,
+                province=province,
+                city=city,
+            )
+
+
             messages.success(
                 request,
-                f'{data} saved!',
+                f'{obj} saved!',
                 extra_tags='success'
             )
 
@@ -331,7 +402,7 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 reverse(
                     'admin_dashboard_building_detail',
                     kwargs={
-                        'pk': data.pk
+                        'pk': obj.pk
                     }
                 )
             )
@@ -342,12 +413,18 @@ class AdminDashboardBuildingUpdateView(LoginRequiredMixin, IsAdminViewMixin, Vie
                 "menu_subsection": "admin_dashboards",
                 "menu_action": "update",
                 "obj": obj,
-                "form": form
+                "form": form,
+                "regions": regions,
+                "provinces": provinces,
+                "cities": cities,
+                "default_region": default_region,
+                "default_province": default_province,
+                "default_city": default_city,
             }
 
             messages.error(
                 request,
-                'There were errors processing your request:',
+                form.errors,
                 extra_tags='danger'
             )
             return render(request, "building/form.html", context)

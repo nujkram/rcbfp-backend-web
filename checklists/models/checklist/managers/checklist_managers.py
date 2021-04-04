@@ -24,7 +24,7 @@ class ChecklistManager(models.Manager):
             checked_date = DateDim.objects.get(year=date_value.year, month=date_value.month, day=date_value.day)
         except DateDim.DoesNotExist:
             flag = False
-            m.append(f'{checked_date} is an invalid building')
+            m.append(f'{DateDim} is an invalid building')
 
         if kwargs['policy_no']:
             policy_no = kwargs['policy_no']

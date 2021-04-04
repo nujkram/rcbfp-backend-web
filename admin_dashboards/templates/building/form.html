@@ -64,7 +64,7 @@
                                     <label for="id_date">Date of Construction</label>
                                     <input id="id_date" name="date_of_construction" type="text"
                                            placeholder="Select date" class="form-control sif"
-                                           value="{{ obj.date_of_construction }}" required/>
+                                           value="{{ obj.date_of_construction|date:"Y-m-d" }}" required/>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">

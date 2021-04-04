@@ -4,10 +4,10 @@ from checklists.models.checklist.checklist_models import Checklist
 
 
 class ChecklistAdmin(admin.ModelAdmin):
-    list_display = ('building', 'business', 'active',)
-    search_fields = ('building', 'business',)
+    list_display = ('building', 'business', 'status', 'active',)
+    search_fields = ('building__name', 'business__name')
     list_filter = ('active',)
-    ordering = ('-created',)
+    ordering = ('building__name',)
 
 
 admin.site.register(Checklist, ChecklistAdmin)
