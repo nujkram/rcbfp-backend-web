@@ -22,7 +22,7 @@ cryptography==3.2
 Cython==0.29.15
 daphne==2.4.1
 decorator==4.4.1
-Django==2.2.13
+Django==2.2.20
 django-autofixture==0.12.1
 django-cors-headers==3.2.1
 django-crispy-forms==1.8.1
