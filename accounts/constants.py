@@ -20,7 +20,6 @@ ADMIN = 'ADM'
 USER = 'USR'
 
 USER_TYPE_CHOICES = (
-    (SUPERADMIN, 'Super Admin'),
     (ADMIN, 'Admin'),
     (USER, 'User'),
 )
